@@ -1,7 +1,6 @@
 #include <stdio.h>
+#include "instruction.h"
 
-int main(){
-
-	printf("hellow");
-	return 0;
+void runProgram(Instruction **IM)
+{
 }
