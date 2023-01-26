@@ -1,11 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "instruction.h"
 
-#define MAX_CODE_LENGTH 512
-#define MAX_STACK_HEIGHT 2048
-
-
-Instruction **readInstructions(char *fileLoc)
+// returns an array of type Instruction containing all of the instructions
+// and an integer value of the length
+Instruction **readInstructions(char *fileLoc, int *i)
 {
      FILE *fp;
      fp = fopen(fileLoc, "r");
@@ -18,11 +17,11 @@ Instruction **readInstructions(char *fileLoc)
      Instruction **IM = calloc(MAX_CODE_LENGTH, sizeof(Instruction *));
 
      int op, m;
-     for (int i = 0; fscanf(fp, "%d %d", &op, &m) != EOF; i++)
+     for (*i = 0; fscanf(fp, "%d %d", &op, &m) != EOF; *i+=1)
      {
-          IM[i] = malloc(sizeof(Instruction));
-          IM[i]->op = op;
-          IM[i]->m = m;
+          IM[*i] = malloc(sizeof(Instruction));
+          IM[*i]->op = op;
+          IM[*i]->m = m;
      }
      fclose(fp);
 
