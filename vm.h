@@ -4,5 +4,7 @@
 
 
 void runProgram(Instruction **IM);
+void push(Instruction **instStack, Instruction *iPtr);
+Instruction* pop(Instruction **instStack);
 
 #endif
