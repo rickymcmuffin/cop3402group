@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.18 2023/01/24 13:42:50 leavens Exp leavens $
+# $Id: Makefile,v 1.19 2023/01/26 22:16:14 leavens Exp leavens $
 # Makefile for P-machine
 
 CC = gcc
@@ -6,7 +6,7 @@ CFLAGS = -g -std=c17 -Wall
 RM = rm -f
 ZIPFILE = ~/WWW/COP3402/homeworks/hw1-tests.zip
 
-vm: *.c *.h
+vm: *.c
 	$(CC) $(CFLAGS) -o vm `cat sources.txt`
 
 %.o: %.c %.h
@@ -33,7 +33,7 @@ check-outputs: vm hw1-test*.txt
 	do \
 		echo running "$$f.txt"; \
 		./vm "$$f.txt" >"$$f.out2" 2>&1; \
-		diff -w "$$f.out2" "$$f.out" && echo 'passed!' || DIFFS=1; \
+		diff -w -B "$$f.out" "$$f.out2" && echo 'passed!' || DIFFS=1; \
 	done; \
 	if test 0 = $$DIFFS; \
 	then \
