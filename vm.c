@@ -63,7 +63,7 @@ int runProgram(Instruction **IM)
 		case 10: // JPC
 			if (stack[stackP - 1] != 0)
 			{
-				programC = IM[programC - 1]->m;
+				programC = IM[programC]->m - 1;
 			}
 			stackP = stackP - 1;
 			break;

@@ -45,21 +45,7 @@ stack: S[0]: 0 S[1]: 0 S[2]: -9 S[3]: -9
 PC: 8 BP: 0 SP: 3
 stack: S[0]: 0 S[1]: 0 S[2]: 1 
 ==> addr: 8	JPC	11
-PC: 12 BP: 0 SP: 2
+PC: 11 BP: 0 SP: 2
 stack: S[0]: 0 S[1]: 0 
-==> addr: 12	LIT	78
-PC: 13 BP: 0 SP: 3
-stack: S[0]: 0 S[1]: 0 S[2]: 78 
-==> addr: 13	CHO	0
-NPC: 14 BP: 0 SP: 2
-stack: S[0]: 0 S[1]: 0 
-==> addr: 14	LIT	10
-PC: 15 BP: 0 SP: 3
-stack: S[0]: 0 S[1]: 0 S[2]: 10 
-==> addr: 15	CHO	0
-
-PC: 16 BP: 0 SP: 2
-stack: S[0]: 0 S[1]: 0 
-==> addr: 16	HLT	0
-PC: 17 BP: 0 SP: 2
-stack: S[0]: 0 S[1]: 0 
+==> addr: 11	NDB	0
+N
