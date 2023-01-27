@@ -57,7 +57,7 @@ int runProgram(Instruction **IM)
 			stackP = stackP + IM[programC]->m;
 			break;
 		case 9: // JMP
-			programC = stack[stackP - 1];
+			programC = stack[stackP - 1] - 1;
 			stackP = stackP - 1;
 			break;
 		case 10: // JPC
