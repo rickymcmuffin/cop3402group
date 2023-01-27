@@ -29,9 +29,3 @@ Instruction **readInstructions(char *fileLoc, int *i)
      return IM;
 }
 
-void printInstructions(Instruction **IM, int size){
-	printf("Addr	OP	M");
-	for(int i = 0; i < size; i++){
-		printf("%d	%s	%d\n", i, opToString(IM[i]->op), IM[i]->m);
-	}
-}
