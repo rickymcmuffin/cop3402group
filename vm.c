@@ -19,7 +19,7 @@ int runProgram(Instruction **IM)
 	printDebug(stack, programC, baseP, stackP);
 	while (!halt)
 	{
-		if(debug)
+		if (debug)
 			printInstruction(IM, programC);
 		switch (IM[programC]->op)
 		{
@@ -28,6 +28,7 @@ int runProgram(Instruction **IM)
 			stackP = stackP + 1;
 			break;
 		case 2: // RTN
+			
 			programC = stack[stackP - 1];
 			baseP = stack[stackP - 2];
 			stackP = stackP - 2;
@@ -40,6 +41,10 @@ int runProgram(Instruction **IM)
 			programC = IM[programC]->m;
 			break;
 		case 4: // POP
+			if(stackP == 0){
+				printf("Trying to pop an empty stack!\n");
+				return 6;
+			}
 			stackP = stackP - 1;
 			break;
 		case 5: // PSI
@@ -105,16 +110,24 @@ int runProgram(Instruction **IM)
 			stackP = stackP - 1;
 			break;
 		case 19: // DIV
+			if (stack[stackP - 2] == 0)
+			{
+				fprintf(stdout, "Divisor is zero in DIV instruction!\n");
+				return 4;
+			}
 			stack[stackP - 2] = stack[stackP - 1] / stack[stackP - 2];
 			stackP = stackP - 1;
-			fprintf(stderr, "Divisor is zero in DIV instruction!\n");
-			return 4;
+
 			break;
 		case 20: // MOD
+			if (stack[stackP - 2] == 0)
+			{
+				fprintf(stdout, "Modulus is zero in MOD instruction!\n");
+				return 5;
+			}
 			stack[stackP - 2] = stack[stackP - 1] % stack[stackP - 2];
 			stackP = stackP - 1;
-			fprintf(stderr, "Modulus is zero in MOD instruction!\n");
-			return 5;
+
 			break;
 		case 21: // EQL
 			if (stack[stackP - 1] == stack[stackP - 2])
@@ -164,7 +177,7 @@ int runProgram(Instruction **IM)
 			break;
 		}
 		programC++;
-		if(debug)
+		if (debug)
 			printDebug(stack, programC, baseP, stackP);
 		if (!(0 <= baseP && baseP <= stackP && 0 <= stackP && stackP < MAX_STACK_HEIGHT))
 		{
@@ -186,7 +199,7 @@ void printInstruction(Instruction **IM, int PC)
 	char names[27][5] = {"LIT", "RTN", "CAL", "POP", "PSI", "PRM", "STO", "INC", "JMP",
 					 "JPC", "CHO", "CHI", "HLT", "NDB", "NEG", "ADD", "SUB", "MUL",
 					 "DIV", "MOD", "EQL", "NEQ", "LSS", "LEQ", "GTR", "GEQ", "PSP"};
-	printf("==> addr: %d	%s	%d\n", PC, names[IM[PC]->op - 1], IM[PC]->m);
+	printf("==> addr: %-6d%-6s%d\n", PC, names[IM[PC]->op - 1], IM[PC]->m);
 }
 
 void printDebug(int *stack, int PC, int BP, int SP)
