@@ -61,7 +61,7 @@ void runProgram(Instruction **IM)
 }
 
 void printInstruction(Instruction **IM, int PC){
-	printf("==> addr: %d	%s	%d", PC, opToString(IM[PC]->op), IM[PC]->m);
+	printf("==> addr: %d	%s	%d\n", PC, opToString(IM[PC]->op), IM[PC]->m);
 }
 
 void printDebug(int *stack, int PC, int BP, int SP){

@@ -11,5 +11,6 @@ typedef struct
 } Instruction;
 
 Instruction **readInstructions(char *fileLoc, int *i);
+void printInstructions(Instruction **IM, int size);
 
 #endif

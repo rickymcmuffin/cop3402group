@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "instruction.h"
+#include "vm.h"
 
 // returns an array of type Instruction containing all of the instructions
 // and an integer value of the length
@@ -26,4 +27,11 @@ Instruction **readInstructions(char *fileLoc, int *i)
      fclose(fp);
 
      return IM;
+}
+
+void printInstructions(Instruction **IM, int size){
+	printf("Addr	OP	M");
+	for(int i = 0; i < size; i++){
+		printf("%d	%s	%d\n", i, opToString(IM[i]->op), IM[i]->m);
+	}
 }
