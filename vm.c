@@ -57,4 +57,12 @@ void runProgram(Instruction **IM)
 			break;
 		}
 	}
+
+}
+
+char *opToString(int op){
+	char names[27][5] = {"LIT", "RTN", "CAL", "POP", "PSI", "PRM", "STO", "INC", "JMP",
+                         "JPC", "CHO", "CHI", "HLT", "NDB", "NEG", "ADD", "SUB", "MUL",
+                         "DIV", "MOD", "EQL", "NEQ", "LSS", "LEQ", "GTR", "GEQ", "PSP"};
+	return names[op - 1];
 }
