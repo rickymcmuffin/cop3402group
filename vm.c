@@ -60,6 +60,19 @@ void runProgram(Instruction **IM)
 
 }
 
+void printInstruction(Instruction **IM, int PC){
+	printf("==> addr: %d	%s	%d", PC, opToString(IM[PC]->op), IM[PC]->m);
+}
+
+void printDebug(int *stack, int PC, int BP, int SP){
+	printf("PC: %d BP: %d SP: %d\n", PC, BP, SP);
+	printf("stack: ");
+	for(int i = 0; i < SP; i++){
+		printf("S[%d]: %d", i, stack[i]);
+	}
+	printf("\n");
+}
+
 char *opToString(int op){
 	char names[27][5] = {"LIT", "RTN", "CAL", "POP", "PSI", "PRM", "STO", "INC", "JMP",
                          "JPC", "CHO", "CHI", "HLT", "NDB", "NEG", "ADD", "SUB", "MUL",
