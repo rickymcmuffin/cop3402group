@@ -64,8 +64,8 @@ int runProgram(Instruction **IM)
 			if (stack[stackP - 1] != 0)
 			{
 				programC = IM[programC]->m;
-				stackP = stackP - 1;
 			}
+			stackP = stackP - 1;
 			break;
 		case 11: // CHO
 			putc(stack[stackP - 1], stdout);
@@ -162,12 +162,13 @@ int runProgram(Instruction **IM)
 		programC++;
 		if(debug)
 			printDebug(stack, programC, baseP, stackP);
-		if (0 <= baseP && baseP <= stackP && 0 <= stackP && stackP < MAX_STACK_HEIGHT)
+		if (!(0 <= baseP && baseP <= stackP && 0 <= stackP && stackP < MAX_STACK_HEIGHT))
 		{
+			printf("%d %d\n", baseP, stackP);
 			fprintf(stderr, "BP/SP is out of bounds\n");
 			return 2;
 		}
-		if (0 <= programC && programC < MAX_CODE_LENGTH)
+		if (!(0 <= programC && programC < MAX_CODE_LENGTH))
 		{
 			fprintf(stderr, "PC out of bounds\n");
 			return 3;
@@ -190,7 +191,7 @@ void printDebug(int *stack, int PC, int BP, int SP)
 	printf("stack: ");
 	for (int i = 0; i < SP; i++)
 	{
-		printf("S[%d]: %d", i, stack[i]);
+		printf("S[%d]: %d ", i, stack[i]);
 	}
 	printf("\n");
 }
