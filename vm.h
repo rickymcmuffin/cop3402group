@@ -3,10 +3,8 @@
 #include "instruction.h"
 
 
-void runProgram(Instruction **IM);
-void push(Instruction **instStack, Instruction *iPtr);
-Instruction* pop(Instruction **instStack);
-char *opToString(int op);
+int runProgram(Instruction **IM);
+
 
 void printDebug(int *stack, int PC, int BP, int SP);
 void printInstruction(Instruction **IM, int PC);

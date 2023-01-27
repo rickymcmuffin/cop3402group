@@ -1,18 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "instruction.h"
+#include "vm.h"
 
 // we don't need push and pop if we use the pseudo code
 // in the pdf
-void push(Instruction **IS, Instruction *iPtr)
-{
-}
-
-Instruction *pop(Instruction **IS)
-{
-}
 
 int runProgram(Instruction **IM)
 {
+	char c;
 	int programC = 0, baseP = 0, stackP = 0;
 	int halt = 0, debug = 1;
 
@@ -23,7 +19,8 @@ int runProgram(Instruction **IM)
 	printDebug(stack, programC, baseP, stackP);
 	while (!halt)
 	{
-		printInstruction(IM, programC);
+		if(debug)
+			printInstruction(IM, programC);
 		switch (IM[programC]->op)
 		{
 		case 1: // LIT
@@ -46,49 +43,154 @@ int runProgram(Instruction **IM)
 			stackP = stackP - 1;
 			break;
 		case 5: // PSI
+			stack[stackP - 1] = stack[stack[stackP - 1]];
 			break;
 		case 6: // PRM
+			stack[stackP] = stack[baseP - IM[programC]->m];
+			stackP = stackP + 1;
 			break;
 		case 7: // STO
+			stack[stack[stackP - 1] + IM[programC]->m] = stack[stackP - 2];
+			stackP = stackP - 2;
 			break;
 		case 8: // INC
+			stackP = stackP + IM[programC]->m;
 			break;
 		case 9: // JMP
+			programC = stack[stackP - 1];
+			stackP = stackP - 1;
 			break;
 		case 10: // JPC
+			if (stack[stackP - 1] != 0)
+			{
+				programC = IM[programC]->m;
+				stackP = stackP - 1;
+			}
+			break;
+		case 11: // CHO
+			putc(stack[stackP - 1], stdout);
+			stackP = stackP - 1;
+			break;
+		case 12: // CHI
+			c = getc(stdin);
+
+			if (c == EOF || ferror(stdin))
+			{
+				stack[stackP] = -1;
+				stackP = stackP + 1;
+			}
+
+			stack[stackP] = c;
+			stackP = stackP + 1;
+			break;
+		case 13: // HLT
+			halt = 1;
+			break;
+		case 14: // NDB
+			debug = 0;
+			break;
+		case 15: // NEG
+			stack[stackP - 1] = stack[stackP - 1] * -1;
+			break;
+		case 16: // ADD
+			stack[stackP - 2] = stack[stackP - 1] + stack[stackP - 2];
+			stackP = stackP - 1;
+			break;
+		case 17: // SUB
+			stack[stackP - 2] = stack[stackP - 1] - stack[stackP - 2];
+			stackP = stackP - 1;
+			break;
+		case 18: // MUL
+			stack[stackP - 2] = stack[stackP - 1] * stack[stackP - 2];
+			stackP = stackP - 1;
+			break;
+		case 19: // DIV
+			stack[stackP - 2] = stack[stackP - 1] / stack[stackP - 2];
+			stackP = stackP - 1;
+			break;
+		case 20: // MOD
+			stack[stackP - 2] = stack[stackP - 1] % stack[stackP - 2];
+			stackP = stackP - 1;
+			break;
+		case 21: // EQL
+			if (stack[stackP - 1] == stack[stackP - 2])
+				stack[stackP - 2] = 1;
+			else
+				stack[stackP - 2] = 0;
+			stackP = stackP - 1;
+			break;
+		case 22: // NEQ
+			if (stack[stackP - 1] != stack[stackP - 2])
+				stack[stackP - 2] = 1;
+			else
+				stack[stackP - 2] = 0;
+			stackP = stackP - 1;
+			break;
+		case 23: // LSS
+			if (stack[stackP - 1] < stack[stackP - 2])
+				stack[stackP - 2] = 1;
+			else
+				stack[stackP - 2] = 0;
+			stackP = stackP - 1;
+			break;
+		case 24: // LEQ
+			if (stack[stackP - 1] <= stack[stackP - 2])
+				stack[stackP - 2] = 1;
+			else
+				stack[stackP - 2] = 0;
+			stackP = stackP - 1;
+			break;
+		case 25: // GTR
+			if (stack[stackP - 1] > stack[stackP - 2])
+				stack[stackP - 2] = 1;
+			else
+				stack[stackP - 2] = 0;
+			stackP = stackP - 1;
+			break;
+		case 26: // GEQ
+			if (stack[stackP - 1] >= stack[stackP - 2])
+				stack[stackP - 2] = 1;
+			else
+				stack[stackP - 2] = 0;
+			stackP = stackP - 1;
+			break;
+		case 27: // PSP
+			stack[stackP] = stackP;
+			stackP = stackP + 1;
 			break;
 		}
 		programC++;
-		printDebug(stack, programC, baseP, stackP);
-		if(0 <= baseP && baseP <= stackP && 0 <= stackP && stackP < MAX_STACK_HEIGHT){
+		if(debug)
+			printDebug(stack, programC, baseP, stackP);
+		if (0 <= baseP && baseP <= stackP && 0 <= stackP && stackP < MAX_STACK_HEIGHT)
+		{
 			fprintf(stderr, "BP/SP is out of bounds\n");
 			return 2;
 		}
-		if(0 <= programC && programC < MAX_CODE_LENGTH){
+		if (0 <= programC && programC < MAX_CODE_LENGTH)
+		{
 			fprintf(stderr, "PC out of bounds\n");
 			return 3;
 		}
 	}
 	return 0;
-
 }
 
-void printInstruction(Instruction **IM, int PC){
-	printf("==> addr: %d	%s	%d\n", PC, opToString(IM[PC]->op), IM[PC]->m);
+void printInstruction(Instruction **IM, int PC)
+{
+	char names[27][5] = {"LIT", "RTN", "CAL", "POP", "PSI", "PRM", "STO", "INC", "JMP",
+					 "JPC", "CHO", "CHI", "HLT", "NDB", "NEG", "ADD", "SUB", "MUL",
+					 "DIV", "MOD", "EQL", "NEQ", "LSS", "LEQ", "GTR", "GEQ", "PSP"};
+	printf("==> addr: %d	%s	%d\n", PC, names[IM[PC]->op - 1], IM[PC]->m);
 }
 
-void printDebug(int *stack, int PC, int BP, int SP){
+void printDebug(int *stack, int PC, int BP, int SP)
+{
 	printf("PC: %d BP: %d SP: %d\n", PC, BP, SP);
 	printf("stack: ");
-	for(int i = 0; i < SP; i++){
+	for (int i = 0; i < SP; i++)
+	{
 		printf("S[%d]: %d", i, stack[i]);
 	}
 	printf("\n");
-}
-
-char *opToString(int op){
-	char names[27][5] = {"LIT", "RTN", "CAL", "POP", "PSI", "PRM", "STO", "INC", "JMP",
-                         "JPC", "CHO", "CHI", "HLT", "NDB", "NEG", "ADD", "SUB", "MUL",
-                         "DIV", "MOD", "EQL", "NEQ", "LSS", "LEQ", "GTR", "GEQ", "PSP"};
-	return names[op - 1];
 }

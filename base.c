@@ -1,6 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "instruction.h"
-#include "vm.c"
+#include "vm.h"
 
 void printInstructions(Instruction **arr, int size)
 {
