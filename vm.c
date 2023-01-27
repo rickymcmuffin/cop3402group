@@ -11,7 +11,7 @@ Instruction *pop(Instruction **IS)
 {
 }
 
-void runProgram(Instruction **IM)
+int runProgram(Instruction **IM)
 {
 	int programC = 0, baseP = 0, stackP = 0;
 	int halt = 0, debug = 1;
@@ -20,8 +20,10 @@ void runProgram(Instruction **IM)
 	int *stack = calloc(MAX_STACK_HEIGHT, sizeof(int));
 
 	printf("Tracing ...\n");
+	printDebug(stack, programC, baseP, stackP);
 	while (!halt)
 	{
+		printInstruction(IM, programC);
 		switch (IM[programC]->op)
 		{
 		case 1: // LIT
@@ -56,7 +58,18 @@ void runProgram(Instruction **IM)
 		case 10: // JPC
 			break;
 		}
+		programC++;
+		printDebug(stack, programC, baseP, stackP);
+		if(0 <= baseP && baseP <= stackP && 0 <= stackP && stackP < MAX_STACK_HEIGHT){
+			fprintf(stderr, "BP/SP is out of bounds\n");
+			return 2;
+		}
+		if(0 <= programC && programC < MAX_CODE_LENGTH){
+			fprintf(stderr, "PC out of bounds\n");
+			return 3;
+		}
 	}
+	return 0;
 
 }
 
