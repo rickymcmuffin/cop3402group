@@ -12,46 +12,856 @@ else \
 	echo 'Test(s) failed!'; \
 fi
 running hw1-test0.txt
-passed!
+1,12c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     HLT   0    
+< PC: 2 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+---
+> Segmentation fault
 running hw1-test1.txt
-passed!
+1,49c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   0    
+< 2     LIT   1    
+< 3     LIT   5    
+< 4     LIT   7    
+< 5     ADD   0    
+< 6     LIT   12   
+< 7     NEQ   0    
+< 8     JPC   11   
+< 9     HLT   0    
+< 10    LIT   78   
+< 11    CHO   0    
+< 12    LIT   13   
+< 13    CHO   0    
+< 14    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   0    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 
+< ==> addr: 2     LIT   1    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 
+< ==> addr: 3     LIT   5    
+< PC: 4 BP: 0 SP: 5
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 5 
+< ==> addr: 4     LIT   7    
+< PC: 5 BP: 0 SP: 6
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 5 S[5]: 7 
+< ==> addr: 5     ADD   0    
+< PC: 6 BP: 0 SP: 5
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 12 
+< ==> addr: 6     LIT   12   
+< PC: 7 BP: 0 SP: 6
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 12 S[5]: 12 
+< ==> addr: 7     NEQ   0    
+< PC: 8 BP: 0 SP: 5
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 0 
+< ==> addr: 8     JPC   11   
+< PC: 9 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 
+< ==> addr: 9     HLT   0    
+< PC: 10 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 
+---
+> Segmentation fault
 running hw1-test2.txt
-passed!
+1,50c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   0    
+< 2     LIT   1    
+< 3     LIT   5    
+< 4     LIT   7    
+< 5     SUB   0    
+< 6     LIT   -3   
+< 7     NEQ   0    
+< 8     JPC   11   
+< 9     LIT   16   
+< 10    JMP   0    
+< 11    NDB   0    
+< 12    LIT   78   
+< 13    CHO   0    
+< 14    LIT   10   
+< 15    CHO   0    
+< 16    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   0    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 
+< ==> addr: 2     LIT   1    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 
+< ==> addr: 3     LIT   5    
+< PC: 4 BP: 0 SP: 5
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 5 
+< ==> addr: 4     LIT   7    
+< PC: 5 BP: 0 SP: 6
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 5 S[5]: 7 
+< ==> addr: 5     SUB   0    
+< PC: 6 BP: 0 SP: 5
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 2 
+< ==> addr: 6     LIT   -3   
+< PC: 7 BP: 0 SP: 6
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 2 S[5]: -3 
+< ==> addr: 7     NEQ   0    
+< PC: 8 BP: 0 SP: 5
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 1 
+< ==> addr: 8     JPC   11   
+< PC: 11 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 
+< ==> addr: 11    NDB   0    
+< N
+---
+> Segmentation fault
 running hw1-test3.txt
-passed!
+1,57c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   0    
+< 2     LIT   1    
+< 3     LIT   5    
+< 4     LIT   7    
+< 5     SUB   0    
+< 6     LIT   2    
+< 7     NEQ   0    
+< 8     JPC   11   
+< 9     LIT   16   
+< 10    JMP   0    
+< 11    NDB   0    
+< 12    LIT   78   
+< 13    CHO   0    
+< 14    LIT   10   
+< 15    CHO   0    
+< 16    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   0    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 
+< ==> addr: 2     LIT   1    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 
+< ==> addr: 3     LIT   5    
+< PC: 4 BP: 0 SP: 5
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 5 
+< ==> addr: 4     LIT   7    
+< PC: 5 BP: 0 SP: 6
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 5 S[5]: 7 
+< ==> addr: 5     SUB   0    
+< PC: 6 BP: 0 SP: 5
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 2 
+< ==> addr: 6     LIT   2    
+< PC: 7 BP: 0 SP: 6
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 2 S[5]: 2 
+< ==> addr: 7     NEQ   0    
+< PC: 8 BP: 0 SP: 5
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 0 
+< ==> addr: 8     JPC   11   
+< PC: 9 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 
+< ==> addr: 9     LIT   16   
+< PC: 10 BP: 0 SP: 5
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 S[4]: 16 
+< ==> addr: 10    JMP   0    
+< PC: 16 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 
+< ==> addr: 16    HLT   0    
+< PC: 17 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 1 
+---
+> Segmentation fault
 running hw1-test4.txt
-passed!
+1,57c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   3    
+< 2     LIT   3    
+< 3     PSI   0    
+< 4     MUL   0    
+< 5     NEG   0    
+< 6     LIT   -9   
+< 7     NEQ   0    
+< 8     JPC   11   
+< 9     LIT   16   
+< 10    JMP   0    
+< 11    NDB   0    
+< 12    LIT   78   
+< 13    CHO   0    
+< 14    LIT   10   
+< 15    CHO   0    
+< 16    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   3    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 
+< ==> addr: 2     LIT   3    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 S[3]: 3 
+< ==> addr: 3     PSI   0    
+< PC: 4 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 S[3]: 3 
+< ==> addr: 4     MUL   0    
+< PC: 5 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 9 
+< ==> addr: 5     NEG   0    
+< PC: 6 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: -9 
+< ==> addr: 6     LIT   -9   
+< PC: 7 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: -9 S[3]: -9 
+< ==> addr: 7     NEQ   0    
+< PC: 8 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 
+< ==> addr: 8     JPC   11   
+< PC: 9 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 9     LIT   16   
+< PC: 10 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 16 
+< ==> addr: 10    JMP   0    
+< PC: 16 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 16    HLT   0    
+< PC: 17 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+---
+> Segmentation fault
 running hw1-test5.txt
-passed!
+1,50c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   3    
+< 2     LIT   3    
+< 3     PSI   0    
+< 4     MUL   0    
+< 5     NEG   0    
+< 6     LIT   7    
+< 7     NEQ   0    
+< 8     JPC   11   
+< 9     LIT   16   
+< 10    JMP   0    
+< 11    NDB   0    
+< 12    LIT   78   
+< 13    CHO   0    
+< 14    LIT   10   
+< 15    CHO   0    
+< 16    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   3    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 
+< ==> addr: 2     LIT   3    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 S[3]: 3 
+< ==> addr: 3     PSI   0    
+< PC: 4 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 S[3]: 3 
+< ==> addr: 4     MUL   0    
+< PC: 5 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 9 
+< ==> addr: 5     NEG   0    
+< PC: 6 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: -9 
+< ==> addr: 6     LIT   7    
+< PC: 7 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: -9 S[3]: 7 
+< ==> addr: 7     NEQ   0    
+< PC: 8 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 1 
+< ==> addr: 8     JPC   11   
+< PC: 11 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 11    NDB   0    
+< N
+---
+> Segmentation fault
 running hw1-test6.txt
-passed!
+1,50c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   3    
+< 2     LIT   3    
+< 3     PSI   0    
+< 4     MUL   0    
+< 5     NEG   0    
+< 6     LIT   -9   
+< 7     EQL   0    
+< 8     JPC   11   
+< 9     LIT   16   
+< 10    JMP   0    
+< 11    NDB   0    
+< 12    LIT   78   
+< 13    CHO   0    
+< 14    LIT   10   
+< 15    CHO   0    
+< 16    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   3    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 
+< ==> addr: 2     LIT   3    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 S[3]: 3 
+< ==> addr: 3     PSI   0    
+< PC: 4 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 S[3]: 3 
+< ==> addr: 4     MUL   0    
+< PC: 5 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 9 
+< ==> addr: 5     NEG   0    
+< PC: 6 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: -9 
+< ==> addr: 6     LIT   -9   
+< PC: 7 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: -9 S[3]: -9 
+< ==> addr: 7     EQL   0    
+< PC: 8 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 1 
+< ==> addr: 8     JPC   11   
+< PC: 11 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 11    NDB   0    
+< N
+---
+> Segmentation fault
 running hw1-test7.txt
-passed!
+1,57c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   3    
+< 2     LIT   3    
+< 3     PSI   0    
+< 4     MUL   0    
+< 5     NEG   0    
+< 6     LIT   7    
+< 7     LSS   0    
+< 8     JPC   11   
+< 9     LIT   16   
+< 10    JMP   0    
+< 11    NDB   0    
+< 12    LIT   78   
+< 13    CHO   0    
+< 14    LIT   10   
+< 15    CHO   0    
+< 16    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   3    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 
+< ==> addr: 2     LIT   3    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 S[3]: 3 
+< ==> addr: 3     PSI   0    
+< PC: 4 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 S[3]: 3 
+< ==> addr: 4     MUL   0    
+< PC: 5 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 9 
+< ==> addr: 5     NEG   0    
+< PC: 6 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: -9 
+< ==> addr: 6     LIT   7    
+< PC: 7 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: -9 S[3]: 7 
+< ==> addr: 7     LSS   0    
+< PC: 8 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 
+< ==> addr: 8     JPC   11   
+< PC: 9 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 9     LIT   16   
+< PC: 10 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 16 
+< ==> addr: 10    JMP   0    
+< PC: 16 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 16    HLT   0    
+< PC: 17 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+---
+> Segmentation fault
 running hw1-test8.txt
-passed!
+1,50c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   3    
+< 2     LIT   3    
+< 3     PSI   0    
+< 4     MUL   0    
+< 5     NEG   0    
+< 6     LIT   7    
+< 7     GTR   0    
+< 8     JPC   11   
+< 9     LIT   16   
+< 10    JMP   0    
+< 11    NDB   0    
+< 12    LIT   89   
+< 13    CHO   0    
+< 14    LIT   10   
+< 15    CHO   0    
+< 16    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   3    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 
+< ==> addr: 2     LIT   3    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 S[3]: 3 
+< ==> addr: 3     PSI   0    
+< PC: 4 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 S[3]: 3 
+< ==> addr: 4     MUL   0    
+< PC: 5 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 9 
+< ==> addr: 5     NEG   0    
+< PC: 6 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: -9 
+< ==> addr: 6     LIT   7    
+< PC: 7 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: -9 S[3]: 7 
+< ==> addr: 7     GTR   0    
+< PC: 8 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 1 
+< ==> addr: 8     JPC   11   
+< PC: 11 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 11    NDB   0    
+< Y
+---
+> Segmentation fault
 running hw1-test9.txt
-passed!
+1,50c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   3    
+< 2     LIT   3    
+< 3     PSI   0    
+< 4     MUL   0    
+< 5     NEG   0    
+< 6     LIT   7    
+< 7     GEQ   0    
+< 8     JPC   11   
+< 9     LIT   16   
+< 10    JMP   0    
+< 11    NDB   0    
+< 12    LIT   89   
+< 13    CHO   0    
+< 14    LIT   10   
+< 15    CHO   0    
+< 16    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   3    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 
+< ==> addr: 2     LIT   3    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 S[3]: 3 
+< ==> addr: 3     PSI   0    
+< PC: 4 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 S[3]: 3 
+< ==> addr: 4     MUL   0    
+< PC: 5 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 9 
+< ==> addr: 5     NEG   0    
+< PC: 6 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: -9 
+< ==> addr: 6     LIT   7    
+< PC: 7 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: -9 S[3]: 7 
+< ==> addr: 7     GEQ   0    
+< PC: 8 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 1 
+< ==> addr: 8     JPC   11   
+< PC: 11 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 11    NDB   0    
+< Y
+---
+> Segmentation fault
 running hw1-testA.txt
-passed!
+1,57c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   3    
+< 2     LIT   3    
+< 3     PSI   0    
+< 4     MUL   0    
+< 5     NEG   0    
+< 6     LIT   7    
+< 7     LEQ   0    
+< 8     JPC   11   
+< 9     LIT   16   
+< 10    JMP   0    
+< 11    NDB   0    
+< 12    LIT   78   
+< 13    CHO   0    
+< 14    LIT   10   
+< 15    CHO   0    
+< 16    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   3    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 
+< ==> addr: 2     LIT   3    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 S[3]: 3 
+< ==> addr: 3     PSI   0    
+< PC: 4 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 3 S[3]: 3 
+< ==> addr: 4     MUL   0    
+< PC: 5 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 9 
+< ==> addr: 5     NEG   0    
+< PC: 6 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: -9 
+< ==> addr: 6     LIT   7    
+< PC: 7 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: -9 S[3]: 7 
+< ==> addr: 7     LEQ   0    
+< PC: 8 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 
+< ==> addr: 8     JPC   11   
+< PC: 9 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 9     LIT   16   
+< PC: 10 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 16 
+< ==> addr: 10    JMP   0    
+< PC: 16 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 16    HLT   0    
+< PC: 17 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+---
+> Segmentation fault
 running hw1-testB.txt
-passed!
+1,50c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   4    
+< 2     LIT   2    
+< 3     PSI   0    
+< 4     MUL   0    
+< 5     NEG   0    
+< 6     LIT   -16  
+< 7     LEQ   0    
+< 8     JPC   11   
+< 9     LIT   16   
+< 10    JMP   0    
+< 11    NDB   0    
+< 12    LIT   89   
+< 13    CHO   0    
+< 14    LIT   10   
+< 15    CHO   0    
+< 16    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   4    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 4 
+< ==> addr: 2     LIT   2    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 4 S[3]: 2 
+< ==> addr: 3     PSI   0    
+< PC: 4 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 4 S[3]: 4 
+< ==> addr: 4     MUL   0    
+< PC: 5 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 16 
+< ==> addr: 5     NEG   0    
+< PC: 6 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: -16 
+< ==> addr: 6     LIT   -16  
+< PC: 7 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: -16 S[3]: -16 
+< ==> addr: 7     LEQ   0    
+< PC: 8 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 1 
+< ==> addr: 8     JPC   11   
+< PC: 11 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 11    NDB   0    
+< Y
+---
+> Segmentation fault
 running hw1-testC.txt
-passed!
+1,57c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   2    
+< 2     LIT   3    
+< 3     LIT   3    
+< 4     MUL   0    
+< 5     MOD   0    
+< 6     LIT   1    
+< 7     NEQ   0    
+< 8     JPC   11   
+< 9     LIT   16   
+< 10    JMP   0    
+< 11    NDB   0    
+< 12    LIT   78   
+< 13    CHO   0    
+< 14    LIT   10   
+< 15    CHO   0    
+< 16    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   2    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 2 
+< ==> addr: 2     LIT   3    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 2 S[3]: 3 
+< ==> addr: 3     LIT   3    
+< PC: 4 BP: 0 SP: 5
+< stack: S[0]: 0 S[1]: 0 S[2]: 2 S[3]: 3 S[4]: 3 
+< ==> addr: 4     MUL   0    
+< PC: 5 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 2 S[3]: 9 
+< ==> addr: 5     MOD   0    
+< PC: 6 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 1 
+< ==> addr: 6     LIT   1    
+< PC: 7 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 1 S[3]: 1 
+< ==> addr: 7     NEQ   0    
+< PC: 8 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 
+< ==> addr: 8     JPC   11   
+< PC: 9 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 9     LIT   16   
+< PC: 10 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 16 
+< ==> addr: 10    JMP   0    
+< PC: 16 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 16    HLT   0    
+< PC: 17 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+---
+> Segmentation fault
 running hw1-testD.txt
-passed!
+1,50c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   2    
+< 2     LIT   3    
+< 3     LIT   3    
+< 4     MUL   0    
+< 5     MOD   0    
+< 6     LIT   2    
+< 7     NEQ   0    
+< 8     JPC   11   
+< 9     LIT   16   
+< 10    JMP   0    
+< 11    NDB   0    
+< 12    LIT   89   
+< 13    CHO   0    
+< 14    LIT   10   
+< 15    CHO   0    
+< 16    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   2    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 2 
+< ==> addr: 2     LIT   3    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 2 S[3]: 3 
+< ==> addr: 3     LIT   3    
+< PC: 4 BP: 0 SP: 5
+< stack: S[0]: 0 S[1]: 0 S[2]: 2 S[3]: 3 S[4]: 3 
+< ==> addr: 4     MUL   0    
+< PC: 5 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 2 S[3]: 9 
+< ==> addr: 5     MOD   0    
+< PC: 6 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 1 
+< ==> addr: 6     LIT   2    
+< PC: 7 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 1 S[3]: 2 
+< ==> addr: 7     NEQ   0    
+< PC: 8 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 1 
+< ==> addr: 8     JPC   11   
+< PC: 11 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 11    NDB   0    
+< Y
+---
+> Segmentation fault
 running hw1-testE.txt
-passed!
+1,38c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   0    
+< 2     LIT   3    
+< 3     LIT   3    
+< 4     MUL   0    
+< 5     MOD   0    
+< 6     LIT   2    
+< 7     NEQ   0    
+< 8     JPC   11   
+< 9     LIT   17   
+< 10    JMP   0    
+< 11    NDB   0    
+< 12    LIT   78   
+< 13    CHO   0    
+< 14    LIT   10   
+< 15    CHO   0    
+< 16    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   0    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 
+< ==> addr: 2     LIT   3    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 3 
+< ==> addr: 3     LIT   3    
+< PC: 4 BP: 0 SP: 5
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 3 S[4]: 3 
+< ==> addr: 4     MUL   0    
+< PC: 5 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 9 
+< ==> addr: 5     MOD   0    
+< Modulus is zero in MOD instruction!
+---
+> Segmentation fault
 running hw1-testF.txt
-passed!
+1,38c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   0    
+< 2     LIT   3    
+< 3     LIT   3    
+< 4     MUL   0    
+< 5     DIV   0    
+< 6     LIT   2    
+< 7     NEQ   0    
+< 8     JPC   11   
+< 9     LIT   16   
+< 10    JMP   0    
+< 11    NDB   0    
+< 12    LIT   78   
+< 13    CHO   0    
+< 14    LIT   10   
+< 15    CHO   0    
+< 16    HLT   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   0    
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 
+< ==> addr: 2     LIT   3    
+< PC: 3 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 3 
+< ==> addr: 3     LIT   3    
+< PC: 4 BP: 0 SP: 5
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 3 S[4]: 3 
+< ==> addr: 4     MUL   0    
+< PC: 5 BP: 0 SP: 4
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 9 
+< ==> addr: 5     DIV   0    
+< Divisor is zero in DIV instruction!
+---
+> Segmentation fault
 running hw1-testG.txt
-0a1
-> BP/SP is out of bounds
-11c12,14
+1,11c1
+< Addr  OP    M    
+< 0     LIT   -5   
+< 1     RTN   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     LIT   -5   
+< PC: 1 BP: 0 SP: 1
+< stack: S[0]: -5 
+< ==> addr: 1     RTN   0    
 < Trying to pop an empty stack!
 ---
-> PC: -4 BP: 0 SP: -1
-> stack: 
-> 0 -1
+> Segmentation fault
 running hw1-testH.txt
 1,27c1
 < Addr  OP    M    
@@ -84,42 +894,51 @@ running hw1-testH.txt
 ---
 > Segmentation fault
 running hw1-testI.txt
-0a1
-> BP/SP is out of bounds
-27,31c28,29
+1,51c1
+< Addr  OP    M    
+< 0     INC   2    
+< 1     LIT   10   
+< 2     CAL   9    
+< 3     LIT   89   
+< 4     NDB   0    
+< 5     CHO   0    
+< 6     LIT   10   
+< 7     CHO   0    
+< 8     HLT   0    
+< 9     PRM   1    
+< 10    PRM   1    
+< 11    MUL   0    
+< 12    PSP   0    
+< 13    STO   -4   
+< 14    RTN   0    
+< Tracing ...
+< PC: 0 BP: 0 SP: 0
+< stack: 
+< ==> addr: 0     INC   2    
+< PC: 1 BP: 0 SP: 2
+< stack: S[0]: 0 S[1]: 0 
+< ==> addr: 1     LIT   10   
+< PC: 2 BP: 0 SP: 3
+< stack: S[0]: 0 S[1]: 0 S[2]: 10 
+< ==> addr: 2     CAL   9    
 < PC: 9 BP: 3 SP: 5
 < stack: S[3]: 0 S[4]: 3 
 < ==> addr: 9     PRM   1    
 < PC: 10 BP: 3 SP: 6
 < stack: S[3]: 0 S[4]: 3 S[5]: 10 
----
-> PC: 10 BP: 3 SP: 5
-> stack: S[0]: 0 S[1]: 0 S[2]: 10 S[3]: 0 S[4]: 2 
-33,34c31,32
+< ==> addr: 10    PRM   1    
 < PC: 11 BP: 3 SP: 7
 < stack: S[3]: 0 S[4]: 3 S[5]: 10 S[6]: 10 
----
-> PC: 11 BP: 3 SP: 6
-> stack: S[0]: 0 S[1]: 0 S[2]: 10 S[3]: 0 S[4]: 2 S[5]: 10 
-36,37c34,35
+< ==> addr: 11    MUL   0    
 < PC: 12 BP: 3 SP: 6
 < stack: S[3]: 0 S[4]: 3 S[5]: 100 
----
-> PC: 12 BP: 3 SP: 5
-> stack: S[0]: 0 S[1]: 0 S[2]: 10 S[3]: 0 S[4]: 20 
-39,40c37,38
+< ==> addr: 12    PSP   0    
 < PC: 13 BP: 3 SP: 7
 < stack: S[3]: 0 S[4]: 3 S[5]: 100 S[6]: 6 
----
-> PC: 13 BP: 3 SP: 6
-> stack: S[0]: 0 S[1]: 0 S[2]: 10 S[3]: 0 S[4]: 20 S[5]: 5 
-42,43c40,41
+< ==> addr: 13    STO   -4   
 < PC: 14 BP: 3 SP: 5
 < stack: S[3]: 0 S[4]: 3 
----
-> PC: 14 BP: 3 SP: 4
-> stack: S[0]: 0 S[1]: 20 S[2]: 10 S[3]: 0 
-45,51c43,45
+< ==> addr: 14    RTN   0    
 < PC: 3 BP: 0 SP: 3
 < stack: S[0]: 0 S[1]: 0 S[2]: 100 
 < ==> addr: 3     LIT   89   
@@ -128,7 +947,5 @@ running hw1-testI.txt
 < ==> addr: 4     NDB   0    
 < Y
 ---
-> PC: 1 BP: 10 SP: 2
-> stack: S[0]: 0 S[1]: 20 
-> 10 2
+> Segmentation fault
 Test(s) failed!

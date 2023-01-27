@@ -11,6 +11,7 @@ int runProgram(Instruction **IM)
 	char c;
 	int programC = 0, baseP = 0, stackP = 0;
 	int halt = 0, debug = 1;
+	int *error = 0;
 
 	// Array implementation of stack holding integers
 	int *stack = calloc(MAX_STACK_HEIGHT, sizeof(int));
@@ -25,56 +26,52 @@ int runProgram(Instruction **IM)
 		{
 		case 1: // LIT
 			stack[stackP] = IM[programC]->m;
-			stackP = stackP + 1;
+			incrementStackP(&stackP, 1, error);
 			break;
 		case 2: // RTN
-			
+
 			programC = stack[stackP - 1];
 			baseP = stack[stackP - 2];
-			stackP = stackP - 2;
+			decrementStackP(&stackP, 2, error);
 			break;
 		case 3: // CAL
 			stack[stackP] = baseP;
 			stack[stackP + 1] = programC;
 			baseP = stackP;
-			stackP = stackP + 2;
+			incrementStackP(&stackP, 2, error);
 			programC = IM[programC]->m;
 			break;
 		case 4: // POP
-			if(stackP == 0){
-				printf("Trying to pop an empty stack!\n");
-				return 6;
-			}
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);
 			break;
 		case 5: // PSI
 			stack[stackP - 1] = stack[stack[stackP - 1]];
 			break;
 		case 6: // PRM
 			stack[stackP] = stack[baseP - IM[programC]->m];
-			stackP = stackP + 1;
+			incrementStackP(&stackP, 1, error);
 			break;
 		case 7: // STO
 			stack[stack[stackP - 1] + IM[programC]->m] = stack[stackP - 2];
-			stackP = stackP - 2;
+			decrementStackP(&stackP, 2, error);
 			break;
 		case 8: // INC
 			stackP = stackP + IM[programC]->m;
 			break;
 		case 9: // JMP
 			programC = stack[stackP - 1] - 1;
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);
 			break;
 		case 10: // JPC
 			if (stack[stackP - 1] != 0)
 			{
 				programC = IM[programC]->m - 1;
 			}
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);;
 			break;
 		case 11: // CHO
 			putc(stack[stackP - 1], stdout);
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);
 			break;
 		case 12: // CHI
 			c = getc(stdin);
@@ -82,11 +79,11 @@ int runProgram(Instruction **IM)
 			if (c == EOF || ferror(stdin))
 			{
 				stack[stackP] = -1;
-				stackP = stackP + 1;
+				incrementStackP(&stackP, 1, error);
 			}
 
 			stack[stackP] = c;
-			stackP = stackP + 1;
+			incrementStackP(&stackP, 1, error);
 			break;
 		case 13: // HLT
 			halt = 1;
@@ -99,15 +96,15 @@ int runProgram(Instruction **IM)
 			break;
 		case 16: // ADD
 			stack[stackP - 2] = stack[stackP - 1] + stack[stackP - 2];
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);
 			break;
 		case 17: // SUB
 			stack[stackP - 2] = stack[stackP - 1] - stack[stackP - 2];
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);
 			break;
 		case 18: // MUL
 			stack[stackP - 2] = stack[stackP - 1] * stack[stackP - 2];
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);
 			break;
 		case 19: // DIV
 			if (stack[stackP - 2] == 0)
@@ -116,7 +113,7 @@ int runProgram(Instruction **IM)
 				return 4;
 			}
 			stack[stackP - 2] = stack[stackP - 1] / stack[stackP - 2];
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);
 
 			break;
 		case 20: // MOD
@@ -126,7 +123,7 @@ int runProgram(Instruction **IM)
 				return 5;
 			}
 			stack[stackP - 2] = stack[stackP - 1] % stack[stackP - 2];
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);
 
 			break;
 		case 21: // EQL
@@ -134,48 +131,49 @@ int runProgram(Instruction **IM)
 				stack[stackP - 2] = 1;
 			else
 				stack[stackP - 2] = 0;
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);
 			break;
 		case 22: // NEQ
 			if (stack[stackP - 1] != stack[stackP - 2])
 				stack[stackP - 2] = 1;
 			else
 				stack[stackP - 2] = 0;
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);
 			break;
 		case 23: // LSS
 			if (stack[stackP - 1] < stack[stackP - 2])
 				stack[stackP - 2] = 1;
 			else
 				stack[stackP - 2] = 0;
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);
 			break;
 		case 24: // LEQ
 			if (stack[stackP - 1] <= stack[stackP - 2])
 				stack[stackP - 2] = 1;
 			else
 				stack[stackP - 2] = 0;
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);
 			break;
 		case 25: // GTR
 			if (stack[stackP - 1] > stack[stackP - 2])
 				stack[stackP - 2] = 1;
 			else
 				stack[stackP - 2] = 0;
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);
 			break;
 		case 26: // GEQ
 			if (stack[stackP - 1] >= stack[stackP - 2])
 				stack[stackP - 2] = 1;
 			else
 				stack[stackP - 2] = 0;
-			stackP = stackP - 1;
+			decrementStackP(&stackP, 1, error);
 			break;
 		case 27: // PSP
 			stack[stackP] = stackP;
-			stackP = stackP + 1;
+			incrementStackP(&stackP, 1, error);
 			break;
 		}
+		
 		programC++;
 		if (debug)
 			printDebug(stack, programC, baseP, stackP);
@@ -190,8 +188,35 @@ int runProgram(Instruction **IM)
 			fprintf(stderr, "PC out of bounds\n");
 			return 3;
 		}
+		if(*error == 1){
+			return 22;
+		}
 	}
 	return 0;
+}
+void incrementStackP(int *sp, int n, int *error)
+{
+	*sp += n;
+	if (*sp >= MAX_STACK_HEIGHT)
+	{
+		printf("Trying to push a full stack!");
+		*error = 1;
+		return;
+	}
+
+	
+	return;
+}
+void decrementStackP(int *stackP, int n, int *error)
+{
+	*stackP = *stackP - n;
+	if (*stackP < 0)
+	{
+		printf("Trying to pop an empty stack!");
+		*error = 1;
+	}
+	
+		
 }
 
 void printInstruction(Instruction **IM, int PC)
