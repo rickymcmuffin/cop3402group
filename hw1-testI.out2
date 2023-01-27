@@ -1,5 +1,4 @@
 BP/SP is out of bounds
-hw1-testI.txt
 Addr  OP    M
 0     INC   2
 1     LIT   10

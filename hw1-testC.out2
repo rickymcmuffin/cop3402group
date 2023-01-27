@@ -1,4 +1,4 @@
-hw1-testC.txt
+Modulus is zero in MOD instruction!
 Addr  OP    M
 0     INC   2
 1     LIT   2
@@ -36,23 +36,3 @@ stack: S[0]: 0 S[1]: 0 S[2]: 2 S[3]: 3 S[4]: 3
 PC: 5 BP: 0 SP: 4
 stack: S[0]: 0 S[1]: 0 S[2]: 2 S[3]: 9 
 ==> addr: 5	MOD	0
-PC: 6 BP: 0 SP: 3
-stack: S[0]: 0 S[1]: 0 S[2]: 1 
-==> addr: 6	LIT	1
-PC: 7 BP: 0 SP: 4
-stack: S[0]: 0 S[1]: 0 S[2]: 1 S[3]: 1 
-==> addr: 7	NEQ	0
-PC: 8 BP: 0 SP: 3
-stack: S[0]: 0 S[1]: 0 S[2]: 0 
-==> addr: 8	JPC	11
-PC: 9 BP: 0 SP: 2
-stack: S[0]: 0 S[1]: 0 
-==> addr: 9	LIT	16
-PC: 10 BP: 0 SP: 3
-stack: S[0]: 0 S[1]: 0 S[2]: 16 
-==> addr: 10	JMP	0
-PC: 16 BP: 0 SP: 2
-stack: S[0]: 0 S[1]: 0 
-==> addr: 16	HLT	0
-PC: 17 BP: 0 SP: 2
-stack: S[0]: 0 S[1]: 0 

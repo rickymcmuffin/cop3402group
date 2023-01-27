@@ -107,10 +107,14 @@ int runProgram(Instruction **IM)
 		case 19: // DIV
 			stack[stackP - 2] = stack[stackP - 1] / stack[stackP - 2];
 			stackP = stackP - 1;
+			fprintf(stderr, "Divisor is zero in DIV instruction!\n");
+			return 4;
 			break;
 		case 20: // MOD
 			stack[stackP - 2] = stack[stackP - 1] % stack[stackP - 2];
 			stackP = stackP - 1;
+			fprintf(stderr, "Modulus is zero in MOD instruction!\n");
+			return 5;
 			break;
 		case 21: // EQL
 			if (stack[stackP - 1] == stack[stackP - 2])

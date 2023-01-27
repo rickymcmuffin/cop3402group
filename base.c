@@ -17,7 +17,7 @@ void printInstructions(Instruction **arr, int size)
 
 int main(int argc, char **argv)
 {
-	printf("%s\n", argv[1]); // --------------------------------------------------------------- debug
+	//printf("%s\n", argv[1]); // --------------------------------------------------------------- debug
 
 	int len;
 	Instruction **list = readInstructions(argv[1], &len);
