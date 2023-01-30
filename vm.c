@@ -4,7 +4,7 @@
 #include "vm.h"
 
 
-
+// runs entire VM
 int runProgram(Instruction **IM)
 {
 	char c;
@@ -15,14 +15,22 @@ int runProgram(Instruction **IM)
 	// Array implementation of stack holding integers
 	int *stack = calloc(MAX_STACK_HEIGHT, sizeof(int));
 
+	// prints initial debug
 	printf("Tracing ...\n");
 	printDebug(stack, programC, baseP, stackP);
+
+	// goes until halt becomes 1
 	while (!halt)
 	{
+		// prints first debug
 		if (debug)
 			printInstruction(IM, programC);
+
+		// updates IR and PC
 		instructionRegister = IM[programC];
 		programC = programC + 1;
+
+		// switch for all instructions
 		switch (instructionRegister->op)
 		{
 		case 1: // LIT
@@ -177,29 +185,31 @@ int runProgram(Instruction **IM)
 		}
 		
 		
-		
+		// error if stackP is less than 0
 		if(stackP < 0){
 			printf("Trying to pop an empty stack!\n");
 			return 22;
 		}
+		// error if BP or SP are out of bounds
 		if (!(0 <= baseP && baseP <= stackP && 0 <= stackP && stackP < MAX_STACK_HEIGHT))
 		{
 			printf("%d %d\n", baseP, stackP);
 			fprintf(stderr, "BP/SP is out of bounds\n");
 			return 2;
 		}
-
+		// error if PC is out of bounds
 		if (!(0 <= programC && programC < MAX_CODE_LENGTH))
 		{
 			fprintf(stderr, "PC out of bounds\n");
 			return 3;
 		}
+		// prints second part of debug
 		if (debug)
 			printDebug(stack, programC, baseP, stackP);
 	}
 	return 0;
 }
-
+// prints first part of debug
 void printInstruction(Instruction **IM, int PC)
 {
 	char names[27][5] = {"LIT", "RTN", "CAL", "POP", "PSI", "PRM", "STO", "INC", "JMP",
@@ -207,7 +217,7 @@ void printInstruction(Instruction **IM, int PC)
 					 "DIV", "MOD", "EQL", "NEQ", "LSS", "LEQ", "GTR", "GEQ", "PSP"};
 	printf("==> addr: %d	%s	%d\n", PC, names[IM[PC]->op - 1], IM[PC]->m);
 }
-
+// prints second part of debug
 void printDebug(int *stack, int PC, int BP, int SP)
 {
 	printf("PC: %d BP: %d SP: %d\n", PC, BP, SP);

@@ -3,6 +3,7 @@
 #include "instruction.h"
 #include "vm.h"
 
+// prints all instructions
 void printInstructions(Instruction **arr, int size)
 {
 	printf("Addr  OP    M\n");
