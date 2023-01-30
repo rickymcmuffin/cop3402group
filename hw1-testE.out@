@@ -4,11 +4,11 @@ Addr  OP    M
 2     LIT   3
 3     LIT   3
 4     MUL   0
-5     DIV   0
+5     MOD   0
 6     LIT   2
 7     NEQ   0
 8     JPC   11
-9     LIT   16
+9     LIT   17
 10    JMP   0
 11    NDB   0
 12    LIT   78
@@ -34,5 +34,4 @@ stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 3 S[4]: 3
 ==> addr: 4	MUL	0
 PC: 5 BP: 0 SP: 4
 stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 9 
-==> addr: 5	DIV	0
-Divisor is zero in DIV instruction!
+==> addr: 5	MOD	0

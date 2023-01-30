@@ -1,4 +1,3 @@
-BP/SP is out of bounds
 Addr  OP    M
 0     INC   2
 1     LIT   10
@@ -25,21 +24,28 @@ stack: S[0]: 0 S[1]: 0
 PC: 2 BP: 0 SP: 3
 stack: S[0]: 0 S[1]: 0 S[2]: 10 
 ==> addr: 2	CAL	9
-PC: 10 BP: 3 SP: 5
-stack: S[0]: 0 S[1]: 0 S[2]: 10 S[3]: 0 S[4]: 2 
+PC: 9 BP: 3 SP: 5
+stack: S[3]: 0 S[4]: 2 
+==> addr: 9	PRM	1
+PC: 10 BP: 3 SP: 6
+stack: S[3]: 0 S[4]: 2 S[5]: 10 
 ==> addr: 10	PRM	1
-PC: 11 BP: 3 SP: 6
-stack: S[0]: 0 S[1]: 0 S[2]: 10 S[3]: 0 S[4]: 2 S[5]: 10 
+PC: 11 BP: 3 SP: 7
+stack: S[3]: 0 S[4]: 2 S[5]: 10 S[6]: 10 
 ==> addr: 11	MUL	0
-PC: 12 BP: 3 SP: 5
-stack: S[0]: 0 S[1]: 0 S[2]: 10 S[3]: 0 S[4]: 20 
+PC: 12 BP: 3 SP: 6
+stack: S[3]: 0 S[4]: 2 S[5]: 100 
 ==> addr: 12	PSP	0
-PC: 13 BP: 3 SP: 6
-stack: S[0]: 0 S[1]: 0 S[2]: 10 S[3]: 0 S[4]: 20 S[5]: 5 
+PC: 13 BP: 3 SP: 7
+stack: S[3]: 0 S[4]: 2 S[5]: 100 S[6]: 6 
 ==> addr: 13	STO	-4
-PC: 14 BP: 3 SP: 4
-stack: S[0]: 0 S[1]: 20 S[2]: 10 S[3]: 0 
+PC: 14 BP: 3 SP: 5
+stack: S[3]: 0 S[4]: 2 
 ==> addr: 14	RTN	0
-PC: 1 BP: 10 SP: 2
-stack: S[0]: 0 S[1]: 20 
-10 2
+PC: 3 BP: 0 SP: 3
+stack: S[0]: 0 S[1]: 0 S[2]: 100 
+==> addr: 3	LIT	89
+PC: 4 BP: 0 SP: 4
+stack: S[0]: 0 S[1]: 0 S[2]: 100 S[3]: 89 
+==> addr: 4	NDB	0
+Y

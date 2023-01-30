@@ -19,7 +19,7 @@ int runProgram(Instruction **IM)
 	printDebug(stack, programC, baseP, stackP);
 	while (!halt)
 	{
-		if(debug)
+		if (debug)
 			printInstruction(IM, programC);
 		switch (IM[programC]->op)
 		{
@@ -38,6 +38,7 @@ int runProgram(Instruction **IM)
 			baseP = stackP;
 			stackP = stackP + 2;
 			programC = IM[programC]->m;
+			programC--;
 			break;
 		case 4: // POP
 			stackP = stackP - 1;
@@ -105,16 +106,26 @@ int runProgram(Instruction **IM)
 			stackP = stackP - 1;
 			break;
 		case 19: // DIV
+			if (stack[stackP - 2] == 0)
+			{
+				printf("Divisor is zero in DIV instruction!\n");
+				return 4;
+			}
+
 			stack[stackP - 2] = stack[stackP - 1] / stack[stackP - 2];
 			stackP = stackP - 1;
-			fprintf(stderr, "Divisor is zero in DIV instruction!\n");
-			return 4;
+
 			break;
 		case 20: // MOD
+			if (stack[stackP - 2] == 0)
+			{
+				printf("Modulus is zero in MOD instruction!\n");
+				return 5;
+			}
+
 			stack[stackP - 2] = stack[stackP - 1] % stack[stackP - 2];
 			stackP = stackP - 1;
-			fprintf(stderr, "Modulus is zero in MOD instruction!\n");
-			return 5;
+
 			break;
 		case 21: // EQL
 			if (stack[stackP - 1] == stack[stackP - 2])
@@ -164,19 +175,26 @@ int runProgram(Instruction **IM)
 			break;
 		}
 		programC++;
-		if(debug)
-			printDebug(stack, programC, baseP, stackP);
+		
+		
+		if(stackP < 0){
+			printf("Trying to pop an empty stack!\n");
+			return 22;
+		}
 		if (!(0 <= baseP && baseP <= stackP && 0 <= stackP && stackP < MAX_STACK_HEIGHT))
 		{
 			printf("%d %d\n", baseP, stackP);
 			fprintf(stderr, "BP/SP is out of bounds\n");
 			return 2;
 		}
+
 		if (!(0 <= programC && programC < MAX_CODE_LENGTH))
 		{
 			fprintf(stderr, "PC out of bounds\n");
 			return 3;
 		}
+		if (debug)
+			printDebug(stack, programC, baseP, stackP);
 	}
 	return 0;
 }
@@ -193,7 +211,7 @@ void printDebug(int *stack, int PC, int BP, int SP)
 {
 	printf("PC: %d BP: %d SP: %d\n", PC, BP, SP);
 	printf("stack: ");
-	for (int i = 0; i < SP; i++)
+	for (int i = BP; i < SP; i++)
 	{
 		printf("S[%d]: %d ", i, stack[i]);
 	}
