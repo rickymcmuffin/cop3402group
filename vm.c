@@ -3,8 +3,7 @@
 #include "instruction.h"
 #include "vm.h"
 
-// we don't need push and pop if we use the pseudo code
-// in the pdf
+
 
 int runProgram(Instruction **IM)
 {
