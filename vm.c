@@ -11,6 +11,7 @@ int runProgram(Instruction **IM)
 	char c;
 	int programC = 0, baseP = 0, stackP = 0;
 	int halt = 0, debug = 1;
+	Instruction *instructionRegister;
 
 	// Array implementation of stack holding integers
 	int *stack = calloc(MAX_STACK_HEIGHT, sizeof(int));
@@ -21,10 +22,12 @@ int runProgram(Instruction **IM)
 	{
 		if (debug)
 			printInstruction(IM, programC);
-		switch (IM[programC]->op)
+		instructionRegister = IM[programC];
+		programC = programC + 1;
+		switch (instructionRegister->op)
 		{
 		case 1: // LIT
-			stack[stackP] = IM[programC]->m;
+			stack[stackP] = instructionRegister->m;
 			stackP = stackP + 1;
 			break;
 		case 2: // RTN
@@ -37,8 +40,7 @@ int runProgram(Instruction **IM)
 			stack[stackP + 1] = programC;
 			baseP = stackP;
 			stackP = stackP + 2;
-			programC = IM[programC]->m;
-			programC--;
+			programC = instructionRegister->m;
 			break;
 		case 4: // POP
 			stackP = stackP - 1;
@@ -47,24 +49,24 @@ int runProgram(Instruction **IM)
 			stack[stackP - 1] = stack[stack[stackP - 1]];
 			break;
 		case 6: // PRM
-			stack[stackP] = stack[baseP - IM[programC]->m];
+			stack[stackP] = stack[baseP - instructionRegister->m];
 			stackP = stackP + 1;
 			break;
 		case 7: // STO
-			stack[stack[stackP - 1] + IM[programC]->m] = stack[stackP - 2];
+			stack[stack[stackP - 1] + instructionRegister->m] = stack[stackP - 2];
 			stackP = stackP - 2;
 			break;
 		case 8: // INC
-			stackP = stackP + IM[programC]->m;
+			stackP = stackP + instructionRegister->m;
 			break;
 		case 9: // JMP
-			programC = stack[stackP - 1] - 1;
+			programC = stack[stackP - 1];
 			stackP = stackP - 1;
 			break;
 		case 10: // JPC
 			if (stack[stackP - 1] != 0)
 			{
-				programC = IM[programC]->m - 1;
+				programC = instructionRegister->m;
 			}
 			stackP = stackP - 1;
 			break;
@@ -174,7 +176,7 @@ int runProgram(Instruction **IM)
 			stackP = stackP + 1;
 			break;
 		}
-		programC++;
+		
 		
 		
 		if(stackP < 0){

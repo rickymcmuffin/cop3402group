@@ -46,33 +46,7 @@ passed!
 running hw1-testG.txt
 passed!
 running hw1-testH.txt
-19c19
-< stack: S[2]: 0 S[3]: 2 
----
-> stack: S[2]: 0 S[3]: 1 
+passed!
 running hw1-testI.txt
-28c28
-< stack: S[3]: 0 S[4]: 3 
----
-> stack: S[3]: 0 S[4]: 2 
-31c31
-< stack: S[3]: 0 S[4]: 3 S[5]: 10 
----
-> stack: S[3]: 0 S[4]: 2 S[5]: 10 
-34c34
-< stack: S[3]: 0 S[4]: 3 S[5]: 10 S[6]: 10 
----
-> stack: S[3]: 0 S[4]: 2 S[5]: 10 S[6]: 10 
-37c37
-< stack: S[3]: 0 S[4]: 3 S[5]: 100 
----
-> stack: S[3]: 0 S[4]: 2 S[5]: 100 
-40c40
-< stack: S[3]: 0 S[4]: 3 S[5]: 100 S[6]: 6 
----
-> stack: S[3]: 0 S[4]: 2 S[5]: 100 S[6]: 6 
-43c43
-< stack: S[3]: 0 S[4]: 3 
----
-> stack: S[3]: 0 S[4]: 2 
-Test(s) failed!
+passed!
+All tests passed!
