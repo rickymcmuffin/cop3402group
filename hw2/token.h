@@ -20,7 +20,7 @@ typedef enum {
 // information about each token
 typedef struct token {
     token_type typ;
-    const char *filename;
+    char *filename;
     unsigned int line;
     unsigned int column;
     char *text; // non-NULL, if applicable

@@ -50,6 +50,7 @@ extern bool lexer_done()
 		return 1;
 	}
 	ungetc(c, fp);
+	return 0;
 }
 
 // Requires: !lexer_done()
@@ -57,13 +58,14 @@ extern bool lexer_done()
 // advancing in the input
 extern token lexer_next()
 {
+	ret->text[0] = '\0';
 
 	if (lexer_done())
 	{
 		return *ret;
 	}
-
-	while (true)
+	int tokenFinished = 0;
+	while (!tokenFinished)
 	{
 		int c = fgetc(fp);
 		column++;
@@ -72,7 +74,7 @@ extern token lexer_next()
 		{
 			if (baseState(c))
 			{
-				return *ret;
+				tokenFinished = 1;
 			}
 		}
 		else if (state == -1)
@@ -85,6 +87,16 @@ extern token lexer_next()
 			break;
 		}
 	}
+	ret->line = line;
+	if (ret->text != NULL)
+	{
+		ret->column = column - (strlen(ret->text) - 1);
+	}
+	else
+	{
+		ret->column = column;
+	}
+	return *ret;
 }
 
 void ignoreState(int c)
@@ -235,17 +247,21 @@ int baseState(int c)
 		strcpy(ret->text, ")");
 		return 1;
 	}
-	else if (c = ',')
+	else if (c == ',')
 	{
 		ret->typ = commasym;
 		strcpy(ret->text, ",");
 		return 1;
 	}
+	return 0;
 }
 
 int readNumber(int c)
 {
 	int len = 1;
+	ret->text[len - 1] = c;
+	ret->text[len] = '\0';
+
 	do
 	{
 		if (!isdigit(c))
@@ -254,14 +270,15 @@ int readNumber(int c)
 		}
 		if (len > MAX_IDENT_LENGTH)
 		{
-			lexical_error(ret->filename, line, column, "identifier greater than max length");
+			lexical_error(ret->filename, line, column, "number greater than max length");
 		}
-		strcat(ret->text, &c);
+		ret->text[len - 1] = c;
+		ret->text[len] = '\0';
 		c = fgetc(fp);
 		column++;
 		len++;
-	} while (!isspace(c) && c != '.');
-	ungetc(fp, c);
+	} while (!isspace(c) && c != '.' && c != ',');
+	ungetc(c, fp);
 	column--;
 	len--;
 	ret->text[len] = '\0';
@@ -270,19 +287,23 @@ int readNumber(int c)
 	{
 		lexical_error(ret->filename, line, column, "number greater than max short");
 	}
+	ret->value = x;
 	ret->typ = numbersym;
 	ret->line = line;
 	ret->column = column - (len - 1);
 	return 1;
 }
 
+// reads keyword with input of first character
+// returns 1 if ready to return token
+// returns 0 otherwise
 int readWord(int c)
 {
 	int len = 1;
 
 	do
 	{
-		
+
 		if (!isalnum(c))
 		{
 
@@ -292,12 +313,13 @@ int readWord(int c)
 		{
 			lexical_error(ret->filename, line, column, "identifier greater than max length");
 		}
-		strcat(ret->text, &c);
+		ret->text[len - 1] = c;
+		ret->text[len] = '\0';
 		c = fgetc(fp);
 		column++;
 		len++;
-	} while (!isspace(c) && c != '.');
-	ungetc(fp, c);
+	} while (!isspace(c) && c != '.' && c != ',');
+	ungetc(c, fp);
 	column--;
 	len--;
 	ret->text[len] = '\0';
@@ -378,7 +400,7 @@ token_type stringToToken(char *w)
 
 /*
     commasym,
-    *identsym, *numbersym
+
 */
 /*
 Token Definitions:
