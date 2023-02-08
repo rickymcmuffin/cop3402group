@@ -9,8 +9,6 @@ int state = 0;
 int column = 0;
 int line = 1;
 
-
-
 // Requires: fname != NULL
 // Requires: fname is the name of a readable file
 // Initialize the lexer and start it reading
@@ -25,10 +23,9 @@ extern void lexer_open(const char *fname)
 	ret = malloc(sizeof(token));
 	ret->line = 1;
 	ret->column = 1;
-	
+
 	strcpy(ret->filename, fname);
 	ret->text = calloc(MAX_IDENT_LENGTH, sizeof(char));
-	
 }
 
 // Close the file the lexer is working on
@@ -60,24 +57,29 @@ extern bool lexer_done()
 // advancing in the input
 extern token lexer_next()
 {
-	
+
 	if (lexer_done())
 	{
 		return *ret;
 	}
-	
+
 	while (true)
 	{
 		int c = fgetc(fp);
 		column++;
 		// what caden said last time
-		if (state == 0) {
-			baseState(c);
+		if (state == 0)
+		{
+			if (baseState(c))
+			{
+				return *ret;
+			}
 		}
-		else if (state == -1) {
+		else if (state == -1)
+		{
 			ignoreState(c);
 		}
-		
+
 		if (state == 1)
 		{
 			break;
@@ -85,12 +87,14 @@ extern token lexer_next()
 	}
 }
 
-void ignoreState(int c){
+void ignoreState(int c)
+{
 	while (state == -1)
 	{
 		c = fgetc(fp);
 		column++;
-		if(c == EOF){
+		if (c == EOF)
+		{
 			bail_with_error("EOF reached before comment ends");
 		}
 		if (c == '\n')
@@ -104,29 +108,37 @@ void ignoreState(int c){
 
 // return 1 if token is finsihed
 // return 0 otherwise
-int baseState(int c){
+int baseState(int c)
+{
 	if (c == EOF)
 	{
 		ret->typ = eofsym;
 		state = 1;
 		return 1;
 	}
-	else if (c == '#'){
+	else if (c == '#')
+	{
 		state = -1;
 		return 0;
 	}
-	else if (c == '\n' || c == '\r'){
+	else if (c == '\n' || c == '\r')
+	{
 		ret->line++;
 		ret->column = 0;
 		return 0;
-	} else if (isspace(c)){
+	}
+	else if (isspace(c))
+	{
 		return 0;
 	}
-	else if (c == ';'){
+	else if (c == ';')
+	{
 		ret->typ = semisym;
 		ret->text = ";";
 		return 1;
-	} else if (isalpha(c)){
+	}
+	else if (isalpha(c))
+	{
 		return readWord(c);
 	}
 	else if (c == '<')
@@ -209,7 +221,7 @@ int baseState(int c){
 	}
 	else if (isdigit(c))
 	{
-		readNumber(c);	
+		readNumber(c);
 	}
 	else if (c == '(')
 	{
@@ -231,25 +243,31 @@ int baseState(int c){
 	}
 }
 
-int readNumber(int c){
+int readNumber(int c)
+{
 	int len = 1;
-	do{
-		if(!isdigit(c)){
+	do
+	{
+		if (!isdigit(c))
+		{
 			lexical_error(ret->filename, line, column, "invalid character in number");
 		}
-		if(len > MAX_IDENT_LENGTH){
+		if (len > MAX_IDENT_LENGTH)
+		{
 			lexical_error(ret->filename, line, column, "identifier greater than max length");
 		}
 		strcat(ret->text, &c);
 		c = fgetc(fp);
 		column++;
 		len++;
-	} while (!isspace(c));
+	} while (!isspace(c) && c != '.');
 	ungetc(fp, c);
 	column--;
 	len--;
+	ret->text[len] = '\0';
 	int x = atoi(ret->text);
-	if(x > __SHRT_MAX__){
+	if (x > __SHRT_MAX__)
+	{
 		lexical_error(ret->filename, line, column, "number greater than max short");
 	}
 	ret->typ = numbersym;
@@ -258,87 +276,108 @@ int readNumber(int c){
 	return 1;
 }
 
-int readWord(int c){
+int readWord(int c)
+{
 	int len = 1;
-	
-	do{
-		if(!isalnum(c)){
+
+	do
+	{
+		
+		if (!isalnum(c))
+		{
+
 			lexical_error(ret->filename, line, column, "invalid character in identifier");
 		}
-		if(len > MAX_IDENT_LENGTH){
+		if (len > MAX_IDENT_LENGTH)
+		{
 			lexical_error(ret->filename, line, column, "identifier greater than max length");
 		}
 		strcat(ret->text, &c);
 		c = fgetc(fp);
 		column++;
 		len++;
-	} while (!isspace(c));
+	} while (!isspace(c) && c != '.');
 	ungetc(fp, c);
 	column--;
 	len--;
+	ret->text[len] = '\0';
 	ret->typ = stringToToken(ret->text);
 	ret->line = line;
 	ret->column = column - (len - 1);
 	return 1;
-	
-	
 }
 
-token_type stringToToken(char *w){
+token_type stringToToken(char *w)
+{
 
-	if(strcmp(w, "const") == 0){
+	if (strcmp(w, "const") == 0)
+	{
 		return constsym;
 	}
-	if(strcmp(w, "var") == 0){
+	if (strcmp(w, "var") == 0)
+	{
 		return varsym;
 	}
-	if(strcmp(w, "procedure") == 0){
+	if (strcmp(w, "procedure") == 0)
+	{
 		return procsym;
 	}
-	if(strcmp(w, "begin") == 0){
+	if (strcmp(w, "begin") == 0)
+	{
 		return beginsym;
 	}
-	if(strcmp(w, "end") == 0){
+	if (strcmp(w, "end") == 0)
+	{
 		return endsym;
 	}
-	if(strcmp(w, "while") == 0){
+	if (strcmp(w, "while") == 0)
+	{
 		return whilesym;
 	}
-	if(strcmp(w, "do") == 0){
+	if (strcmp(w, "do") == 0)
+	{
 		return dosym;
 	}
-	if(strcmp(w, "if") == 0){
+	if (strcmp(w, "if") == 0)
+	{
 		return ifsym;
 	}
-	if(strcmp(w, "then") == 0){
+	if (strcmp(w, "then") == 0)
+	{
 		return thensym;
 	}
-	if(strcmp(w, "else") == 0){
+	if (strcmp(w, "else") == 0)
+	{
 		return elsesym;
 	}
-	if(strcmp(w, "call") == 0){
+	if (strcmp(w, "call") == 0)
+	{
 		return callsym;
 	}
-	if(strcmp(w, "write") == 0){
+	if (strcmp(w, "write") == 0)
+	{
 		return writesym;
 	}
-	if(strcmp(w, "read") == 0){
+	if (strcmp(w, "read") == 0)
+	{
 		return readsym;
-	} 
-	if(strcmp(w, "odd") == 0){
+	}
+	if (strcmp(w, "odd") == 0)
+	{
 		return oddsym;
 	}
-	if(strcmp(w, "numbers") == 0){
+	if (strcmp(w, "numbers") == 0)
+	{
 		return numbersym;
 	}
-	else {
+	else
+	{
 		return identsym;
 	}
-	
 }
 
 /*
-    commasym, 
+    commasym,
     *identsym, *numbersym
 */
 /*
