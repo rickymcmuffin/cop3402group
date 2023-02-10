@@ -15,6 +15,7 @@ int line = 1;
 // from the given file name
 extern void lexer_open(const char *fname)
 {
+	
 	fp = fopen(fname, "r");
 	if (fp == NULL)
 	{
@@ -23,9 +24,10 @@ extern void lexer_open(const char *fname)
 	ret = malloc(sizeof(token));
 	ret->line = 1;
 	ret->column = 1;
-
+	ret->filename = calloc(strlen(fname) + 1, sizeof(char));
 	strcpy(ret->filename, fname);
 	ret->text = calloc(MAX_IDENT_LENGTH, sizeof(char));
+	
 }
 
 // Close the file the lexer is working on
@@ -58,6 +60,7 @@ extern bool lexer_done()
 // advancing in the input
 extern token lexer_next()
 {
+	printf("start\n");
 	ret->text[0] = '\0';
 
 	if (lexer_done())
@@ -135,6 +138,7 @@ int baseState(int c)
 	}
 	else if (c == '\n' || c == '\r')
 	{
+		
 		ret->line++;
 		ret->column = 0;
 		return 0;
@@ -233,7 +237,7 @@ int baseState(int c)
 	}
 	else if (isdigit(c))
 	{
-		readNumber(c);
+		return readNumber(c);
 	}
 	else if (c == '(')
 	{
@@ -252,7 +256,18 @@ int baseState(int c)
 		ret->typ = commasym;
 		strcpy(ret->text, ",");
 		return 1;
+	} else if (c == ':'){
+		c = fgetc(fp);
+		column++;
+		if(c == '='){
+			ret->typ = becomessym;
+			strcpy(ret->text, ":=");
+			return 1;
+		} else {
+			lexical_error(ret->filename, line, column - 1, "character not recognized");
+		}
 	}
+	lexical_error(ret->filename, line, column, "character not recognized");
 	return 0;
 }
 
@@ -277,7 +292,7 @@ int readNumber(int c)
 		c = fgetc(fp);
 		column++;
 		len++;
-	} while (!isspace(c) && c != '.' && c != ',');
+	} while (!isspace(c) && c != '.' && c != ',' && c != ';');
 	ungetc(c, fp);
 	column--;
 	len--;
@@ -289,8 +304,7 @@ int readNumber(int c)
 	}
 	ret->value = x;
 	ret->typ = numbersym;
-	ret->line = line;
-	ret->column = column - (len - 1);
+	
 	return 1;
 }
 
@@ -318,14 +332,13 @@ int readWord(int c)
 		c = fgetc(fp);
 		column++;
 		len++;
-	} while (!isspace(c) && c != '.' && c != ',');
+	} while (!isspace(c) && c != '.' && c != ',' && c != ';');
 	ungetc(c, fp);
 	column--;
 	len--;
 	ret->text[len] = '\0';
 	ret->typ = stringToToken(ret->text);
-	ret->line = line;
-	ret->column = column - (len - 1);
+	
 	return 1;
 }
 
