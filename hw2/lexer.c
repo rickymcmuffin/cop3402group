@@ -15,7 +15,7 @@ int line = 1;
 // from the given file name
 extern void lexer_open(const char *fname)
 {
-	
+
 	fp = fopen(fname, "r");
 	if (fp == NULL)
 	{
@@ -25,15 +25,16 @@ extern void lexer_open(const char *fname)
 	ret->line = 1;
 	ret->column = 1;
 	ret->filename = calloc(strlen(fname) + 1, sizeof(char));
+	ret->text = calloc(MAX_IDENT_LENGTH + 1, sizeof(char));
 	strcpy(ret->filename, fname);
-	ret->text = calloc(MAX_IDENT_LENGTH, sizeof(char));
-	
 }
 
 // Close the file the lexer is working on
 // and make this lexer be done
 extern void lexer_close()
 {
+	free(ret->filename);
+	free(ret);
 	fclose(fp);
 }
 
@@ -59,17 +60,16 @@ extern bool lexer_done()
 // Return the next token in the input file,
 // advancing in the input
 extern token lexer_next()
-{
-	printf("start\n");
-	ret->text[0] = '\0';
-
+{	
 	if (lexer_done())
 	{
 		return *ret;
 	}
 	int tokenFinished = 0;
+
 	while (!tokenFinished)
 	{
+
 		int c = fgetc(fp);
 		column++;
 		// what caden said last time
@@ -110,7 +110,7 @@ void ignoreState(int c)
 		column++;
 		if (c == EOF)
 		{
-			bail_with_error("EOF reached before comment ends");
+			lexical_error(ret->filename, line, column + 1, "File ended while reading comment!");
 		}
 		if (c == '\n')
 		{
@@ -128,6 +128,8 @@ int baseState(int c)
 	if (c == EOF)
 	{
 		ret->typ = eofsym;
+		free(ret->text);
+		ret->text = NULL;
 		state = 1;
 		return 1;
 	}
@@ -136,11 +138,10 @@ int baseState(int c)
 		state = -1;
 		return 0;
 	}
-	else if (c == '\n' || c == '\r')
+	else if (c == '\n')
 	{
-		
-		ret->line++;
-		ret->column = 0;
+		line++;
+		column = 0;
 		return 0;
 	}
 	else if (isspace(c))
@@ -150,7 +151,8 @@ int baseState(int c)
 	else if (c == ';')
 	{
 		ret->typ = semisym;
-		ret->text = ";";
+		strcpy(ret->text, ";");
+		
 		return 1;
 	}
 	else if (isalpha(c))
@@ -160,7 +162,7 @@ int baseState(int c)
 	else if (c == '<')
 	{
 		c = fgetc(fp);
-		ret->column++;
+		column++;
 		if (c == '=')
 		{
 			ret->typ = leqsym;
@@ -174,7 +176,7 @@ int baseState(int c)
 		else
 		{
 			ungetc(c, fp);
-			ret->column--;
+			column--;
 			ret->typ = lessym;
 			strcpy(ret->text, "<");
 		}
@@ -184,7 +186,7 @@ int baseState(int c)
 	else if (c == '>')
 	{
 		c = fgetc(fp);
-		ret->column++;
+		column++;
 		if (c == '=')
 		{
 			ret->typ = geqsym;
@@ -193,7 +195,7 @@ int baseState(int c)
 		else
 		{
 			ungetc(c, fp);
-			ret->column--;
+			column--;
 			ret->typ = gtrsym;
 			strcpy(ret->text, ">");
 		}
@@ -256,18 +258,23 @@ int baseState(int c)
 		ret->typ = commasym;
 		strcpy(ret->text, ",");
 		return 1;
-	} else if (c == ':'){
+	}
+	else if (c == ':')
+	{
 		c = fgetc(fp);
 		column++;
-		if(c == '='){
+		if (c == '=')
+		{
 			ret->typ = becomessym;
 			strcpy(ret->text, ":=");
 			return 1;
-		} else {
-			lexical_error(ret->filename, line, column - 1, "character not recognized");
+		}
+		else
+		{
+			lexical_error(ret->filename, line, column + 1, "Expecting '=' after a colon, not ' '");
 		}
 	}
-	lexical_error(ret->filename, line, column, "character not recognized");
+	lexical_error(ret->filename, line, column + 1, "Illegal character '%c' (%.3o)", c, c);
 	return 0;
 }
 
@@ -300,11 +307,11 @@ int readNumber(int c)
 	int x = atoi(ret->text);
 	if (x > __SHRT_MAX__)
 	{
-		lexical_error(ret->filename, line, column, "number greater than max short");
+		lexical_error(ret->filename, line, column + 1, "The value of %d is too large for a short!", x);
 	}
 	ret->value = x;
 	ret->typ = numbersym;
-	
+
 	return 1;
 }
 
@@ -318,27 +325,27 @@ int readWord(int c)
 	do
 	{
 
-		if (!isalnum(c))
+		/*if (!isalnum(c))
 		{
 
 			lexical_error(ret->filename, line, column, "invalid character in identifier");
-		}
+		}*/
 		if (len > MAX_IDENT_LENGTH)
 		{
-			lexical_error(ret->filename, line, column, "identifier greater than max length");
+			lexical_error(ret->filename, line, column + 1, "Identifier starting \"%s\" is too long!", ret->text);
 		}
 		ret->text[len - 1] = c;
 		ret->text[len] = '\0';
 		c = fgetc(fp);
 		column++;
 		len++;
-	} while (!isspace(c) && c != '.' && c != ',' && c != ';');
+	} while (isalnum(c));
 	ungetc(c, fp);
 	column--;
 	len--;
 	ret->text[len] = '\0';
 	ret->typ = stringToToken(ret->text);
-	
+
 	return 1;
 }
 
@@ -404,6 +411,10 @@ token_type stringToToken(char *w)
 	if (strcmp(w, "numbers") == 0)
 	{
 		return numbersym;
+	}
+	if (strcmp(w, "skip") == 0)
+	{
+		return skipsym;
 	}
 	else
 	{
