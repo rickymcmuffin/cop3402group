@@ -21,6 +21,8 @@ extern void lexer_open(const char *fname)
 	{
 		bail_with_error("Error");
 	}
+
+	// initialize variables
 	ret = malloc(sizeof(token));
 	ret->line = 1;
 	ret->column = 1;
@@ -60,7 +62,7 @@ extern bool lexer_done()
 // Return the next token in the input file,
 // advancing in the input
 extern token lexer_next()
-{	
+{
 	if (lexer_done())
 	{
 		return *ret;
@@ -125,6 +127,7 @@ void ignoreState(int c)
 // return 0 otherwise
 int baseState(int c)
 {
+	// if statement for each case
 	if (c == EOF)
 	{
 		ret->typ = eofsym;
@@ -152,7 +155,7 @@ int baseState(int c)
 	{
 		ret->typ = semisym;
 		strcpy(ret->text, ";");
-		
+
 		return 1;
 	}
 	else if (isalpha(c))
@@ -271,25 +274,25 @@ int baseState(int c)
 		}
 		else
 		{
-			lexical_error(ret->filename, line, column + 1, "Expecting '=' after a colon, not ' '");
+			lexical_error(ret->filename, line, column + 1, "Expecting '=' after a colon, not '%c'", c);
 		}
 	}
 	lexical_error(ret->filename, line, column + 1, "Illegal character '%c' (%.3o)", c, c);
 	return 0;
 }
 
+// reads a number with input of first character
+// return 1 if ready to return and 0 otherwise
 int readNumber(int c)
 {
+	// set up string
 	int len = 1;
 	ret->text[len - 1] = c;
 	ret->text[len] = '\0';
 
+	// read and add characters
 	do
 	{
-		if (!isdigit(c))
-		{
-			lexical_error(ret->filename, line, column, "invalid character in number");
-		}
 		if (len > MAX_IDENT_LENGTH)
 		{
 			lexical_error(ret->filename, line, column, "number greater than max length");
@@ -299,7 +302,7 @@ int readNumber(int c)
 		c = fgetc(fp);
 		column++;
 		len++;
-	} while (!isspace(c) && c != '.' && c != ',' && c != ';');
+	} while (isdigit(c));
 	ungetc(c, fp);
 	column--;
 	len--;
@@ -324,12 +327,6 @@ int readWord(int c)
 
 	do
 	{
-
-		/*if (!isalnum(c))
-		{
-
-			lexical_error(ret->filename, line, column, "invalid character in identifier");
-		}*/
 		if (len > MAX_IDENT_LENGTH)
 		{
 			lexical_error(ret->filename, line, column + 1, "Identifier starting \"%s\" is too long!", ret->text);
@@ -349,6 +346,8 @@ int readWord(int c)
 	return 1;
 }
 
+// checks if string is a keyword or identifier
+// returns token_type associated with it
 token_type stringToToken(char *w)
 {
 
@@ -421,47 +420,6 @@ token_type stringToToken(char *w)
 		return identsym;
 	}
 }
-
-/*
-    commasym,
-
-*/
-/*
-Token Definitions:
-constsym 1 const
-varsym 2 var
-procsym 3 procedure
-beginsym 4 begin
-endsym 5 end
-whilesym 6 while
-dosym 7 do
-ifsym 8 if
-thensym 9 then
-elsesym 10 else
-callsym 11 call
-writesym 12 write
-readsym 13 read
-idensym 14 identifiers
-numbersym 15 numbers
-assignsym 16 :=
-addsym 17 +
-subsym 18 -
-multsym 19 *
-divsym 20 /
-modsym 21 %
-eqlsym 22 ==
-neqsym 23 !=
-lsssym 24 <
-leqsym 25 <=
-gtrsym 26 >
-geqsym 27 >=
-oddsym 28 odd
-lparensym 29 (
-rparensym 30 )
-commasym 31 ,
-periodsym 32 .
-semicolonsym 33 ;
-*/
 
 // Requires: !lexer_done()
 // Return the name of the current file
