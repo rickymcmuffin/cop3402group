@@ -10,4 +10,4 @@ Number Name       Line Column Text/Value
 22     numbersym  3    8      13
 2      semisym    3    10     ";"
 21     identsym   4    1      "bad"
-hw2-errtest3.pl0: line 4, column 7: Expecting '=' after a colon, not ' '
+hw2-errtest3.pl0: line 4, column 6: Expecting '=' after a colon, not ' '

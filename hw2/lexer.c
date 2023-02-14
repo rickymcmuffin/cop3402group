@@ -112,7 +112,7 @@ void ignoreState(int c)
 		column++;
 		if (c == EOF)
 		{
-			lexical_error(ret->filename, line, column + 1, "File ended while reading comment!");
+			lexical_error(ret->filename, line, column, "File ended while reading comment!");
 		}
 		if (c == '\n')
 		{
@@ -274,10 +274,10 @@ int baseState(int c)
 		}
 		else
 		{
-			lexical_error(ret->filename, line, column + 1, "Expecting '=' after a colon, not '%c'", c);
+			lexical_error(ret->filename, line, column, "Expecting '=' after a colon, not '%c'", c);
 		}
 	}
-	lexical_error(ret->filename, line, column + 1, "Illegal character '%c' (%.3o)", c, c);
+	lexical_error(ret->filename, line, column, "Illegal character '%c' (%.3o)", c, c);
 	return 0;
 }
 
@@ -310,7 +310,7 @@ int readNumber(int c)
 	int x = atoi(ret->text);
 	if (x > __SHRT_MAX__)
 	{
-		lexical_error(ret->filename, line, column + 1, "The value of %d is too large for a short!", x);
+		lexical_error(ret->filename, line, column + 1 - len, "The value of %d is too large for a short!", x);
 	}
 	ret->value = x;
 	ret->typ = numbersym;
@@ -329,7 +329,7 @@ int readWord(int c)
 	{
 		if (len > MAX_IDENT_LENGTH)
 		{
-			lexical_error(ret->filename, line, column + 1, "Identifier starting \"%s\" is too long!", ret->text);
+			lexical_error(ret->filename, line, column + 1 - len, "Identifier starting \"%s\" is too long!", ret->text);
 		}
 		ret->text[len - 1] = c;
 		ret->text[len] = '\0';
