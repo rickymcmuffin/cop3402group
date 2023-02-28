@@ -1,6 +1,13 @@
 #include <stdio.h>
+#include "parser.h"
 
+int main(int argc, char ** argv)
+{
+	if (argc < 2)
+    {
+        printf("ERROR: ok dude, this program requires a file as an input!\n");
+        return 0;       
+    }
 
-int main(int argc, char ** argv){
-	printf("%s\n", argv[1]);
+	AST *ast = parser_open(argv[1]);
 }
