@@ -6,7 +6,7 @@
 
 FILE *fp;
 token ret;
-
+//ohshit
 AST *parser_open(char *fileName)
 {
     fp = fopen(fileName, "r");
