@@ -1,8 +1,13 @@
-/* $Id: lexer.h,v 1.1 2023/02/10 18:51:35 leavens Exp $ */
+/* $Id: lexer.h,v 1.2 2023/01/31 06:45:02 leavens Exp $ */
 #ifndef _LEXER_H
 #define _LEXER_H
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
+#include <ctype.h>
+#include <string.h>
 #include "token.h"
+#include "utilities.h"
 
 // Requires: fname != NULL
 // Requires: fname is the name of a readable file
@@ -34,4 +39,13 @@ extern unsigned int lexer_line();
 // Requires: !lexer_done()
 // Return the column number of the next token
 extern unsigned int lexer_column();
+
+void ignoreState(int c);
+int baseState(int c);
+int readNumber(int c);
+int readWord(int c);
+token_type stringToToken(char *w);
+
+
+
 #endif
