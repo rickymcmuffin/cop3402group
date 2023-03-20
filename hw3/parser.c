@@ -24,11 +24,11 @@ AST *parser_open(char *fileName)
 
 token eat(token_type tokenName)
 {
-	token *old = ret;
+	token old = *ret;
 	if (ret->typ == tokenName)
 		*ret = lexer_next();
 
-	return *old;
+	return old;
 }
 
 AST *parseProgram()
@@ -47,34 +47,34 @@ AST_list parseConstDecls()
 {
 	AST_list cds = ast_list_empty_list();
 
-
 	while (1)
 	{
 		if (ret->typ != constsym)
 			return cds;
 
 		ast_list_splice(cds, parseConstDeclLine());
-		
 	}
-} 
+}
 
-AST_list parseConstDeclLine(){
+AST_list parseConstDeclLine()
+{
 
 	AST_list cds;
 
 	eat(constsym);
 
 	cds = ast_list_singleton(parseConstDecl());
-	
-	while(1){
-		if(ret->typ = semisym){
+
+	while (1)
+	{
+		if (ret->typ = semisym)
+		{
 			eat(semisym);
 			return cds;
 		}
 		eat(commasym);
 		ast_list_splice(cds, parseConstDecl());
 	}
-
 }
 
 AST *parseConstDecl()
@@ -92,34 +92,34 @@ AST_list parseVarDecls()
 {
 	AST_list vds = ast_list_empty_list();
 
-
 	while (1)
 	{
 		if (ret->typ != varsym)
 			return vds;
 
 		ast_list_splice(vds, parseConstDeclLine());
-		
 	}
-} 
+}
 
-AST_list parseVarDeclLine(){
+AST_list parseVarDeclLine()
+{
 
 	AST_list vds;
 
 	eat(varsym);
 
 	vds = ast_list_singleton(parseVarDecl());
-	
-	while(1){
-		if(ret->typ = semisym){
+
+	while (1)
+	{
+		if (ret->typ = semisym)
+		{
 			eat(semisym);
 			return vds;
 		}
 		eat(commasym);
 		ast_list_splice(vds, parseVarDecl());
 	}
-
 }
 
 AST *parseVarDecl()
@@ -141,11 +141,57 @@ AST *parseStmt()
 {
 	switch (ret->typ)
 	{
-
+	case identsym:
+		return parseAssignStmt();
+		break;
+	case beginsym:
+		return parseBeginStmt();
+		break;
+	case ifsym:
+		return parseIfStmt();
+		break;
+	case whilesym:
+		return parseWhileStmt();
+		break;
+	case readsym:
+		return parseReadStmt();
+		break;
+	case writesym:
+		return parseWriteStmt();
+		break;
 	default:
+		return parseSkipStmt();
 		break;
 	}
 }
+
+AST *parseAssignStmt()
+{
+	token iden = eat(identsym);
+	eat(becomessym);
+	AST *exp = parseExpr();
+
+	return ast_assign_stmt(iden, iden.text, exp);
+}
+
+AST *parseBeginStmt()
+{
+	token beg = eat(beginsym);
+	AST_list stmts;
+
+	stmts = ast_list_singleton(parseStmt());
+	
+}
+
+AST *parseIfStmt();
+
+AST *parseWhileStmt();
+
+AST *parseReadStmt();
+
+AST *parseWriteStmt();
+
+AST *parseSkipStmt();
 
 void parseSemiStmt();
 
@@ -155,7 +201,7 @@ void parseCondition();
 
 void parseRelOp();
 
-void parseExpr();
+AST *parseExpr();
 
 void parseAddSubTerm();
 
