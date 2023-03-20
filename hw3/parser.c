@@ -43,6 +43,7 @@ AST *parseProgram()
 	return prog;
 }
 
+// parses through all constants
 AST_list parseConstDecls()
 {
 	AST_list cds = ast_list_empty_list();
@@ -56,6 +57,7 @@ AST_list parseConstDecls()
 	}
 }
 
+// parses through a single line of constant
 AST_list parseConstDeclLine()
 {
 
@@ -77,6 +79,7 @@ AST_list parseConstDeclLine()
 	}
 }
 
+// parses a single constant decleration
 AST *parseConstDecl()
 {
 	AST *cd;
@@ -88,6 +91,7 @@ AST *parseConstDecl()
 	return cd;
 }
 
+// parses through all variable declerations
 AST_list parseVarDecls()
 {
 	AST_list vds = ast_list_empty_list();
@@ -101,6 +105,7 @@ AST_list parseVarDecls()
 	}
 }
 
+// parses a single line of variable decleration
 AST_list parseVarDeclLine()
 {
 
@@ -122,6 +127,8 @@ AST_list parseVarDeclLine()
 	}
 }
 
+
+// parses a signle variable decleration
 AST *parseVarDecl()
 {
 	AST *vd;
@@ -136,7 +143,8 @@ void parseCommmaIdents()
 	eat(commasym);
 	eat(identsym);
 }
-// not done
+
+// parses a statement
 AST *parseStmt()
 {
 	switch (ret->typ)
@@ -165,6 +173,7 @@ AST *parseStmt()
 	}
 }
 
+// parses the assigning variable statement
 AST *parseAssignStmt()
 {
 	token iden = eat(identsym);
@@ -174,30 +183,70 @@ AST *parseAssignStmt()
 	return ast_assign_stmt(iden, iden.text, exp);
 }
 
+// parses the BeginEnd statement
 AST *parseBeginStmt()
 {
 	token beg = eat(beginsym);
 	AST_list stmts;
 
 	stmts = ast_list_singleton(parseStmt());
+
+	while(ret->typ != endsym){
+		eat(semisym);
+		ast_list_splice(stmts, parseStmt());
+	}
+	return ast_begin_stmt(beg, stmts);
 	
 }
 
-AST *parseIfStmt();
+// parses an if statement
+AST *parseIfStmt(){
+	token ifTok = eat(ifsym);
+	AST *cond = parseCondition();
+	eat(thensym);
+	AST *thenstmt = parseStmt();
+	eat(elsesym);
+	AST *elsestmt = parseStmt();
 
-AST *parseWhileStmt();
+	return ast_if_stmt(ifTok, cond, thenstmt, elsestmt);
+}
 
-AST *parseReadStmt();
+// parses a while statement
+AST *parseWhileStmt(){
+	token whileTok = eat(whilesym);
+	AST *cond = parseCondition();
+	eat(dosym);
+	AST *body = parseStmt();
+	
+	return ast_while_stmt(whileTok, cond, body);
+}
 
-AST *parseWriteStmt();
+// parses a read statement
+AST *parseReadStmt(){
+	token readTok = eat(readsym);
+	token iden = eat(identsym);
 
-AST *parseSkipStmt();
+	return ast_read_stmt(readTok, iden.text);
+}
+
+// parses a write statement
+AST *parseWriteStmt(){
+	token writeTok = eat(writesym);
+	AST *exp = parseExpr();
+
+	ast_write_stmt(writeTok, exp);
+}
+
+// parses a skip statement
+AST *parseSkipStmt(){
+	return ast_skip_stmt(eat(skipsym));
+}
 
 void parseSemiStmt();
 
 void parseEmpty();
 
-void parseCondition();
+AST *parseCondition();
 
 void parseRelOp();
 
@@ -238,5 +287,5 @@ AST *parseSign()
 		parse_error_unexpected(expected, 2, *ret);
 	}
 	AST *expr = parseExpr();
-	return ast_op_expr(*ret, )
+	//return ast_op_expr(*ret, )
 }
