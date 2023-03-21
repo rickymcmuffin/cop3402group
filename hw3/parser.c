@@ -3,15 +3,12 @@
 FILE *filep;
 token *currentTok;
 
+// why wouldn't you make splice work like this ???
 void spliceButBetter(AST_list list, AST_list tail){
 	ast_list_last_elem(list)->next = tail;
 }
 
-void tokenfree(token *t){
-	free(t->text);
-	free(t);
-
-}
+// returns a copy of a token in parameter
 token *tokencopy(token *src)
 {
 
@@ -30,6 +27,7 @@ token *tokencopy(token *src)
 	return ret;
 }
 
+// runs the parser and return the completed AST
 AST *parser_open(char *fileName)
 {
 
@@ -60,6 +58,7 @@ token eat(token_type tokenName)
 	return old;
 }
 
+// returns full program AST
 AST *parseProgram()
 {
 	token *start = tokencopy(currentTok);
@@ -75,6 +74,7 @@ AST *parseProgram()
 	eat(eofsym);
 
 	free(start);
+	lexer_close();
 	return prog;
 }
 
@@ -180,15 +180,11 @@ AST *parseVarDecl()
 	return vd;
 }
 
-void parseCommmaIdents()
-{
-	eat(commasym);
-	eat(identsym);
-}
 
 // parses a statement
 AST *parseStmt()
 {
+	// check which type of statment it is
 	switch (currentTok->typ)
 	{
 	case identsym:
@@ -213,6 +209,7 @@ AST *parseStmt()
 		return parseSkipStmt();
 		break;
 	default:
+		// error if none of them
 		token_type expected[] = {identsym, beginsym, ifsym, whilesym, readsym, writesym, skipsym};
 		parse_error_unexpected(expected, 7, *currentTok);
 		return NULL;
@@ -321,14 +318,17 @@ AST *parseSkipStmt()
 	return ip;
 }
 
+// parses a condition
 AST *parseCondition()
 {
+	// check if oddsym
 	if (currentTok->typ == oddsym)
 	{
 		token oddTok = eat(oddsym);
 		AST *exp = parseExpr();
 		return ast_odd_cond(oddTok, exp);
 	}
+
 
 	token expTok = *currentTok;
 	AST *e1 = parseExpr();
@@ -340,6 +340,7 @@ AST *parseCondition()
 
 rel_op parseRelOp()
 {
+	// check if any of relative operators
 	switch (currentTok->typ)
 	{
 	case eqsym:
@@ -362,13 +363,19 @@ rel_op parseRelOp()
 		eat(gtrsym);
 		return gtop;
 		break;
-	default:
+	case geqsym:
 		eat(geqsym);
 		return (geqop);
 		break;
+	default:
+		// error if none of them
+		token_type expected[] = {eqsym, neqsym, lessym, leqsym, gtrsym, geqsym};
+		parse_error_unexpected(expected, 6, *currentTok);
+		return NULL;
 	}
 }
 
+// parses expression
 AST *parseExpr()
 {
 	token firstTok = *currentTok;
@@ -380,6 +387,7 @@ AST *parseExpr()
 
 		AST *e2 = parseTerm();
 
+		// use left recursion	
 		e1 = ast_bin_expr(firstTok, e1, arith, e2);
 	}
 
@@ -397,6 +405,7 @@ bin_arith_op parseAddSub()
 	return subop;
 }
 
+// parses term
 AST *parseTerm()
 {
 	token firstTok = *currentTok;
@@ -408,6 +417,7 @@ AST *parseTerm()
 
 		AST *e2 = parseFactor();
 
+		// use left recursion
 		e1 = ast_bin_expr(firstTok, e1, arith, e2);
 	}
 
@@ -459,11 +469,17 @@ AST *parseFactor()
 		free(n);
 		return nr;
 		break;
-	default:
+	case lparensym:
 		eat(lparensym);
 		AST *exp = parseExpr();
 		eat(rparensym);
 		return exp;
 		break;
+	default:
+		// error if none of them
+		token_type expected[] = {identsym, plussym, minussym, numbersym, lparensym};
+		parse_error_unexpected(expected, 5, *currentTok);
+		return NULL;
+
 	}
 }

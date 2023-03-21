@@ -16,7 +16,6 @@ token eat(token_type tokenName);
 
 
 void spliceButBetter(AST_list list, AST_list tail);
-void tokenfree(token *t);
 token *tokencopy(token *src);
 
 AST* parseProgram();

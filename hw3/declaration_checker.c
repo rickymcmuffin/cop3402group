@@ -1,6 +1,5 @@
 #include "declaration_checker.h"
 
-
 // add identifiers from cds to array
 /*
     while (there are still identifiers)
@@ -13,8 +12,6 @@
             add to array
 
         }
-        
-
     }
 
 */
@@ -37,33 +34,24 @@
 // int x;
 // y = 1;
 
-
+int scope_size()
+{
+}
 
 void initSymbolTable()
 {
-    tableSize = 100;
     symbols = 0;
-    symbolTable = malloc(tableSize * sizeof(id_attrs));
+    symbolTable = malloc(MAX_SCOPE_SIZE * sizeof(id_attrs));
 }
 
-void maybeReallocSymbolTable()
+// if it's in the table: return 1
+int checkSymbolTable(AST *declaration)
 {
-    if (symbols == tableSize)
-    {
-        symbolTable = realloc(symbolTable, tableSize * 2);
-        tableSize *= 2;
-    }
-}
+    file_location key = declaration->file_loc;
 
-// if it's not in the table: return 1
-int checkSymbolTable(AST declaration)
-{
-    file_location key = declaration.file_loc;
     for (int i = 0; i < symbols; i++)
-    {
-        if (strcmp(symbolTable[i].file_loc.filename, key.filename) == 1)
+        if (strcmp(symbolTable[i].file_loc.filename, key.filename) == 0)
             return 1;
-    }
 
     return 0;
 }
@@ -72,50 +60,110 @@ void checkDeclaration(AST *progast)
 {
     initSymbolTable();
 
-    int cdsLen = sizeof(progast->data.program.cds->next) / sizeof(progast->data.program.cds->next[0]);
-    checkConsDecls(progast->data.program.cds)
-    
-    // int vdsLen = sizeof(progast->data.program.vds->next) / sizeof(progast->data.program.vds->next[0]);
-    // for (int i = 0; i < vdsLen; i++)
-    // {
-        
-    //     // reallocates identifier array if full
-    //     maybeReallocSymbolTable();
-        
-    //     progast->data.program.vds[i]
-        
-    // }
+    checkConsDecls(progast->data.program.cds);
+
     checkVarDecls(progast->data.program.vds);
+
+    checkStmt(progast->data.program.stmt);
 }
 
 void checkConsDecls(AST_list cds)
 {
     while (!ast_list_is_empty(cds))
     {
-        // reallocates identifier array if full
-        maybeReallocSymbolTable();
+        AST *cd = ast_list_first(cds);
+        const char *name = cd->data.var_decl.name;
+        file_location floc = cd->file_loc;
 
+        // produces error message if symbol table already contains the same declared name
         if (checkSymbolTable(ast_list_first(cds)) == 1)
         {
-            parse_error_general( should pass a token, 
-            "constant \"%s\" is already declared as a variable", 
-            ast_list_first(cds)->data.const_decl.name);
-            continue;
+            general_error(floc,
+                          "%s \"%s\" is already declared as a %s",
+                          vt2str(vt), name, );
         }
-        symbolTable[symbols] = 
-        cds = ast_list_rest(cds);
+        else
+        {
+            symbolTable[symbols] = create_id_attrs(cds->file_loc, id_kind k, scope_size());
+            cds = ast_list_rest(cds);
+        }
+    }
+
+    // gary leavins' code for this step with variables checker
+    const char *name = vd->data.var_decl.name;
+    var_type vt = vd->data.var_decl.vt;
+    file_location floc = vd->file_loc;
+
+    // if the name has already been declared...
+    id_attrs *attrs = scope_lookup(name);
+    if (attrs != NULL)
+    {
+        // ... produce an error message,
+        general_error(floc,
+                      "%s \"%s\" is already declared as a %s",
+                      vt2str(vt), name, vt2str(attrs->vt));
+    }
+    else
+    {
+        // otherwise add the declaration to the symbol table
+        scope_insert(name,
+                     create_id_attrs(floc, vt, scope_size()));
     }
 }
 
 void checkVarDecls(AST_list vds)
 {
-    while (!ast_list_is_empty(vds)) {
+    while (!ast_list_is_empty(vds))
+    {
+        // if it's in the symbol table
         if (checkSymbolTable(ast_list_first(vds)))
         {
-            // do something
+            // ERROR
         }
 
+        // add it into symbolTable
+
+        // increment
         vds = ast_list_rest(vds);
     }
 }
 
+void checkStmtDecl(AST *stmt)
+{
+    // more gary code
+    switch (stmt->type_tag)
+    {
+    case assign_ast:
+        checkAssignStmt(stmt);
+        break;
+    case begin_ast:
+        checkBeginStmt(stmt);
+        break;
+    case if_ast:
+        checkIfStmt(stmt);
+        break;
+    case read_ast:
+        checkReadStmt(stmt);
+        break;
+    case write_ast:
+        checkWriteStmt(stmt);
+        break;
+    default:
+        bail_with_error("Call to scope_check_stmt with an AST that is not a statement!");
+        break;
+    }
+}
+
+
+void checkAssignStmt(AST *stmt){
+    checkIdent(stmt->file_loc, stmt->data.assign_stmt.name);
+    checkExpr(stmt->data.assign_stmt.exp);
+}
+
+void checkBeginStmt(AST *stmt);
+
+void checkIfStmt(AST* stmt);
+
+void checkReadStmt(AST *stmt);
+
+void checkWriteStmt(AST *stmt);
