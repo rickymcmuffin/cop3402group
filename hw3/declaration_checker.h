@@ -18,7 +18,9 @@ typedef struct
     const char *name;
 } symbolNode;
 
-
+// --- global vars ---
+symbolNode *symbolTable;
+int symbols; // symbols is the current number of elements
 
 // checks the symbol table for duplicate declarations or identifiers w/o declarations
 void checkDeclarations();

@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 #include "ast.h"
 #include "token.h"
 #include "lexer.h"
@@ -12,8 +11,6 @@
 
 AST *parser_open(char *fileName);
 token eat(token_type tokenName);
-
-
 
 void spliceButBetter(AST_list list, AST_list tail);
 token *tokencopy(token *src);

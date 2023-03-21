@@ -3,7 +3,7 @@
 FILE *filep;
 token *currentTok;
 
-// why wouldn't you make splice work like this ???
+// adds AST lists together
 void spliceButBetter(AST_list list, AST_list tail){
 	ast_list_last_elem(list)->next = tail;
 }
@@ -46,6 +46,7 @@ AST *parser_open(char *fileName)
 	return parseProgram();
 }
 
+// iterates the current token, returning it and incrementing the lexer
 token eat(token_type tokenName)
 {
 	token old = *currentTok;
@@ -53,6 +54,7 @@ token eat(token_type tokenName)
 		*currentTok = lexer_next();
 	else
 	{
+		// error if token type doesn't match the current token name
 		parse_error_unexpected(&tokenName, 1, *currentTok);
 	}
 	return old;
@@ -68,8 +70,6 @@ AST *parseProgram()
 	AST_list vds = parseVarDecls();
 	AST *stmt = parseStmt();
 
-	//fflush(stdout);
-	//printf("%s\n", ttyp2str(currentTok->typ));
 	prog = ast_program(start->filename, start->line, start->column, cds, vds, stmt);
 	eat(periodsym);
 	eat(eofsym);
@@ -241,7 +241,6 @@ AST *parseBeginStmt()
 
 	while (currentTok->typ == semisym)
 	{
-		
 		eat(semisym);
 		spliceButBetter(stmts, parseStmt());
 	}
@@ -340,6 +339,7 @@ AST *parseCondition()
 	return ast_bin_cond(expTok, e1, relop, e2);
 }
 
+// parses relative operators
 rel_op parseRelOp()
 {
 	// check if any of relative operators
@@ -348,27 +348,21 @@ rel_op parseRelOp()
 	case eqsym:
 		eat(eqsym);
 		return eqop;
-		break;
 	case neqsym:
 		eat(neqsym);
 		return neqop;
-		break;
 	case lessym:
 		eat(lessym);
 		return ltop;
-		break;
 	case leqsym:
 		eat(leqsym);
 		return leqop;
-		break;
 	case gtrsym:
 		eat(gtrsym);
 		return gtop;
-		break;
 	case geqsym:
 		eat(geqsym);
 		return (geqop);
-		break;
 	default:
 		// error if none of them
 		token_type expected[] = {eqsym, neqsym, lessym, leqsym, gtrsym, geqsym};
@@ -396,6 +390,7 @@ AST *parseExpr()
 	return e1;
 }
 
+// parses add sub
 bin_arith_op parseAddSub()
 {
 	if (currentTok->typ == plussym)
@@ -426,6 +421,7 @@ AST *parseTerm()
 	return e1;
 }
 
+// parses mult div
 bin_arith_op parseMultDiv()
 {
 	if (currentTok->typ == multsym)
@@ -437,6 +433,7 @@ bin_arith_op parseMultDiv()
 	return divop;
 }
 
+// parses a factor
 AST *parseFactor()
 {
 	switch (currentTok->typ)
@@ -447,7 +444,6 @@ AST *parseFactor()
 		AST *ir = ast_ident(*i, i->text);
 		free(i);
 		return ir;
-		break;
 	case plussym:
 		eat(plussym);
 		token *p = tokencopy(currentTok);
@@ -455,7 +451,6 @@ AST *parseFactor()
 		AST *pr = ast_number(*p, p->value);
 		free(p);
 		return pr;
-		break;
 	case minussym:
 		eat(minussym);
 		token *m = tokencopy(currentTok);
@@ -463,20 +458,17 @@ AST *parseFactor()
 		AST *mr = ast_number(*m, -m->value);
 		free(m);
 		return mr;
-		break;
 	case numbersym:
 		token *n = tokencopy(currentTok);
 		eat(numbersym);
 		AST *nr = ast_number(*n, n->value);
 		free(n);
 		return nr;
-		break;
 	case lparensym:
 		eat(lparensym);
 		AST *exp = parseExpr();
 		eat(rparensym);
 		return exp;
-		break;
 	default:
 		// error if none of them
 		token_type expected[] = {identsym, plussym, minussym, numbersym, lparensym};

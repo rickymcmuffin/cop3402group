@@ -1,49 +1,12 @@
 #include "declaration_checker.h"
 
-// add identifiers from cds to array
-/*
-    while (there are still identifiers)
-    {
-	   identifier
-	   {
-	   check if identifiers array is full
-		  realloc
-	   check if constant declaration is already in array
-		  add to array
-
-	   }
-    }
-
-*/
-
-// add identifiers from vds to array
-/*
-    while (there are still identifiers)
-    {
-	   identifier
-	   {
-	   check if identifiers array is full
-		  realloc
-	   check if variable declaration is already in array
-		  add to array
-		  or return 1 (true)
-	   }
-    }
-*/
-
-// int x;
-// y = 1;
-
-symbolNode *symbolTable;
-
-// symbols is the current number of elements
-int symbols;
-
+// returns size of symbol table
 int scope_size()
 {
 	return symbols;
 }
 
+// initializes symbol table and counter variable
 void initSymbolTable()
 {
 	symbols = 0;
@@ -62,6 +25,8 @@ id_attrs *checkSymbolTable(const char *name)
 	return NULL;
 }
 
+// adds id_attrs to symbol table if it is unique and
+// the symbol table is not full
 void insertSymbolTable(const char *name, id_attrs *attrs)
 {
 	if (checkSymbolTable(name))
@@ -76,6 +41,7 @@ void insertSymbolTable(const char *name, id_attrs *attrs)
 	symbols++;
 }
 
+// declaration checker for whole program
 void checkDeclaration(AST *progast)
 {
 	initSymbolTable();
@@ -87,7 +53,7 @@ void checkDeclaration(AST *progast)
 	checkStmt(progast->data.program.stmt);
 }
 
-// conts are good
+// checks all constant declarations by traversing AST
 void checkConsDecls(AST_list cds)
 {
 
@@ -95,11 +61,14 @@ void checkConsDecls(AST_list cds)
 	{
 		checkConsDecl(ast_list_first(cds));
 
-		// add to symbol table
 		cds = ast_list_rest(cds);
 	}
 }
 
+// checks for unique constant declarations
+// outputs error message for duplicate declarations
+// this function inserts unique constant declarations
+// into the symbol table
 void checkConsDecl(AST *cd)
 {
 
@@ -125,18 +94,20 @@ void checkConsDecl(AST *cd)
 	}
 }
 
-// vars are good
+// checks all variable declarations by traversing AST
 void checkVarDecls(AST_list vds)
 {
 	while (!ast_list_is_empty(vds))
 	{
 		checkVarDecl(ast_list_first(vds));
 
-		// increment
 		vds = ast_list_rest(vds);
 	}
 }
 
+// This function checks for unique variable declarations
+// if so, adds it as an id_attrs to symbol table
+// if duplicate outputs error message
 void checkVarDecl(AST *vd)
 {
 	// extract information from the AST
@@ -161,9 +132,10 @@ void checkVarDecl(AST *vd)
 	}
 }
 
+// checks for illegal statements using undeclared identifiers
+// calls specific check functions for their respective statements
 void checkStmt(AST *stmt)
 {
-	// more gary code
 	switch (stmt->type_tag)
 	{
 	case assign_ast:
@@ -187,18 +159,19 @@ void checkStmt(AST *stmt)
 	case skip_ast:
 		break;
 	default:
-		bail_with_error("Call to scope_check_stmt with an AST that is not a statement!2");
+		bail_with_error("Call to scope_check_stmt with an AST that is not a statement!");
 		break;
 	}
 }
 
+// calls the appropriate check functions for the grammar for assign statment
 void checkAssignStmt(AST *stmt)
 {
-
 	checkIdent(stmt->file_loc, stmt->data.assign_stmt.name);
 	checkExpr(stmt->data.assign_stmt.exp);
 }
 
+// loops through the AST list, checking all of the statments included
 void checkBeginStmt(AST *stmt)
 {
 	AST_list stmtList = stmt->data.begin_stmt.stmts;
@@ -209,6 +182,7 @@ void checkBeginStmt(AST *stmt)
 	}
 }
 
+// calls the appropriate check functions according to the grammer for an if statement
 void checkIfStmt(AST *stmt)
 {
 	checkCond(stmt->data.if_stmt.cond);
@@ -216,40 +190,43 @@ void checkIfStmt(AST *stmt)
 	checkStmt(stmt->data.if_stmt.elsestmt);
 }
 
+// calls the appropriate check functions according to the grammer for a while statement
 void checkWhileStmt(AST *stmt)
 {
 	checkCond(stmt->data.while_stmt.cond);
 	checkStmt(stmt->data.while_stmt.stmt);
 }
 
+// calls the appropriate check functions according to the grammer for a read statement
 void checkReadStmt(AST *stmt)
 {
 	checkIdent(stmt->file_loc, stmt->data.read_stmt.name);
 }
 
+// calls the appropriate check functions according to the grammer for a write statement
 void checkWriteStmt(AST *stmt)
 {
 	checkExpr(stmt->data.write_stmt.exp);
 }
 
+// checks for declaration errors in conditional statements
 void checkCond(AST *cond)
 {
-	AST_type t = cond->type_tag;
-	if (t == odd_cond_ast)
+	switch (cond->type_tag)
 	{
+	case odd_cond_ast:
 		checkExpr(cond->data.odd_cond.exp);
-		return;
-	}
-	else if (t == bin_cond_ast)
-	{
+		break;
+	case bin_cond_ast:
 		checkExpr(cond->data.bin_cond.leftexp);
 		checkExpr(cond->data.bin_cond.rightexp);
-		return;
+		break;
+	default:
+		general_error(cond->file_loc, "Wrong AST type??? %d", cond->type_tag);
 	}
-	
-	general_error(cond->file_loc, "Wrong AST type???1 %d", cond->type_tag);
 }
 
+// takes a statement AST and checks identifiers depending on case
 void checkExpr(AST *exp)
 {
 	switch (exp->type_tag)
@@ -266,25 +243,27 @@ void checkExpr(AST *exp)
 	case number_ast:
 		break;
 	default:
-		general_error(exp->file_loc, "Wrong AST type???2");
+		general_error(exp->file_loc, "Wrong AST type???");
 		break;
 	}
 }
 
+// checks through both sides of the binary expression
 void checkBinExpr(AST *exp)
 {
 	checkExpr(exp->data.bin_expr.leftexp);
 	checkExpr(exp->data.bin_expr.rightexp);
 }
 
+// calls the appropriate check functions according to the grammer for an op
 void checkOpExpr(AST *exp)
 {
 	checkExpr(exp->data.op_expr.exp);
 }
 
+// checks for duplicate identifiers. If found prints error message
 void checkIdent(file_location loc, const char *name)
 {
-
 	if (checkSymbolTable(name) == NULL)
 	{
 		general_error(loc, "identifer \"%s\" is not declared!", name);
