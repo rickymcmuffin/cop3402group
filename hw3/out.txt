@@ -13,48 +13,32 @@ else \
 	echo 'Test(s) failed!'; \
 fi
 running hw3-asttest0.pl0
-2a3
-> Call to scope_check_stmt with an AST that is not a statement!
+passed!
 running hw3-asttest1.pl0
 passed!
 running hw3-asttest2.pl0
-7a8,9
-> Æœ¾U
-> Æœ¾U: line 5, column 3: identifer "x" is not declared!
+passed!
 running hw3-asttest3.pl0
-4a5,6
-> 6ÌÿNV
-> 6ÌÿNV: line 3, column 1: identifer "x" is not declared!
+passed!
 running hw3-asttest4.pl0
-28a29,30
-> öZ(¹U
-> öZ(¹U: line 6, column 3: identifer "x" is not declared!
+28a29
+> 1 ZôoˆU: line 7, column 6: Wrong AST type???1 11
 running hw3-asttest5.pl0
-13a14,17
-> vO
-> V
-> vO
-> V: line 4, column 3: identifer "x" is not declared!
+13a14
+> 1 ªM†U: line 5, column 6: Wrong AST type???1 11
 running hw3-asttest6.pl0
-35a36,37
-> æSb©U
-> æSb©U: line 7, column 5: identifer "aVar" is not declared!
+35a36
+> 1 ºı×iU: line 9, column 8: Wrong AST type???1 11
 running hw3-asttest7.pl0
-5a6,7
-> ¦Å³ùU
-> ¦Å³ùU: line 2, column 1: identifer "x" is not declared!
+passed!
 running hw3-asttest8.pl0
-19a20,21
-> ¶Y#§U
-> ¶Y#§U: line 7, column 1: identifer "x" is not declared!
+passed!
 running hw3-asttest9.pl0
-20a21,22
-> Æ+[U
-> Æ+[U: line 5, column 3: identifer "x" is not declared!
+20a21
+> 1 Š ÊâU: line 7, column 9: Wrong AST type???1 11
 running hw3-asttestA.pl0
-54a55,56
-> vªÃ
-> vªÃ: line 6, column 3: identifer "x" is not declared!
+54a55
+> 1 ŠU‡|U: line 8, column 6: Wrong AST type???1 11
 running hw3-parseerrtest0.pl0
 passed!
 running hw3-parseerrtest1.pl0
@@ -74,65 +58,37 @@ passed!
 running hw3-parseerrtest8.pl0
 passed!
 running hw3-declerrtest0.pl0
-3c3,4
-< hw3-declerrtest0.pl0: line 2, column 1: identifer "x" is not declared!
----
-> !UçY
-> !UçY: line 2, column 1: identifer "x" is not declared!
+passed!
 running hw3-declerrtest1.pl0
-6c6,7
-< hw3-declerrtest1.pl0: line 2, column 11: variable "x" is already declared as a variable
----
-> ²­U
-> ²­U: line 3, column 1: identifer "x" is not declared!
+passed!
 running hw3-declerrtest2.pl0
-10c10,11
-< hw3-declerrtest2.pl0: line 3, column 25: constant "x" is already declared as a constant
----
-> ÆÄçU
-> ÆÄçU: line 5, column 9: identifer "y" is not declared!
+passed!
 running hw3-declerrtest3.pl0
-5c5
-< hw3-declerrtest3.pl0: line 3, column 5: variable "x" is already declared as a constant
----
-> Call to scope_check_stmt with an AST that is not a statement!
+passed!
 running hw3-declerrtest4.pl0
-9c9
-< hw3-declerrtest4.pl0: line 3, column 8: variable "y" is already declared as a constant
----
-> Call to scope_check_stmt with an AST that is not a statement!
+passed!
 running hw3-declerrtest5.pl0
-15c15,16
-< hw3-declerrtest5.pl0: line 5, column 8: identifer "d" is not declared!
----
-> fC•#V
-> fC•#V: line 5, column 8: identifer "d" is not declared!
+passed!
 running hw3-declerrtest6.pl0
-37c37,38
+37c37
 < hw3-declerrtest6.pl0: line 20, column 37: identifer "w" is not declared!
 ---
-> f›$U
-> f›$U: line 9, column 13: identifer "x" is not declared!
+> 1 J?NV: line 12, column 16: Wrong AST type???1 11
 running hw3-declerrtest7.pl0
-25c25,26
+25c25
 < hw3-declerrtest7.pl0: line 17, column 29: identifer "q" is not declared!
 ---
-> ÖÈºwU
-> ÖÈºwU: line 5, column 5: identifer "x" is not declared!
+> 1 ÌÊU: line 7, column 8: Wrong AST type???1 11
 running hw3-declerrtest8.pl0
-12c12,13
-< hw3-declerrtest8.pl0: line 7, column 11: identifer "x" is not declared!
----
-> ¦Ë¦U
-> ¦Ë¦U: line 5, column 5: identifer "a" is not declared!
+passed!
 running hw3-declerrtest9.pl0
 21c21
 < hw3-declerrtest9.pl0: line 11, column 24: identifer "e" is not declared!
 ---
-> Call to scope_check_stmt with an AST that is not a statement!
+> 1 ºb¿U: line 6, column 7: Wrong AST type???1 11
 running hw3-declerrtestA.pl0
 33c33
 < hw3-declerrtestA.pl0: line 15, column 22: identifer "e" is not declared!
 ---
-> Call to scope_check_stmt with an AST that is not a statement!
+> 1 ª…cˆU: line 6, column 7: Wrong AST type???1 11
 Test(s) failed!

@@ -11,7 +11,4 @@ begin
     x := (x + 1)
 end
 .
-vO
-V
-vO
-V: line 4, column 3: identifer "x" is not declared!
+1 ªM†U: line 5, column 6: Wrong AST type???1 11

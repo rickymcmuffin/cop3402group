@@ -15,8 +15,8 @@ token *tokencopy(token *src)
 	token *ret;
 	ret = malloc(sizeof(token));
 	ret->text = calloc(MAX_IDENT_LENGTH + 1, sizeof(char));
+	ret->filename = calloc(strlen(src->filename) + 1, sizeof(char));
 
-	ret->filename = src->filename;
 	ret->typ = src->typ;
 	strcpy(ret->filename, src->filename);
 	ret->line = src->line;
@@ -61,6 +61,7 @@ token eat(token_type tokenName)
 // returns full program AST
 AST *parseProgram()
 {
+	
 	token *start = tokencopy(currentTok);
 	AST *prog;
 	AST_list cds = parseConstDecls();
@@ -224,7 +225,9 @@ AST *parseAssignStmt()
 	eat(becomessym);
 	AST *exp = parseExpr();
 
-	return ast_assign_stmt(*iden, iden->text, exp);
+	AST *AssStmt = ast_assign_stmt(*iden, iden->text, exp);
+	free(iden);
+	return AssStmt;
 }
 
 // parses the BeginEnd statement

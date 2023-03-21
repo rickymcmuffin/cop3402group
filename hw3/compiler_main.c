@@ -15,6 +15,7 @@ int main(int argc, char **argv)
 	AST *ast = parser_open(argv[1]);
 	unparseProgram(stdout, ast);
 
+	
 	initSymbolTable(ast);
 	checkDeclaration(ast);
 	return 0;

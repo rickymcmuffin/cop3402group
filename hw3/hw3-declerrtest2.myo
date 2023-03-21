@@ -7,5 +7,4 @@ begin
   write nl
 end
 .
-ÆÄçU
-ÆÄçU: line 5, column 9: identifer "y" is not declared!
+hw3-declerrtest2.pl0: line 3, column 25: constant "x" is already declared as a constant

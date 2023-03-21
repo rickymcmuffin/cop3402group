@@ -49,6 +49,8 @@ void checkBeginStmt(AST *stmt);
 
 void checkIfStmt(AST *stmt);
 
+void checkWhileStmt(AST *stmt);
+
 void checkReadStmt(AST *stmt);
 
 void checkWriteStmt(AST *stmt);

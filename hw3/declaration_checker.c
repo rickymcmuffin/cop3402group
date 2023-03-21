@@ -70,11 +70,10 @@ void insertSymbolTable(const char *name, id_attrs *attrs)
 		{
 			bail_with_error("ERROR: exceeded MAX_SCOPE_SIZE");
 		}
-
-		symbolTable[symbols].name = name;
-		symbolTable[symbols].attrs = attrs;
-		symbols++;
 	}
+	symbolTable[symbols].name = name;
+	symbolTable[symbols].attrs = attrs;
+	symbols++;
 }
 
 void checkDeclaration(AST *progast)
@@ -122,7 +121,7 @@ void checkConsDecl(AST *cd)
 	{
 		// otherwise add the declaration to the symbol table
 		insertSymbolTable(name,
-				   create_id_attrs(floc, ct, scope_size()));
+					   create_id_attrs(floc, ct, scope_size()));
 	}
 }
 
@@ -158,7 +157,7 @@ void checkVarDecl(AST *vd)
 	{
 		// otherwise add the declaration to the symbol table
 		insertSymbolTable(name,
-				   create_id_attrs(floc, vt, scope_size()));
+					   create_id_attrs(floc, vt, scope_size()));
 	}
 }
 
@@ -176,20 +175,26 @@ void checkStmt(AST *stmt)
 	case if_ast:
 		checkIfStmt(stmt);
 		break;
+	case while_ast:
+		checkWhileStmt(stmt);
+		break;
 	case read_ast:
 		checkReadStmt(stmt);
 		break;
 	case write_ast:
 		checkWriteStmt(stmt);
 		break;
+	case skip_ast:
+		break;
 	default:
-		bail_with_error("Call to scope_check_stmt with an AST that is not a statement!");
+		bail_with_error("Call to scope_check_stmt with an AST that is not a statement!2");
 		break;
 	}
 }
 
 void checkAssignStmt(AST *stmt)
 {
+
 	checkIdent(stmt->file_loc, stmt->data.assign_stmt.name);
 	checkExpr(stmt->data.assign_stmt.exp);
 }
@@ -209,6 +214,12 @@ void checkIfStmt(AST *stmt)
 	checkCond(stmt->data.if_stmt.cond);
 	checkStmt(stmt->data.if_stmt.thenstmt);
 	checkStmt(stmt->data.if_stmt.elsestmt);
+}
+
+void checkWhileStmt(AST *stmt)
+{
+	checkCond(stmt->data.while_stmt.cond);
+	checkStmt(stmt->data.while_stmt.stmt);
 }
 
 void checkReadStmt(AST *stmt)
@@ -232,7 +243,8 @@ void checkCond(AST *cond)
 		checkExpr(cond->data.bin_cond.leftexp);
 		checkExpr(cond->data.bin_cond.rightexp);
 	}
-	general_error(cond->file_loc, "Wrong AST type???");
+	printf("%d", cond->type_tag == bin_cond_ast);
+	general_error(cond->file_loc, "Wrong AST type???1 %d", cond->type_tag);
 }
 
 void checkExpr(AST *exp)
@@ -251,7 +263,7 @@ void checkExpr(AST *exp)
 	case number_ast:
 		break;
 	default:
-		general_error(exp->file_loc, "Wrong AST type???");
+		general_error(exp->file_loc, "Wrong AST type???2");
 		break;
 	}
 }
@@ -269,7 +281,7 @@ void checkOpExpr(AST *exp)
 
 void checkIdent(file_location loc, const char *name)
 {
-	printf("%s\n", loc.filename);
+
 	if (checkSymbolTable(name) == NULL)
 	{
 		general_error(loc, "identifer \"%s\" is not declared!", name);

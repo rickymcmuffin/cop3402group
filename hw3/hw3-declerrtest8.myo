@@ -9,5 +9,4 @@ begin
   write x
 end
 .
-ê¶À¶U
-ê¶À¶U: line 5, column 5: identifer "a" is not declared!
+hw3-declerrtest8.pl0: line 7, column 11: identifer "x" is not declared!

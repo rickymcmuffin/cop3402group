@@ -2,5 +2,3 @@ var x;
 var y;
 x := y
 .
-6ÌÿNV
-6ÌÿNV: line 3, column 1: identifer "x" is not declared!
