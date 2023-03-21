@@ -34,8 +34,14 @@
 // int x;
 // y = 1;
 
+symbolNode *symbolTable;
+
+// symbols is the current number of elements
+int symbols;
+
 int scope_size()
 {
+	return symbols;
 }
 
 void initSymbolTable()
@@ -47,16 +53,16 @@ void initSymbolTable()
 // Return (a pointer to) the attributes
 // of the given name
 // or NULL if it is not declared
-id_attrs *checkSymbolTable(char *name)
+id_attrs *checkSymbolTable(const char *name)
 {
 	for (int i = 0; i < symbols; i++)
 		if (strcmp(symbolTable[i].name, name) == 0)
-			return &symbolTable[i].attrs;
+			return symbolTable[i].attrs;
 
 	return NULL;
 }
 
-void insertSymbolTable(char *name, id_attrs *attrs)
+void insertSymbolTable(const char *name, id_attrs *attrs)
 {
 	if (checkSymbolTable(name))
 	{
@@ -82,49 +88,45 @@ void checkDeclaration(AST *progast)
 	checkStmt(progast->data.program.stmt);
 }
 
+// conts are good
 void checkConsDecls(AST_list cds)
 {
+
 	while (!ast_list_is_empty(cds))
 	{
 		checkConsDecl(ast_list_first(cds));
-		
-			// add to symbol table
-			cds = ast_list_rest(cds);
-	}
 
-	// gary leavins' code for this step with variables checker
-	char *name = vd->data.var_decl.name;
-	var_type vt = vd->data.var_decl.vt;
-	file_location floc = vd->file_loc;
+		// add to symbol table
+		cds = ast_list_rest(cds);
+	}
+}
+
+void checkConsDecl(AST *cd)
+{
+
+	// extract information from the AST
+	const char *name = cd->data.const_decl.name;
+	id_kind ct = constant;
+	file_location floc = cd->file_loc;
 
 	// if the name has already been declared...
-	id_attrs *attrs = scope_lookup(name);
+	id_attrs *attrs = checkSymbolTable(name);
 	if (attrs != NULL)
 	{
 		// ... produce an error message,
 		general_error(floc,
-				    "variable \"%s\" is already declared as a %s", name, vt2str(attrs->vt));
+				    "%s \"%s\" is already declared as a %s",
+				    kind2str(ct), name, kind2str(attrs->kind));
 	}
 	else
 	{
 		// otherwise add the declaration to the symbol table
-		scope_insert(name,
-				   create_id_attrs(floc, vt, scope_size()));
+		insertSymbolTable(name,
+				   create_id_attrs(floc, ct, scope_size()));
 	}
 }
 
-void checkConsDecl(AST *cd){
-
-	const char *name = cd->data.var_decl.name;
-		file_location floc = cd->file_loc;
-
-		// produces error message if symbol table already contains the same declared name
-		if (checkSymbolTable(ast_list_first(cds)) == 1)
-		{
-			general_error(floc, "constant \"%s\" is already declared as a constant", name);
-		}
-}
-
+// vars are good
 void checkVarDecls(AST_list vds)
 {
 	while (!ast_list_is_empty(vds))
@@ -138,22 +140,29 @@ void checkVarDecls(AST_list vds)
 
 void checkVarDecl(AST *vd)
 {
-	char *name = vd->data.var_decl.name;
+	// extract information from the AST
+	const char *name = vd->data.var_decl.name;
+	const id_kind vt = variable;
 	file_location floc = vd->file_loc;
 
-	// if it's in the symbol table
-	if (checkSymbolTable(name) == NULL)
+	// if the name has already been declared...
+	id_attrs *attrs = checkSymbolTable(name);
+	if (attrs != NULL)
 	{
 		// ... produce an error message,
 		general_error(floc,
-				    "variable \"%s\" is already declared as a %s", name, vt2str(attrs->vt));
+				    "%s \"%s\" is already declared as a %s",
+				    kind2str(vt), name, kind2str(attrs->kind));
 	}
-
-	// add it into symbolTable
-	insertSymbolTable(name, create_id_attrs(floc, id_kind k, unsigned int ofst)); // <-------------------------------------------------------------------------- not done pls fix
+	else
+	{
+		// otherwise add the declaration to the symbol table
+		insertSymbolTable(name,
+				   create_id_attrs(floc, vt, scope_size()));
+	}
 }
 
-void checkStmtDecl(AST *stmt)
+void checkStmt(AST *stmt)
 {
 	// more gary code
 	switch (stmt->type_tag)
@@ -190,7 +199,7 @@ void checkBeginStmt(AST *stmt)
 	AST_list stmtList = stmt->data.begin_stmt.stmts;
 	while (!ast_list_is_empty(stmtList))
 	{
-		checkStmtDecl(ast_list_first(stmtList));
+		checkStmt(ast_list_first(stmtList));
 		stmtList = ast_list_rest(stmtList);
 	}
 }
@@ -258,8 +267,9 @@ void checkOpExpr(AST *exp)
 	checkExpr(exp->data.op_expr.exp);
 }
 
-void checkIdent(file_location loc, char *name)
+void checkIdent(file_location loc, const char *name)
 {
+	printf("%s\n", loc.filename);
 	if (checkSymbolTable(name) == NULL)
 	{
 		general_error(loc, "identifer \"%s\" is not declared!", name);

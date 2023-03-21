@@ -11,3 +11,7 @@ begin
     x := (x + 1)
 end
 .
+vO
+V
+vO
+V: line 4, column 3: identifer "x" is not declared!

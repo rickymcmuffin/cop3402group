@@ -74,7 +74,6 @@ AST *parseProgram()
 	eat(eofsym);
 
 	free(start);
-	lexer_close();
 	return prog;
 }
 
@@ -371,7 +370,7 @@ rel_op parseRelOp()
 		// error if none of them
 		token_type expected[] = {eqsym, neqsym, lessym, leqsym, gtrsym, geqsym};
 		parse_error_unexpected(expected, 6, *currentTok);
-		return NULL;
+		return eqsym;
 	}
 }
 

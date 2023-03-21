@@ -5,3 +5,5 @@ begin
   y := x
 end
 .
+Æœ¾U
+Æœ¾U: line 5, column 3: identifer "x" is not declared!

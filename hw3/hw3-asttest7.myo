@@ -3,3 +3,5 @@ var aLongOne;
 var ALongerOne;
 x := aLongOne
 .
+¦Å³ùU
+¦Å³ùU: line 2, column 1: identifer "x" is not declared!

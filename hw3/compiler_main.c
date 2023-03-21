@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "parser.h"
 #include "unparser.h"
-// #include "declaration_checker.h"
+#include "declaration_checker.h"
  
 int main(int argc, char **argv)
 {
@@ -15,6 +15,7 @@ int main(int argc, char **argv)
 	AST *ast = parser_open(argv[1]);
 	unparseProgram(stdout, ast);
 
-	// buildSymbolTable(ast);
+	initSymbolTable(ast);
+	checkDeclaration(ast);
 	return 0;
 }
