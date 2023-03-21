@@ -1,9 +1,5 @@
 #include "parser.h"
 
-#include "ast.h"
-#include "lexer.h"
-#include "utilities.h"
-
 FILE *fp;
 token *ret;
 
@@ -69,7 +65,7 @@ AST_list parseConstDeclLine()
 
 	while (1)
 	{
-		if (ret->typ = semisym)
+		if (ret->typ == semisym)
 		{
 			eat(semisym);
 			return cds;
@@ -117,7 +113,7 @@ AST_list parseVarDeclLine()
 
 	while (1)
 	{
-		if (ret->typ = semisym)
+		if (ret->typ == semisym)
 		{
 			eat(semisym);
 			return vds;
@@ -126,7 +122,6 @@ AST_list parseVarDeclLine()
 		ast_list_splice(vds, parseVarDecl());
 	}
 }
-
 
 // parses a signle variable decleration
 AST *parseVarDecl()
@@ -191,16 +186,17 @@ AST *parseBeginStmt()
 
 	stmts = ast_list_singleton(parseStmt());
 
-	while(ret->typ != endsym){
+	while (ret->typ != endsym)
+	{
 		eat(semisym);
 		ast_list_splice(stmts, parseStmt());
 	}
 	return ast_begin_stmt(beg, stmts);
-	
 }
 
 // parses an if statement
-AST *parseIfStmt(){
+AST *parseIfStmt()
+{
 	token ifTok = eat(ifsym);
 	AST *cond = parseCondition();
 	eat(thensym);
@@ -212,17 +208,19 @@ AST *parseIfStmt(){
 }
 
 // parses a while statement
-AST *parseWhileStmt(){
+AST *parseWhileStmt()
+{
 	token whileTok = eat(whilesym);
 	AST *cond = parseCondition();
 	eat(dosym);
 	AST *body = parseStmt();
-	
+
 	return ast_while_stmt(whileTok, cond, body);
 }
 
 // parses a read statement
-AST *parseReadStmt(){
+AST *parseReadStmt()
+{
 	token readTok = eat(readsym);
 	token iden = eat(identsym);
 
@@ -230,62 +228,158 @@ AST *parseReadStmt(){
 }
 
 // parses a write statement
-AST *parseWriteStmt(){
+AST *parseWriteStmt()
+{
 	token writeTok = eat(writesym);
 	AST *exp = parseExpr();
 
-	ast_write_stmt(writeTok, exp);
+	return ast_write_stmt(writeTok, exp);
 }
 
 // parses a skip statement
-AST *parseSkipStmt(){
+AST *parseSkipStmt()
+{
 	return ast_skip_stmt(eat(skipsym));
 }
 
-void parseSemiStmt();
-
 void parseEmpty();
 
-AST *parseCondition();
+AST *parseCondition()
+{
+	if (ret->typ == oddsym)
+	{
+		token oddTok = eat(oddsym);
+		AST *exp = parseExpr();
+		return ast_odd_cond(oddTok, exp);
+	}
 
-void parseRelOp();
+	token expTok = *ret;
+	AST *e1 = parseExpr();
+	rel_op relop = parseRelOp();
+	AST *e2 = parseExpr();
 
-AST *parseExpr();
+	return ast_bin_cond(expTok, e1, relop, e2);
+}
 
-void parseAddSubTerm();
+rel_op parseRelOp()
+{
+	switch (ret->typ)
+	{
+	case eqsym:
+		eat(eqsym);
+		return eqop;
+		break;
+	case neqsym:
+		eat(neqsym);
+		return neqop;
+		break;
+	case lessym:
+		eat(lessym);
+		return ltop;
+		break;
+	case leqsym:
+		eat(leqsym);
+		return leqop;
+		break;
+	case gtrsym:
+		eat(gtrsym);
+		return gtop;
+		break;
+	default:
+		eat(geqsym);
+		return (geqop);
+		break;
+	}
+}
 
-void parseAddSub();
+AST *parseExpr()
+{
+	token firstTok = *ret;
+	AST *e1 = parseTerm();
 
-void parseTerm();
+	while (ret->typ == plussym || ret->typ == minussym)
+	{
+		bin_arith_op arith = parseAddSub();
 
-void parseMultDivFactor();
+		AST *e2 = parseTerm();
 
-void parseMultDiv();
+		e1 = ast_bin_expr(firstTok, e1, arith, e2);
 
-void parseFactor()
+	}
+
+	return e1;
+}
+
+bin_arith_op parseAddSub()
+{
+	if (ret->typ == plussym)
+	{
+		eat(plussym);
+		return addop;
+	}
+	eat(minussym);
+	return subop;
+}
+
+AST *parseTerm()
+{
+	token firstTok = *ret;
+	AST *e1 = parseFactor();
+
+	while (ret->typ == multsym || ret->typ == divsym)
+	{
+		bin_arith_op arith = parseMultDiv();
+
+		AST *e2 = parseFactor();
+
+		e1 = ast_bin_expr(firstTok, e1, arith, e2);
+
+	}
+
+	return e1;
+
+}
+
+
+bin_arith_op parseMultDiv()
+{
+	if (ret->typ == multsym)
+	{
+		eat(multsym);
+		return multop;
+	}
+	eat(divsym);
+	return divop;
+}
+
+AST* parseFactor()
 {
 	switch (ret->typ)
 	{
 	case identsym:
-		eat(identsym);
+		token i = eat(identsym);
+		return ast_ident(i, i.text);
 		break;
-	}
-}
-
-AST *parseSign()
-{
-	switch (ret->typ)
-	{
 	case plussym:
 		eat(plussym);
+		token p = eat(numbersym);
+		return ast_number(p, p.value);
 		break;
 	case minussym:
 		eat(minussym);
+		token m = eat(numbersym);
+		return ast_number(m, -m.value);
+		break;
+	case numbersym:
+		token n = eat(numbersym);
+		return ast_number(n, n.value);
 		break;
 	default:
-		token_type expected[] = {plussym, minussym};
-		parse_error_unexpected(expected, 2, *ret);
+		eat(lparensym);
+		AST *exp = parseExpr();
+		eat(rparensym);
+		return exp;
+		break;
+
 	}
-	AST *expr = parseExpr();
-	//return ast_op_expr(*ret, )
 }

@@ -6,6 +6,7 @@
 
 
 #include "ast.h"
+#include "token.h"
 #include "lexer.h"
 #include "utilities.h"
 
@@ -14,5 +15,27 @@ token eat(token_type tokenName);
 
 AST* parseProgram();
 void parseBlock();
+AST_list parseConstDecls();
+AST_list parseConstDeclLine();
+AST *parseConstDecl();
+AST_list parseVarDecls();
+AST_list parseVarDecls();
+AST *parseVarDecl();
+void parseCommmaIdents();
+AST *parseStmt();
+AST *parseAssignStmt();
+AST *parseBeginStmt();
+AST *parseIfStmt();
+AST *parseWhileStmt();
+AST *parseReadStmt();
+AST *parseWriteStmt();
+AST *parseSkipStmt();
+AST *parseCondition();
+rel_op parseRelOp();
+AST *parseExpr();
+bin_arith_op parseAddSub();
+AST *parseTerm();
+bin_arith_op parseMultDiv();
+AST* parseFactor();
 
 #endif
