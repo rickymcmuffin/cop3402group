@@ -1,11 +1,39 @@
 #include "parser.h"
 
-FILE *fp;
+FILE *filep;
 token *currentTok;
+
+void spliceButBetter(AST_list list, AST_list tail){
+	ast_list_last_elem(list)->next = tail;
+}
+
+void tokenfree(token *t){
+	free(t->text);
+	free(t);
+
+}
+token *tokencopy(token *src)
+{
+
+	token *ret;
+	ret = malloc(sizeof(token));
+	ret->text = calloc(MAX_IDENT_LENGTH + 1, sizeof(char));
+
+	ret->filename = src->filename;
+	ret->typ = src->typ;
+	strcpy(ret->filename, src->filename);
+	ret->line = src->line;
+	ret->column = src->column;
+	strcpy(ret->text, src->text);
+	ret->value = src->value;
+
+	return ret;
+}
 
 AST *parser_open(char *fileName)
 {
-	FILE *filep = fopen(fileName, "r");
+
+	filep = fopen(fileName, "r");
 
 	if (filep == NULL)
 	{
@@ -15,6 +43,8 @@ AST *parser_open(char *fileName)
 
 	lexer_open(fileName);
 
+	currentTok = malloc(sizeof(token));
+	*currentTok = lexer_next();
 	return parseProgram();
 }
 
@@ -23,19 +53,28 @@ token eat(token_type tokenName)
 	token old = *currentTok;
 	if (currentTok->typ == tokenName)
 		*currentTok = lexer_next();
-
+	else
+	{
+		parse_error_unexpected(&tokenName, 1, *currentTok);
+	}
 	return old;
 }
 
 AST *parseProgram()
 {
+	token *start = tokencopy(currentTok);
 	AST *prog;
 	AST_list cds = parseConstDecls();
 	AST_list vds = parseVarDecls();
 	AST *stmt = parseStmt();
 
-	prog = ast_program(currentTok->filename, lexer_line(), lexer_column(), cds, vds, stmt);
+	//fflush(stdout);
+	//printf("%s\n", ttyp2str(currentTok->typ));
+	prog = ast_program(start->filename, start->line, start->column, cds, vds, stmt);
 	eat(periodsym);
+	eat(eofsym);
+
+	free(start);
 	return prog;
 }
 
@@ -44,13 +83,18 @@ AST_list parseConstDecls()
 {
 	AST_list cds = ast_list_empty_list();
 
-	while (1)
+	while (currentTok->typ == constsym)
 	{
-		if (currentTok->typ != constsym)
-			return cds;
-
-		ast_list_splice(cds, parseConstDeclLine());
+		if (ast_list_is_empty(cds))
+		{
+			cds = ast_list_singleton(parseConstDeclLine());
+		}
+		else
+		{
+			spliceButBetter(cds, parseConstDeclLine());
+		}
 	}
+	return cds;
 }
 
 // parses through a single line of constant
@@ -63,27 +107,26 @@ AST_list parseConstDeclLine()
 
 	cds = ast_list_singleton(parseConstDecl());
 
-	while (1)
+	while (currentTok->typ != semisym)
 	{
-		if (currentTok->typ == semisym)
-		{
-			eat(semisym);
-			return cds;
-		}
 		eat(commasym);
-		ast_list_splice(cds, parseConstDecl());
+		spliceButBetter(cds, parseConstDecl());
 	}
+	eat(semisym);
+	return cds;
 }
 
 // parses a single constant decleration
 AST *parseConstDecl()
 {
 	AST *cd;
-	token iden = eat(identsym);
+	token *iden = tokencopy(currentTok);
+	eat(identsym);
 	eat(eqsym);
-	token num = eat(numbersym);
+	token *num = tokencopy(currentTok);
+	eat(numbersym);
 
-	cd = ast_const_def(iden, iden.text, num.value);
+	cd = ast_const_def(*iden, iden->text, num->value);
 	return cd;
 }
 
@@ -92,13 +135,18 @@ AST_list parseVarDecls()
 {
 	AST_list vds = ast_list_empty_list();
 
-	while (1)
+	while (currentTok->typ == varsym)
 	{
-		if (currentTok->typ != varsym)
-			return vds;
-
-		ast_list_splice(vds, parseConstDeclLine());
+		if (ast_list_is_empty(vds))
+		{
+			vds = ast_list_singleton(parseVarDeclLine());
+		}
+		else
+		{
+			spliceButBetter(vds, parseVarDeclLine());
+		}
 	}
+	return vds;
 }
 
 // parses a single line of variable decleration
@@ -111,25 +159,24 @@ AST_list parseVarDeclLine()
 
 	vds = ast_list_singleton(parseVarDecl());
 
-	while (1)
+	while (currentTok->typ != semisym)
 	{
-		if (currentTok->typ == semisym)
-		{
-			eat(semisym);
-			return vds;
-		}
 		eat(commasym);
-		ast_list_splice(vds, parseVarDecl());
+		spliceButBetter(vds, parseVarDecl());
 	}
+	eat(semisym);
+	return vds;
 }
 
 // parses a signle variable decleration
 AST *parseVarDecl()
 {
 	AST *vd;
-	token iden = eat(identsym);
+	token *iden = tokencopy(currentTok);
+	eat(identsym);
+	vd = ast_var_decl(*iden, iden->text);
 
-	vd = ast_var_decl(iden, iden.text);
+	free(iden);
 	return vd;
 }
 
@@ -162,8 +209,13 @@ AST *parseStmt()
 	case writesym:
 		return parseWriteStmt();
 		break;
-	default:
+	case skipsym:
 		return parseSkipStmt();
+		break;
+	default:
+		token_type expected[] = {identsym, beginsym, ifsym, whilesym, readsym, writesym, skipsym};
+		parse_error_unexpected(expected, 7, *currentTok);
+		return NULL;
 		break;
 	}
 }
@@ -171,78 +223,103 @@ AST *parseStmt()
 // parses the assigning variable statement
 AST *parseAssignStmt()
 {
-	token iden = eat(identsym);
+	token *iden = tokencopy(currentTok);
+	eat(identsym);
 	eat(becomessym);
 	AST *exp = parseExpr();
 
-	return ast_assign_stmt(iden, iden.text, exp);
+	return ast_assign_stmt(*iden, iden->text, exp);
 }
 
 // parses the BeginEnd statement
 AST *parseBeginStmt()
 {
-	token beg = eat(beginsym);
+	token *beg = tokencopy(currentTok);
+	eat(beginsym);
 	AST_list stmts;
 
 	stmts = ast_list_singleton(parseStmt());
 
-	while (currentTok->typ != endsym)
+	while (currentTok->typ == semisym)
 	{
+		
 		eat(semisym);
-		ast_list_splice(stmts, parseStmt());
+		spliceButBetter(stmts, parseStmt());
 	}
-	return ast_begin_stmt(beg, stmts);
+	eat(endsym);
+	AST *begg = ast_begin_stmt(*beg, stmts);
+
+	free(beg);
+	return begg;
 }
 
 // parses an if statement
 AST *parseIfStmt()
 {
-	token ifTok = eat(ifsym);
+	token *ifTok = tokencopy(currentTok);
+	eat(ifsym);
 	AST *cond = parseCondition();
 	eat(thensym);
 	AST *thenstmt = parseStmt();
 	eat(elsesym);
 	AST *elsestmt = parseStmt();
 
-	return ast_if_stmt(ifTok, cond, thenstmt, elsestmt);
+	AST *ff = ast_if_stmt(*ifTok, cond, thenstmt, elsestmt);
+
+	free(ifTok);
+	return ff;
 }
 
 // parses a while statement
 AST *parseWhileStmt()
 {
-	token whileTok = eat(whilesym);
+	token *whileTok = tokencopy(currentTok);
+	eat(whilesym);
 	AST *cond = parseCondition();
 	eat(dosym);
 	AST *body = parseStmt();
 
-	return ast_while_stmt(whileTok, cond, body);
+	AST *wh = ast_while_stmt(*whileTok, cond, body);
+
+	free(whileTok);
+	return wh;
 }
 
 // parses a read statement
 AST *parseReadStmt()
 {
-	token readTok = eat(readsym);
-	token iden = eat(identsym);
+	token *readTok = tokencopy(currentTok);
+	eat(readsym);
+	token *iden = tokencopy(currentTok);
+	eat(identsym);
 
-	return ast_read_stmt(readTok, iden.text);
+	AST *readret = ast_read_stmt(*readTok, iden->text);
+	free(readTok);
+	free(iden);
+
+	return readret;
 }
 
 // parses a write statement
 AST *parseWriteStmt()
 {
-	token writeTok = eat(writesym);
+	token *writeTok = tokencopy(currentTok);
+	eat(writesym);
 	AST *exp = parseExpr();
 
-	return ast_write_stmt(writeTok, exp);
+	return ast_write_stmt(*writeTok, exp);
 }
 
 // parses a skip statement
 AST *parseSkipStmt()
 {
-	return ast_skip_stmt(eat(skipsym));
-}
+	token *sk = tokencopy(currentTok);
+	eat(skipsym);
+	AST *ip = ast_skip_stmt(*sk);
 
-void parseEmpty();
+	free(sk);
+	return ip;
+}
 
 AST *parseCondition()
 {
@@ -304,7 +381,6 @@ AST *parseExpr()
 		AST *e2 = parseTerm();
 
 		e1 = ast_bin_expr(firstTok, e1, arith, e2);
-
 	}
 
 	return e1;
@@ -333,13 +409,10 @@ AST *parseTerm()
 		AST *e2 = parseFactor();
 
 		e1 = ast_bin_expr(firstTok, e1, arith, e2);
-
 	}
 
 	return e1;
-
 }
-
 
 bin_arith_op parseMultDiv()
 {
@@ -352,27 +425,39 @@ bin_arith_op parseMultDiv()
 	return divop;
 }
 
-AST* parseFactor()
+AST *parseFactor()
 {
 	switch (currentTok->typ)
 	{
 	case identsym:
-		token i = eat(identsym);
-		return ast_ident(i, i.text);
+		token *i = tokencopy(currentTok);
+		eat(identsym);
+		AST *ir = ast_ident(*i, i->text);
+		free(i);
+		return ir;
 		break;
 	case plussym:
 		eat(plussym);
-		token p = eat(numbersym);
-		return ast_number(p, p.value);
+		token *p = tokencopy(currentTok);
+		eat(numbersym);
+		AST *pr = ast_number(*p, p->value);
+		free(p);
+		return pr;
 		break;
 	case minussym:
 		eat(minussym);
-		token m = eat(numbersym);
-		return ast_number(m, -m.value);
+		token *m = tokencopy(currentTok);
+		eat(numbersym);
+		AST *mr = ast_number(*m, -m->value);
+		free(m);
+		return mr;
 		break;
 	case numbersym:
-		token n = eat(numbersym);
-		return ast_number(n, n.value);
+		token *n = tokencopy(currentTok);
+		eat(numbersym);
+		AST *nr = ast_number(*n, n->value);
+		free(n);
+		return nr;
 		break;
 	default:
 		eat(lparensym);
@@ -380,6 +465,5 @@ AST* parseFactor()
 		eat(rparensym);
 		return exp;
 		break;
-
 	}
 }

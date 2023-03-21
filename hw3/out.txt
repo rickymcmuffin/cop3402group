@@ -1,0 +1,88 @@
+gcc -g -std=c17 -Wall -o compiler `cat sources.txt`
+DIFFS=0; \
+for f in `echo hw3-asttest*.pl0 hw3-parseerrtest*.pl0 hw3-declerrtest*.pl0 | sed -e 's/\\.pl0//g'`; \
+do \
+	echo running "$f.pl0"; \
+	./compiler "$f.pl0" >"$f.myo" 2>&1; \
+	diff -w -B "$f.out" "$f.myo" && echo 'passed!' || DIFFS=1; \
+done; \
+if test 0 = $DIFFS; \
+then \
+	echo 'All tests passed!'; \
+else \
+	echo 'Test(s) failed!'; \
+fi
+running hw3-asttest0.pl0
+passed!
+running hw3-asttest1.pl0
+passed!
+running hw3-asttest2.pl0
+passed!
+running hw3-asttest3.pl0
+passed!
+running hw3-asttest4.pl0
+passed!
+running hw3-asttest5.pl0
+passed!
+running hw3-asttest6.pl0
+passed!
+running hw3-asttest7.pl0
+passed!
+running hw3-asttest8.pl0
+passed!
+running hw3-asttest9.pl0
+passed!
+running hw3-asttestA.pl0
+passed!
+running hw3-parseerrtest0.pl0
+passed!
+running hw3-parseerrtest1.pl0
+passed!
+running hw3-parseerrtest2.pl0
+passed!
+running hw3-parseerrtest3.pl0
+passed!
+running hw3-parseerrtest4.pl0
+passed!
+running hw3-parseerrtest5.pl0
+passed!
+running hw3-parseerrtest6.pl0
+passed!
+running hw3-parseerrtest7.pl0
+passed!
+running hw3-parseerrtest8.pl0
+passed!
+running hw3-declerrtest0.pl0
+3d2
+< hw3-declerrtest0.pl0: line 2, column 1: identifer "x" is not declared!
+running hw3-declerrtest1.pl0
+6d5
+< hw3-declerrtest1.pl0: line 2, column 11: variable "x" is already declared as a variable
+running hw3-declerrtest2.pl0
+10d9
+< hw3-declerrtest2.pl0: line 3, column 25: constant "x" is already declared as a constant
+running hw3-declerrtest3.pl0
+5d4
+< hw3-declerrtest3.pl0: line 3, column 5: variable "x" is already declared as a constant
+running hw3-declerrtest4.pl0
+9d8
+< hw3-declerrtest4.pl0: line 3, column 8: variable "y" is already declared as a constant
+running hw3-declerrtest5.pl0
+15d14
+< hw3-declerrtest5.pl0: line 5, column 8: identifer "d" is not declared!
+running hw3-declerrtest6.pl0
+37d36
+< hw3-declerrtest6.pl0: line 20, column 37: identifer "w" is not declared!
+running hw3-declerrtest7.pl0
+25d24
+< hw3-declerrtest7.pl0: line 17, column 29: identifer "q" is not declared!
+running hw3-declerrtest8.pl0
+12d11
+< hw3-declerrtest8.pl0: line 7, column 11: identifer "x" is not declared!
+running hw3-declerrtest9.pl0
+21d20
+< hw3-declerrtest9.pl0: line 11, column 24: identifer "e" is not declared!
+running hw3-declerrtestA.pl0
+33d32
+< hw3-declerrtestA.pl0: line 15, column 22: identifer "e" is not declared!
+Test(s) failed!

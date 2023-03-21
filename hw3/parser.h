@@ -13,15 +13,20 @@
 AST *parser_open(char *fileName);
 token eat(token_type tokenName);
 
+
+
+void spliceButBetter(AST_list list, AST_list tail);
+void tokenfree(token *t);
+token *tokencopy(token *src);
+
 AST* parseProgram();
 void parseBlock();
 AST_list parseConstDecls();
 AST_list parseConstDeclLine();
 AST *parseConstDecl();
 AST_list parseVarDecls();
-AST_list parseVarDecls();
+AST_list parseVarDeclLine();
 AST *parseVarDecl();
-void parseCommmaIdents();
 AST *parseStmt();
 AST *parseAssignStmt();
 AST *parseBeginStmt();
