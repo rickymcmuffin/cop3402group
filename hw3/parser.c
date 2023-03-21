@@ -1,13 +1,13 @@
 #include "parser.h"
 
 FILE *fp;
-token *ret;
+token *currentTok;
 
 AST *parser_open(char *fileName)
 {
-	fp = fopen(fileName, "r");
+	FILE *filep = fopen(fileName, "r");
 
-	if (fp == NULL)
+	if (filep == NULL)
 	{
 		bail_with_error("ERROR: woah there PAL, you put in an invalid file name! Try again with one that works :)\n");
 		return 0;
@@ -20,9 +20,9 @@ AST *parser_open(char *fileName)
 
 token eat(token_type tokenName)
 {
-	token old = *ret;
-	if (ret->typ == tokenName)
-		*ret = lexer_next();
+	token old = *currentTok;
+	if (currentTok->typ == tokenName)
+		*currentTok = lexer_next();
 
 	return old;
 }
@@ -34,7 +34,7 @@ AST *parseProgram()
 	AST_list vds = parseVarDecls();
 	AST *stmt = parseStmt();
 
-	prog = ast_program(ret->filename, lexer_line(), lexer_column(), cds, vds, stmt);
+	prog = ast_program(currentTok->filename, lexer_line(), lexer_column(), cds, vds, stmt);
 	eat(periodsym);
 	return prog;
 }
@@ -46,7 +46,7 @@ AST_list parseConstDecls()
 
 	while (1)
 	{
-		if (ret->typ != constsym)
+		if (currentTok->typ != constsym)
 			return cds;
 
 		ast_list_splice(cds, parseConstDeclLine());
@@ -65,7 +65,7 @@ AST_list parseConstDeclLine()
 
 	while (1)
 	{
-		if (ret->typ == semisym)
+		if (currentTok->typ == semisym)
 		{
 			eat(semisym);
 			return cds;
@@ -94,7 +94,7 @@ AST_list parseVarDecls()
 
 	while (1)
 	{
-		if (ret->typ != varsym)
+		if (currentTok->typ != varsym)
 			return vds;
 
 		ast_list_splice(vds, parseConstDeclLine());
@@ -113,7 +113,7 @@ AST_list parseVarDeclLine()
 
 	while (1)
 	{
-		if (ret->typ == semisym)
+		if (currentTok->typ == semisym)
 		{
 			eat(semisym);
 			return vds;
@@ -142,7 +142,7 @@ void parseCommmaIdents()
 // parses a statement
 AST *parseStmt()
 {
-	switch (ret->typ)
+	switch (currentTok->typ)
 	{
 	case identsym:
 		return parseAssignStmt();
@@ -186,7 +186,7 @@ AST *parseBeginStmt()
 
 	stmts = ast_list_singleton(parseStmt());
 
-	while (ret->typ != endsym)
+	while (currentTok->typ != endsym)
 	{
 		eat(semisym);
 		ast_list_splice(stmts, parseStmt());
@@ -246,14 +246,14 @@ void parseEmpty();
 
 AST *parseCondition()
 {
-	if (ret->typ == oddsym)
+	if (currentTok->typ == oddsym)
 	{
 		token oddTok = eat(oddsym);
 		AST *exp = parseExpr();
 		return ast_odd_cond(oddTok, exp);
 	}
 
-	token expTok = *ret;
+	token expTok = *currentTok;
 	AST *e1 = parseExpr();
 	rel_op relop = parseRelOp();
 	AST *e2 = parseExpr();
@@ -263,7 +263,7 @@ AST *parseCondition()
 
 rel_op parseRelOp()
 {
-	switch (ret->typ)
+	switch (currentTok->typ)
 	{
 	case eqsym:
 		eat(eqsym);
@@ -294,10 +294,10 @@ rel_op parseRelOp()
 
 AST *parseExpr()
 {
-	token firstTok = *ret;
+	token firstTok = *currentTok;
 	AST *e1 = parseTerm();
 
-	while (ret->typ == plussym || ret->typ == minussym)
+	while (currentTok->typ == plussym || currentTok->typ == minussym)
 	{
 		bin_arith_op arith = parseAddSub();
 
@@ -312,7 +312,7 @@ AST *parseExpr()
 
 bin_arith_op parseAddSub()
 {
-	if (ret->typ == plussym)
+	if (currentTok->typ == plussym)
 	{
 		eat(plussym);
 		return addop;
@@ -323,10 +323,10 @@ bin_arith_op parseAddSub()
 
 AST *parseTerm()
 {
-	token firstTok = *ret;
+	token firstTok = *currentTok;
 	AST *e1 = parseFactor();
 
-	while (ret->typ == multsym || ret->typ == divsym)
+	while (currentTok->typ == multsym || currentTok->typ == divsym)
 	{
 		bin_arith_op arith = parseMultDiv();
 
@@ -343,7 +343,7 @@ AST *parseTerm()
 
 bin_arith_op parseMultDiv()
 {
-	if (ret->typ == multsym)
+	if (currentTok->typ == multsym)
 	{
 		eat(multsym);
 		return multop;
@@ -354,7 +354,7 @@ bin_arith_op parseMultDiv()
 
 AST* parseFactor()
 {
-	switch (ret->typ)
+	switch (currentTok->typ)
 	{
 	case identsym:
 		token i = eat(identsym);
