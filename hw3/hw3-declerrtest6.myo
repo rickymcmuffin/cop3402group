@@ -34,4 +34,4 @@ begin
   end
 end
 .
-1 J?NV: line 12, column 16: Wrong AST type???1 11
+hw3-declerrtest6.pl0: line 20, column 37: identifer "w" is not declared!

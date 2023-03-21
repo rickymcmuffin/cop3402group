@@ -22,4 +22,4 @@ begin
       end
 end
 .
-1†Ã U: line 7, column 8: Wrong AST type???1 11
+hw3-declerrtest7.pl0: line 17, column 29: identifer "q" is not declared!

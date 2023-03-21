@@ -234,16 +234,19 @@ void checkWriteStmt(AST *stmt)
 
 void checkCond(AST *cond)
 {
-	if (cond->type_tag == odd_cond_ast)
+	AST_type t = cond->type_tag;
+	if (t == odd_cond_ast)
 	{
 		checkExpr(cond->data.odd_cond.exp);
+		return;
 	}
-	else if (cond->type_tag == bin_cond_ast)
+	else if (t == bin_cond_ast)
 	{
 		checkExpr(cond->data.bin_cond.leftexp);
 		checkExpr(cond->data.bin_cond.rightexp);
+		return;
 	}
-	printf("%d", cond->type_tag == bin_cond_ast);
+	
 	general_error(cond->file_loc, "Wrong AST type???1 %d", cond->type_tag);
 }
 
