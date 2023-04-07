@@ -52,13 +52,10 @@ code_seq gen_code_constDecls(AST_list cds)
 // generate code for the const declaration cd
 code_seq gen_code_constDecl(AST *cd)
 {
-	// // insert into symbol table <------------------------------------------------------------------------ might not need this
-	// id_attrs *attrs = id_attrs_loc_create(cd->file_loc, constant, symtab_next_loc_offset());
-	// symtab_insert(cd->data.const_decl.name, attrs);
-
-	// can't use gen_code_ident bc constantDecl stores ident already
+	code *newConst = code_lit(cd->data.const_decl.num_val); // generates code
+	newConst->lab = scope_lookup(/*gotta figue out how to do parameters*/)->lab; // assigns label
 	
-	return code_seq_concat(gen_code_ident_expr(cd), gen_code_number_expr(cd));
+	return newConst;
 }
 
 // Not checked
@@ -80,6 +77,8 @@ code_seq gen_code_varDecls(AST_list vds)
 // generate code for the var declaration vd
 code_seq gen_code_varDecl(AST *vd)
 {
+	// cant use gen_code_ident_expr
+	// make it here using code.c functions
 	id_use *varId = vd->data.ident.idu;
 	
 	// Replace the following with your implementation
@@ -152,15 +151,23 @@ code_seq gen_code_callStmt(AST *stmt)
 // generate code for the statement
 code_seq gen_code_beginStmt(AST *stmt)
 {
-	
-	return code_seq_empty();
+	code_seq ret = code_seq_empty();
+	AST_list stmts = stmt->data.begin_stmt.stmts;
+	while(!ast_list_is_empty(stmts)){
+		ret = gen_code_concat(ret, gen_code_stmt(ast_list_first(stmts)));
+		stmts = ast_list_rest(stmts);
+	}
+	return ret;
 }
 
 // generate code for the statement
 code_seq gen_code_ifStmt(AST *stmt)
 {
-	// Replace the following with your implementation
-	bail_with_error("gen_code_ifStmt not implemented yet!");
+	//not done
+	code_seq cond = code_seq_cond(stmt->data.if_stmt.cond);
+	code_seq jpc = code_seq_singleton(code_jpc(2));
+	code_seq s1 = code_seq_stmt(stmt->data.if_stmt.thenstmt);	
+	code_seq s2 = code_seq_stmt(stmt->data.if_stmt.elsestmt);	
 	return code_seq_empty();
 }
 
@@ -175,9 +182,8 @@ code_seq gen_code_whileStmt(AST *stmt)
 // generate code for the statement
 code_seq gen_code_readStmt(AST *stmt)
 {
-	// Replace the following with your implementation
-	bail_with_error("gen_code_readStmt not implemented yet!");
-	return code_seq_empty();
+	code_seq expr = gen_code_expr(stmt->data.read_stmt.ident);
+	return code_seq_add_to_end(expr, code_chi());
 }
 
 // generate code for the statement
@@ -238,6 +244,7 @@ code_seq gen_code_bin_expr(AST *exp)
 // generate code for the ident expression (ident)
 code_seq gen_code_ident_expr(AST *ident)
 {
+	
 	// Replace the following with your implementation
 	bail_with_error("gen_code_ident_expr not implemented yet!");
 
