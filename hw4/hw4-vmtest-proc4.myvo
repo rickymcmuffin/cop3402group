@@ -2,7 +2,7 @@ Addr  OP    M
 Tracing ...
 PC: 0 BP: 0 SP: 0
 stack: 
-==> addr: 0     NOP   0    
+==> addr: 0     NOP   64   
 PC: 1 BP: 0 SP: 0
 stack: 
 ==> addr: 1     NOP   0    

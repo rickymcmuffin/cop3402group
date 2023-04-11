@@ -1,14 +1,16 @@
 /* $Id: gen_code_stubs.c,v 1.8 2023/03/29 15:42:08 leavens Exp leavens $ */
 #include "utilities.h"
 #include "gen_code.h"
-#include "symtab.h"
+// #include "symtab.h"
+
 
 code_seq procedureList;
 
 // Initialize the code generator
 void gen_code_initialize()
 {
-	symtab_initialize();
+// 	symtab_initialize();
+	procedureList = code_seq_empty();
 
 	// Replace the following with your implementation
 
@@ -24,11 +26,18 @@ code_seq gen_code_program(AST *prog)
 // generate code for blk
 code_seq gen_code_block(AST *blk)
 {
-	code_seq ret = code_seq_singleton(code_inc(3));
+	code_seq ret = code_seq_empty();
 	code_seq constDecls = gen_code_constDecls(blk->data.program.cds);
 	code_seq varDecls = gen_code_varDecls(blk->data.program.vds);
-	// gen_code_procDecls(blk->data.program.pds); // <------------------------------------ add this back eventually
+	gen_code_procDecls(blk->data.program.pds); // <------------------------------------ add this back eventually
 
+
+	if(!code_seq_is_empty(procedureList)){
+		int length = code_seq_size(procedureList);
+		ret = code_seq_add_to_end(ret, code_jmp(length));
+		ret = code_seq_concat(ret, procedureList);
+	}
+	ret = code_seq_singleton(code_inc(3));
 	code_seq stmt = gen_code_stmt(blk->data.program.stmt);
 
 	ret = code_seq_concat(ret, constDecls);
@@ -81,25 +90,68 @@ code_seq gen_code_varDecl(AST *vd)
 	return code_inc(1);
 }
 
+/* PROCEDURE STRUCTURE
+	procedures first with jump around them
+	jump depends on total size of procedures (in instructions)
+
+	0   JMP N (around the procedures' code)
+	1   [code for procedures]
+	...
+	N   [code for the main block]
+
+	To find distance to JMP:
+	code_seq_size() will give the N for JMP instruction
+
+	Nested procedure	
+	procedure a;
+		procedure b:
+		begin;
+			call a;
+		end;
+	begin
+	call b;
+	end.
+	// EXTENSION PARTY kl;dadfskl;dsafjkldsa;fkdsafl;dsaflpenis;alsjfdl;afks;fadklfsalkfd;
+	For nested procedures, use labels. 
+	;;;;;
+	JMP L;
+	;;;;;
+	;;;;;
+	;;;;;
+	Label L: ;;;;;
+	;;;;;
+	labels save the addy of the first line of the procedure
+	have to do a second pass?
+
+
+	there is a discussion post about procedures
+*/
+
 // generate code for the declarations in pds
 void gen_code_procDecls(AST_list pds)
 {
-	// Replace the following with your implementation
-	bail_with_error("gen_code_procDecls not implemented yet!");
+	// iterates through linked list of pds calling gen_code_procDecl on each proc AST
+	code_seq procCodeSeq = code_seq_empty();
+	while (!ast_list_is_empty(pds))
+	{
+		procCodeSeq = code_seq_concat(procCodeSeq, gen_code_varDecl(ast_list_first(pds)));
+		pds = ast_list_rest(pds);
+	}
+
+	// add jump instruction that jumps past all procedures
+	// then add to procedureList
 }
 
 // generate code for the procedure declaration pd
 void gen_code_procDecl(AST *pd)
 {
-	// Replace the following with your implementation
-	bail_with_error("gen_code_procDecl not implemented yet!");
+	code_seq_concat(procedureList, gen_code_block(pd));
+	code_seq_add_to_end(procedureList, code_rtn());
 }
 
 // generate code for the statement
 code_seq gen_code_stmt(AST *stmt)
 {
-	//printf("statement type: %d\n", stmt->type_tag);
-	//fflush(stdout);
 	switch (stmt->type_tag)
 	{
 	case assign_ast:
@@ -124,7 +176,7 @@ code_seq gen_code_stmt(AST *stmt)
 	}
 }
 
-// it's wrong
+// it's no longer wrong
 // generate code for the statement
 code_seq gen_code_assignStmt(AST *stmt)
 {
@@ -132,6 +184,7 @@ code_seq gen_code_assignStmt(AST *stmt)
 
 	AST *astIdent = stmt->data.assign_stmt.ident;
 
+\
 	code_seq fp = code_compute_fp(astIdent->data.ident.idu->levelsOutward);
 	code_seq exp = gen_code_expr(stmt->data.assign_stmt.exp);
 
@@ -149,9 +202,9 @@ code_seq gen_code_assignStmt(AST *stmt)
 // generate code for the statement
 code_seq gen_code_callStmt(AST *stmt)
 {
-	// Replace the following with your implementation
-	bail_with_error("gen_code_callStmt not implemented yet!");
-	return code_seq_empty();
+	label *lab = stmt->data.call_stmt.ident->data.ident.idu->attrs->lab;
+	code *cal = code_cal(lab);
+	return code_seq_singleton(cal);
 }
 
 // generate code for the statement
