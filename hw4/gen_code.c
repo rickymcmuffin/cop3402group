@@ -3,7 +3,6 @@
 #include "gen_code.h"
 #include "symtab.h"
 
-
 code_seq procedureList;
 
 // Initialize the code generator
@@ -52,10 +51,7 @@ code_seq gen_code_constDecls(AST_list cds)
 // generate code for the const declaration cd
 code_seq gen_code_constDecl(AST *cd)
 {
-	code *newConst = code_lit(cd->data.const_decl.num_val); // generates code
-	newConst->lab = scope_lookup(/*gotta figue out how to do parameters*/)->lab; // assigns label
-	
-	return newConst;
+	return code_lit(cd->data.const_decl.num_val);
 }
 
 // Not checked
@@ -70,20 +66,15 @@ code_seq gen_code_varDecls(AST_list vds)
 		code_seq_add_to_end(varCodeSeq, gen_code_varDecl(ast_list_singleton(varDecls)));
 		varDecls = ast_list_rest(vds);
 	}
-	
+
 	return varCodeSeq;
 }
 
 // generate code for the var declaration vd
 code_seq gen_code_varDecl(AST *vd)
 {
-	// cant use gen_code_ident_expr
-	// make it here using code.c functions
-	id_use *varId = vd->data.ident.idu;
-	
-	// Replace the following with your implementation
-	bail_with_error("gen_code_varDecl not implemented yet!");
-	return code_seq_empty();
+	// returns new code with instructions to allocate 1 local to the stack
+	return code_inc(1);
 }
 
 // generate code for the declarations in pds
@@ -120,24 +111,33 @@ code_seq gen_code_stmt(AST *stmt)
 	case write_ast:
 		return gen_code_writeStmt(stmt);
 	case skip_ast:
-	 	return gen_code_skipStmt(stmt);	
+		return gen_code_skipStmt(stmt);
 	default:
-		bail_with_error("Call to code_gen_stmt with an AST that is not a statement!");
+		bail_with_error("Call to gen_code_stmt with an AST that is not a statement!");
 		return code_seq_empty();
 	}
 }
 
+// it's wrong
 // generate code for the statement
 code_seq gen_code_assignStmt(AST *stmt)
 {
-	AST *astIdent = stmt->data.assign_stmt.ident;
-	code_seq genIdent = gen_code_ident_expr(astIdent);
-	
-	id_use *idu = astIdent->data.ident.idu;
-	
-	
+	code_seq ret;
 
-	return code_seq_add_to_end(genIdent, code_sto(idu->attrs->loc_offset));
+	AST *astIdent = stmt->data.assign_stmt.ident;
+
+	code_seq fp = code_compute_fp(astIdent->data.ident.idu->levelsOutward);
+	code_seq exp = gen_code_expr(stmt->data.assign_stmt.exp);
+
+	int offset = astIdent->data.ident.idu->attrs->loc_offset;
+	code *sto = code_sto(offset + 3);
+
+	ret = fp;
+	ret = code_seq_concat(ret, exp);
+	ret = code_seq_add_to_end(ret, sto);
+
+
+	return ret;
 }
 
 // generate code for the statement
@@ -153,7 +153,8 @@ code_seq gen_code_beginStmt(AST *stmt)
 {
 	code_seq ret = code_seq_empty();
 	AST_list stmts = stmt->data.begin_stmt.stmts;
-	while(!ast_list_is_empty(stmts)){
+	while (!ast_list_is_empty(stmts))
+	{
 		ret = gen_code_concat(ret, gen_code_stmt(ast_list_first(stmts)));
 		stmts = ast_list_rest(stmts);
 	}
@@ -163,20 +164,47 @@ code_seq gen_code_beginStmt(AST *stmt)
 // generate code for the statement
 code_seq gen_code_ifStmt(AST *stmt)
 {
-	//not done
-	code_seq cond = code_seq_cond(stmt->data.if_stmt.cond);
-	code_seq jpc = code_seq_singleton(code_jpc(2));
-	code_seq s1 = code_seq_stmt(stmt->data.if_stmt.thenstmt);	
-	code_seq s2 = code_seq_stmt(stmt->data.if_stmt.elsestmt);	
-	return code_seq_empty();
+	// generate all sequences
+	code_seq cond = gen_code_stmt(stmt->data.if_stmt.cond);
+	code_seq s1 = gen_code_stmt(stmt->data.if_stmt.thenstmt);
+	code_seq s2 = gen_code_stmt(stmt->data.if_stmt.elsestmt);
+
+	// generate singles
+	code *jpc = code_jpc(2);
+	code *jmp1 = code_jmp(code_seq_size(s1) + 2);
+	code *jmp2 = code_jmp(code_seq_size(s2) + 1);
+
+	// put it all together
+	code_seq ret = cond;
+	ret = code_seq_add_to_end(ret, jpc);
+	ret = code_seq_add_to_end(ret, jmp1);
+	ret = code_seq_concat(ret, s1);
+	ret = code_seq_add_to_end(ret, jmp2);
+	ret = code_seq_concat(ret, s2);
+
+	return ret;
 }
 
 // generate code for the statement
 code_seq gen_code_whileStmt(AST *stmt)
 {
-	// Replace the following with your implementation
-	bail_with_error("gen_code_whileStmt not implemented yet!");
-	return code_seq_empty();
+	// generate sequences
+	code_seq cond = gen_code_cond(stmt->data.while_stmt.cond);
+	code_seq s = gen_code_stmt(stmt->data.while_stmt.stmt);
+
+	// generate singles
+	code *jpc = code_jpc(2);
+	code *jmp1 = code_jmp(code_seq_size(s) + 2);
+	code *jmp2 = code_jmp(-(code_seq_size(s) + 2));
+
+	// put it all together
+	code_seq ret = cond;
+	ret = code_seq_add_to_end(ret, jpc);
+	ret = code_seq_add_to_end(ret, jmp1);
+	ret = code_seq_concat(ret, s);
+	ret = code_seq_add_to_end(ret, jmp2);
+
+	return ret;
 }
 
 // generate code for the statement
@@ -204,66 +232,118 @@ code_seq gen_code_skipStmt(AST *stmt)
 // generate code for the condition
 code_seq gen_code_cond(AST *cond)
 {
-	// Replace the following with your implementation
-	bail_with_error("gen_code_cond not implemented yet!");
-	return code_seq_empty();
+	switch (cond->type_tag)
+	{
+	case (odd_cond_ast):
+		return gen_code_odd_cond(cond);
+
+	case (bin_cond_ast):
+		return gen_code_bin_cond(cond);
+	default:
+		bail_with_error("Call to gen_code_cond with an AST that is not a condition!");
+		return code_seq_empty();
+	}
 }
 
 // generate code for the condition
 code_seq gen_code_odd_cond(AST *cond)
 {
-	// Replace the following with your implementation
-	bail_with_error("gen_code_odd_cond not implemented yet!");
-	return code_seq_empty();
+	code_seq ret;
+	ret = gen_code_expr(cond->data.odd_cond.exp);
+
+	ret = code_seq_add_to_end(ret, code_lit(2));
+	ret = code_seq_add_to_end(ret, code_mod());
+
+	return ret;
 }
 
 // generate code for the condition
 code_seq gen_code_bin_cond(AST *cond)
 {
-	// Replace the following with your implementation
-	bail_with_error("gen_code_bin_cond not implemented yet!");
-	return code_seq_empty();
+	// generate code for both expressions
+	code_seq ret;
+	ret = gen_code_expr(cond->data.bin_cond.leftexp);
+	ret = code_seq_concat(ret, gen_code_expr(cond->data.bin_cond.rightexp));
+
+	switch (cond->data.bin_cond.relop)
+	{
+	case (eqop):
+		return code_seq_add_to_end(ret, code_eql());
+	case (neqop):
+		return code_seq_add_to_end(ret, code_neq());
+	case (ltop):
+		return code_seq_add_to_end(ret, code_lss());
+	case (leqop):
+		return code_seq_add_to_end(ret, code_leq());
+	case (gtop):
+		return code_seq_add_to_end(ret, code_gtr());
+	case (geqop):
+		return code_seq_add_to_end(ret, code_geq());
+	default:
+		bail_with_error("Call to code_gen_stmt with an AST that is not a binary condition!");
+		return code_seq_empty();
+	}
 }
 
 // generate code for the expresion
 code_seq gen_code_expr(AST *exp)
 {
-	// Replace the following with your implementation
-	bail_with_error("gen_code_expr not implemented yet!");
-	return code_seq_empty();
+	switch (exp->type_tag)
+	{
+	case (ident_ast):
+		return gen_code_ident_expr(exp);
+	case (number_ast):
+		return gen_code_number_expr(exp);
+	case (bin_expr_ast):
+		return gen_code_bin_expr(exp);
+	default:
+		bail_with_error("Call to gen_code_expr with an AST that is not an expression!");
+		return code_seq_empty();
+	}
 }
 
 // generate code for the expression (exp)
 code_seq gen_code_bin_expr(AST *exp)
 {
-	// Replace the following with your implementation
-	bail_with_error("gen_code_bin_expr not implemented yet!");
-	return code_seq_empty();
+	code_seq ret = gen_code_expr(exp->data.bin_expr.leftexp);
+	ret = code_seq_concat(ret, exp->data.bin_expr.rightexp);
+
+	switch (exp->data.bin_expr.arith_op)
+	{
+	case (addop):
+		ret = code_seq_add_to_end(ret, code_add());
+	case (subop):
+		ret = code_seq_add_to_end(ret, code_sub());
+	case (multop):
+		ret = code_seq_add_to_end(ret, code_mul());
+	case (divop):
+		ret = code_seq_add_to_end(ret, code_div());
+	default:
+		bail_with_error("Call to gen_code_bin_expr with an AST that is not a binary expression!");
+		return code_seq_empty();
+	}
 }
 
 // generate code for the ident expression (ident)
 code_seq gen_code_ident_expr(AST *ident)
 {
-	
-	// Replace the following with your implementation
-	bail_with_error("gen_code_ident_expr not implemented yet!");
 
-	id_use *identId = symtab_lookup(ident->data.const_decl.name);
+	code_seq ret = code_computer_fp(ident->data.ident.idu->levelsOutward);
+	int offset = &ident->data.ident.idu->attrs->loc_offset;
+	ret = code_seq_add_to_end(ret, code_lod(offset + 3));	
 
-	return code_seq_empty();
+	return ret;
 }
 
 // generate code for the number expression (num)
 code_seq gen_code_number_expr(AST *num)
 {
-	int number = num->data.number.value;
-	id_use *numId = num->data.ident.idu;
-	label *numLabel = num->data.proc_decl.lab;
-	// gen_code needs code_seq next, instruction instr, and label *lab
-	// missing instruction instr
-	// instr needs int op, and int m
-	
-	// Replace the following with your implementation
-	bail_with_error("gen_code_number_expr not implemented yet!");
-	return code_seq_empty();
+	// int number = num->data.number.value;
+	// id_use *numId = num->data.ident.idu;
+	// label *numLabel = num->data.proc_decl.lab;
+	//  gen_code needs code_seq next, instruction instr, and label *lab
+	//  missing instruction instr
+	//  instr needs int op, and int m
+
+	return code_lit(num->data.number.value);
 }
