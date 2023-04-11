@@ -24,14 +24,14 @@ code_seq gen_code_program(AST *prog)
 // generate code for blk
 code_seq gen_code_block(AST *blk)
 {
-	code_seq ret;
+	code_seq ret = code_seq_singleton(code_inc(3));
 	code_seq constDecls = gen_code_constDecls(blk->data.program.cds);
 	code_seq varDecls = gen_code_varDecls(blk->data.program.vds);
 	// gen_code_procDecls(blk->data.program.pds); // <------------------------------------ add this back eventually
 
 	code_seq stmt = gen_code_stmt(blk->data.program.stmt);
 
-	ret = constDecls;
+	ret = code_seq_concat(ret, constDecls);
 	ret = code_seq_concat(ret, varDecls);
 	ret = code_seq_concat(ret, stmt);
 	return ret;
@@ -40,14 +40,7 @@ code_seq gen_code_block(AST *blk)
 // generate code for the declarations in cds
 code_seq gen_code_constDecls(AST_list cds)
 {
-	if (cds == NULL)
-	{
-		printf("kpenishiasdoyuiasdfghbuilasdhbujioashbuodfhbjagvhbsdhbjsdnkvsdnkldfjnkldvsbjksdvbjnkdnkldvlnksdvjnklsdvjnklsdvklndvsjkbdvkbjsvjkvhbhbjkvbujikashbjkasfhbjkasdg\n");
-		fflush(stdout);
-		return NULL;
-	}
-
-	code_seq constDecls;
+	code_seq constDecls = code_seq_empty();
 
 	// loops through the constant decls
 	while (!ast_list_is_empty(cds))
@@ -63,7 +56,6 @@ code_seq gen_code_constDecls(AST_list cds)
 // generate code for the const declaration cd
 code_seq gen_code_constDecl(AST *cd)
 {
-	cd->data.const_decl.num_val = 15;
 	return code_lit(cd->data.const_decl.num_val);
 }
 
@@ -106,6 +98,8 @@ void gen_code_procDecl(AST *pd)
 // generate code for the statement
 code_seq gen_code_stmt(AST *stmt)
 {
+	//printf("statement type: %d\n", stmt->type_tag);
+	//fflush(stdout);
 	switch (stmt->type_tag)
 	{
 	case assign_ast:
@@ -142,7 +136,7 @@ code_seq gen_code_assignStmt(AST *stmt)
 	code_seq exp = gen_code_expr(stmt->data.assign_stmt.exp);
 
 	int offset = astIdent->data.ident.idu->attrs->loc_offset;
-	code *sto = code_sto(offset + 3);
+	code *sto = code_sto(offset);
 
 	ret = fp;
 	ret = code_seq_concat(ret, exp);
@@ -178,7 +172,7 @@ code_seq gen_code_beginStmt(AST *stmt)
 code_seq gen_code_ifStmt(AST *stmt)
 {
 	// generate all sequences
-	code_seq cond = gen_code_stmt(stmt->data.if_stmt.cond);
+	code_seq cond = gen_code_cond(stmt->data.if_stmt.cond);
 	code_seq s1 = gen_code_stmt(stmt->data.if_stmt.thenstmt);
 	code_seq s2 = gen_code_stmt(stmt->data.if_stmt.elsestmt);
 
@@ -208,7 +202,7 @@ code_seq gen_code_whileStmt(AST *stmt)
 	// generate singles
 	code *jpc = code_jpc(2);
 	code *jmp1 = code_jmp(code_seq_size(s) + 2);
-	code *jmp2 = code_jmp(-(code_seq_size(s) + 2));
+	code *jmp2 = code_jmp(-(code_seq_size(s) + code_seq_size(cond) + 2));
 
 	// put it all together
 	code_seq ret = cond;
@@ -324,13 +318,13 @@ code_seq gen_code_bin_expr(AST *exp)
 	switch (exp->data.bin_expr.arith_op)
 	{
 	case (addop):
-		ret = code_seq_add_to_end(ret, code_add());
+		return code_seq_add_to_end(ret, code_add());
 	case (subop):
-		ret = code_seq_add_to_end(ret, code_sub());
+		return code_seq_add_to_end(ret, code_sub());
 	case (multop):
-		ret = code_seq_add_to_end(ret, code_mul());
+		return code_seq_add_to_end(ret, code_mul());
 	case (divop):
-		ret = code_seq_add_to_end(ret, code_div());
+		return code_seq_add_to_end(ret, code_div());
 	default:
 		bail_with_error("Call to gen_code_bin_expr with an AST that is not a binary expression!");
 		return code_seq_empty();
@@ -343,7 +337,7 @@ code_seq gen_code_ident_expr(AST *ident)
 
 	code_seq ret = code_compute_fp(ident->data.ident.idu->levelsOutward);
 	int offset = ident->data.ident.idu->attrs->loc_offset;
-	ret = code_seq_add_to_end(ret, code_lod(offset + 3));	
+	ret = code_seq_add_to_end(ret, code_lod(offset));	
 
 	return ret;
 }
