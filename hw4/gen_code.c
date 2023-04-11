@@ -18,31 +18,43 @@ void gen_code_initialize()
 // Generate code for the given AST
 code_seq gen_code_program(AST *prog)
 {
-	return gen_code_block(prog);
+	return code_seq_concat(gen_code_block(prog), code_hlt());
 }
 
 // generate code for blk
 code_seq gen_code_block(AST *blk)
 {
-	code_seq constDecls = gen_code_constDecs(blk->data.program.cds);
+	code_seq ret;
+	code_seq constDecls = gen_code_constDecls(blk->data.program.cds);
 	code_seq varDecls = gen_code_varDecls(blk->data.program.vds);
 	// gen_code_procDecls(blk->data.program.pds); // <------------------------------------ add this back eventually
 
-	return code_seq_concat(constDecls, varDecls);
+	code_seq stmt = gen_code_stmt(blk->data.program.stmt);
+
+	ret = constDecls;
+	ret = code_seq_concat(ret, varDecls);
+	ret = code_seq_concat(ret, stmt);
+	return ret;
 }
 
 // generate code for the declarations in cds
 code_seq gen_code_constDecls(AST_list cds)
 {
-	AST *curr = cds;
+	if (cds == NULL)
+	{
+		printf("kpenishiasdoyuiasdfghbuilasdhbujioashbuodfhbjagvhbsdhbjsdnkvsdnkldfjnkldvsbjksdvbjnkdnkldvlnksdvjnklsdvjnklsdvklndvsjkbdvkbjsvjkvhbhbjkvbujikashbjkasfhbjkasdg\n");
+		fflush(stdout);
+		return NULL;
+	}
+
 	code_seq constDecls;
 
 	// loops through the constant decls
-	while (curr != NULL)
+	while (!ast_list_is_empty(cds))
 	{
 		// adds a new constDecl to the end of the code seq
-		constDecls = code_seq_add_to_end(constDecls, gen_code_constDecl(curr));
-		curr = curr->next;
+		constDecls = code_seq_concat(constDecls, gen_code_constDecl(ast_list_first(cds)));
+		cds = ast_list_rest(cds);
 	}
 
 	return constDecls;
@@ -51,6 +63,7 @@ code_seq gen_code_constDecls(AST_list cds)
 // generate code for the const declaration cd
 code_seq gen_code_constDecl(AST *cd)
 {
+	cd->data.const_decl.num_val = 15;
 	return code_lit(cd->data.const_decl.num_val);
 }
 
@@ -59,12 +72,11 @@ code_seq gen_code_constDecl(AST *cd)
 code_seq gen_code_varDecls(AST_list vds)
 {
 	// iterates through linked list of vds calling gen_code_varDecl on each var AST
-	AST_list varDecls = vds;
-	code_seq varCodeSeq;
-	while (!ast_list_empty_list(vds))
+	code_seq varCodeSeq = code_seq_empty();
+	while (!ast_list_is_empty(vds))
 	{
-		code_seq_add_to_end(varCodeSeq, gen_code_varDecl(ast_list_singleton(varDecls)));
-		varDecls = ast_list_rest(vds);
+		varCodeSeq = code_seq_concat(varCodeSeq, gen_code_varDecl(ast_list_first(vds)));
+		vds = ast_list_rest(vds);
 	}
 
 	return varCodeSeq;
@@ -155,7 +167,8 @@ code_seq gen_code_beginStmt(AST *stmt)
 	AST_list stmts = stmt->data.begin_stmt.stmts;
 	while (!ast_list_is_empty(stmts))
 	{
-		ret = gen_code_concat(ret, gen_code_stmt(ast_list_first(stmts)));
+		// ret = gen_code_concat(ret, gen_code_stmt(ast_list_first(stmts)));
+		ret = code_seq_concat(ret, gen_code_stmt(ast_list_first(stmts)));
 		stmts = ast_list_rest(stmts);
 	}
 	return ret;
@@ -306,7 +319,7 @@ code_seq gen_code_expr(AST *exp)
 code_seq gen_code_bin_expr(AST *exp)
 {
 	code_seq ret = gen_code_expr(exp->data.bin_expr.leftexp);
-	ret = code_seq_concat(ret, exp->data.bin_expr.rightexp);
+	ret = code_seq_concat(ret, gen_code_expr(exp->data.bin_expr.rightexp));
 
 	switch (exp->data.bin_expr.arith_op)
 	{
@@ -328,8 +341,8 @@ code_seq gen_code_bin_expr(AST *exp)
 code_seq gen_code_ident_expr(AST *ident)
 {
 
-	code_seq ret = code_computer_fp(ident->data.ident.idu->levelsOutward);
-	int offset = &ident->data.ident.idu->attrs->loc_offset;
+	code_seq ret = code_compute_fp(ident->data.ident.idu->levelsOutward);
+	int offset = ident->data.ident.idu->attrs->loc_offset;
 	ret = code_seq_add_to_end(ret, code_lod(offset + 3));	
 
 	return ret;
