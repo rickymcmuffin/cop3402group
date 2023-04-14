@@ -4,37 +4,39 @@
 #include "ast.h"
 #include "code.h"
 
-typedef struct procedures procedure;
+typedef struct procedures procedureS;
 
 // list of procedures
-typedef procedure *procedureList;
+typedef procedureS *procedureList;
 
 // stores a procedure and it's address
 typedef struct procedures {
 	// procedureList inside of procedures so we can nest procedures
 	procedureList pList;
 	
-	procedure *next;
+	procedureS *next;
 	code_seq block;
 	label *label;
-} procedure;
+	
+	AST *prodAST;
+} procedureS;
 
 // allocates a new procedure
-procedureS *procedureNew(code_seq block, label *label);
+extern procedureS *procedureNew(code_seq block, label *label, AST *ast);
 
 // boolean (0 or 1), true if list is empty
-int procedureListIsEmpty(procedureList list);
+extern int procedureListIsEmpty(procedureList list);
 
 // returns first element of procedureList
-procedure *procedureListFirst(procedureList list);
+extern procedureS *procedureListFirst(procedureList list);
 
 // returns next element of procedureList
-procedure *procedureListNext(procedureList list);
+extern procedureS *procedureListNext(procedureList list);
 
 // adds a procedure to the end of procedureList
-procedureList procedureListAddToEnd(procedureList list, procedure *p);
+extern procedureList procedureListAddToEnd(procedureList list, procedureS *p);
 
 // returns a code_seq from a procedureList
-code_seq procedureListToCode(procedureList pl);
+extern code_seq procedureListToCode(procedureList pl);
 
 #endif

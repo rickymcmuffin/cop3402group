@@ -3,13 +3,11 @@
 #include "gen_code.h"
 // #include "symtab.h"
 
-procedureList pList;
-
 // Initialize the code generator
 void gen_code_initialize()
 {
 	// 	symtab_initialize();
-	pList = NULL;
+	// pList = NULL;
 
 	// Replace the following with your implementation
 
@@ -19,13 +17,29 @@ void gen_code_initialize()
 // Generate code for the given AST
 code_seq gen_code_program(AST *prog)
 {
+	//if(pList == NULL){ bail_with_error("pList is Null");}
 	code_seq ret = code_seq_concat(gen_code_block(prog), code_hlt());
 
-	gen_code_procDecls(prog->data.program.pds, pList);
+	procedureList pList = gen_code_procDecls(prog->data.program.pds);
 
+	//if (pList == NULL)
+		//bail_with_error("peeList is null");
 	code_seq proc = procedureListToCode(pList);
+	proc = code_seq_concat(proc, code_seq_singleton(code_inc(3)));
 
-	return code_seq_concat(proc, ret);
+	//if(proc == NULL){
+		//bail_with_error("proc is null");
+	//}
+	
+	// adding the jump instruction to the start
+	int length = code_seq_size(proc);
+	code_seq jmp = code_seq_singleton(code_jmp(length));
+	proc = code_seq_concat(jmp, proc);
+
+	ret = code_seq_concat(proc, ret);
+
+	code_seq_fix_labels(ret);
+	return ret;
 }
 
 // generate code for blk
@@ -35,12 +49,12 @@ code_seq gen_code_block(AST *blk)
 	code_seq constDecls = gen_code_constDecls(blk->data.program.cds);
 	code_seq varDecls = gen_code_varDecls(blk->data.program.vds);
 	
-	if(pList != NULL){
-		int length = code_seq_size(pList);
-		ret = code_seq_add_to_end(ret, code_jmp(length + 1));
+	/*if(pList != NULL){
+		// int length = code_seq_size(pList);
+		int length = sizeof(pList)/sizeof();
+		ret = code_seq_add_to_end(ret, code_jmp(length + 1)); 
 		ret = code_seq_concat(ret, pList);
-	}
-	ret = code_seq_singleton(code_inc(3));
+	}*/
 	code_seq stmt = gen_code_stmt(blk->data.program.stmt);
 
 	ret = code_seq_concat(ret, constDecls);
@@ -128,10 +142,10 @@ code_seq gen_code_varDecl(AST *vd)
 
 
 	there is a discussion post about procedures
-*/
+*/ 
 
 // generate code for the declarations in pds
-void gen_code_procDecls(AST_list pds, procedureList pl)
+procedureList gen_code_procDecls(AST_list pds)
 {
 	// iterates through linked list of pds calling gen_code_procDecl on each proc AST
 	// code_seq procCodeSeq = code_seq_empty(); OLD CODE OLD CODE OLD CODE OLD CODE OLD CODE OLD CODE OLD CODE OLD CODE OLD CODE
@@ -141,25 +155,33 @@ void gen_code_procDecls(AST_list pds, procedureList pl)
 	// 	pds = ast_list_rest(pds);
 	// }
 
+	procedureList ret = NULL;
 	while (!ast_list_is_empty(pds))
 	{
-		gen_code_procDecl(pds, pl);
-		pl = procedureListNext(pl);
+		procedureS *p = gen_code_procDecl(pds);
+		
+		ret = procedureListAddToEnd(ret, p);
 		pds = ast_list_rest(pds);
 	}
 
-	// add jump instruction that jumps past all procedures
-	// then add to procedureList
-
+	return ret;
 }
 
 // generate code for the procedure declaration pd
-void gen_code_procDecl(AST *pd, procedure *p)
+procedureS *gen_code_procDecl(AST *pd)
 {
+	// if (pd == NULL) bail_with_error("pd is null");
+	//if (p == NULL) bail_with_error("filename: %s p is null", pd->file_loc);
+
 	code_seq block = gen_code_block(pd->data.proc_decl.block);
 	label *lab = pd->data.proc_decl.lab;
-	p = procedureNew(block, lab);
-	gen_code_procDecls(pd->data.proc_decl.block->data.program.pds, p->pList);
+	procedureS* ret = procedureNew(block, lab, pd);
+
+	if (ret == NULL) bail_with_error("p is null 222222");
+
+	ret->pList = gen_code_procDecls(pd->data.proc_decl.block->data.program.pds);
+
+	return ret;
 }
 
 // generate code for the statement

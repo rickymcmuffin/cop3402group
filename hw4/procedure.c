@@ -1,12 +1,13 @@
 #include "procedure.h"
 
-procedure *procedureNew(code_seq block, label *label)
+procedureS *procedureNew(code_seq block, label *label, AST *ast)
 {
-	procedure *ret = malloc(sizeof(procedure));
+	procedureS *ret = malloc(sizeof(procedureS));
 	ret->block = block;
 	ret->label = label;
 	ret->next = NULL;
 	ret->pList = NULL;
+	ret->prodAST = ast;
 	return ret;
 }
 
@@ -18,7 +19,7 @@ code_seq procedureListToCodeHelper(procedureList pl, int lineNumber)
 		return NULL;
 	}
 	code_seq ret = code_seq_empty();
-	while (!procedureListEmpty(pl))
+	while (!procedureListIsEmpty(pl))
 	{
 		label_set(procedureListFirst(pl)->label, lineNumber);
 
@@ -27,15 +28,30 @@ code_seq procedureListToCodeHelper(procedureList pl, int lineNumber)
 		// adds the block after
 		temp = code_seq_concat(temp, pl->block);
 
-		lineNumber += code_seq_size(temp) + 1;
+
+		// gets the length of the constants and variables
+		AST_list constants = procedureListFirst(pl)->prodAST->data.proc_decl.block->data.program.cds;
+		AST_list variables = procedureListFirst(pl)->prodAST->data.proc_decl.block->data.program.vds;
+		int varLength = ast_list_size(constants) + ast_list_size(variables);
+
+		// removes the variables and constatnts from stack
+		if (varLength > 0)
+				temp = code_seq_add_to_end(temp, code_inc(-varLength));
+		
+		// adds the return call
+		temp = code_seq_add_to_end(temp, code_rtn());
+
+		lineNumber += code_seq_size(temp);
 
 		ret = code_seq_concat(ret, temp);
+
+		pl = procedureListNext(pl);
 	}
 	// starts with jmp and ends with rtn
-	int length = code_seq_size(ret);
-	code_seq jmp = code_seq_singleton(code_jmp(length + 1));
-	ret = code_seq_concat(jmp, ret);
-	ret = code_seq_add_to_end(ret, code_rtn());
+	// int length = code_seq_size(ret);
+	// code_seq jmp = code_seq_singleton(code_jmp(length + 1));
+	// ret = code_seq_concat(jmp, ret);
+	
 	return ret;
 }
 
@@ -45,23 +61,23 @@ int procedureListIsEmpty(procedureList list)
 }
 
 // returns first element of procedureList
-procedure *procedureListFirst(procedureList list)
+procedureS *procedureListFirst(procedureList list)
 {
 	return list;
 }
 
 // returns next element of procedureList
-procedure *procedureListNext(procedureList list)
+procedureS *procedureListNext(procedureList list)
 {
-	return list->next;
+	return (list == NULL) ? NULL : list->next;
 }
 
-procedureList procedureListAddToEnd(procedureList list, procedure *p)
+procedureList procedureListAddToEnd(procedureList list, procedureS *p)
 {
-	if (procedureListEmpty(list))
-		return NULL;
+	if (procedureListIsEmpty(list))
+		return p;
 
-	procedure *temp = list;
+	procedureS *temp = list;
 	while (temp->next != NULL)
 		temp = temp->next;
 
