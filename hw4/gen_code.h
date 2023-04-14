@@ -3,6 +3,7 @@
 #define _GEN_CODE_H
 #include "ast.h"
 #include "code.h"
+#include "procedure.h"
 
 // Initialize the code generator
 void gen_code_initialize();

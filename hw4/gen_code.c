@@ -3,14 +3,13 @@
 #include "gen_code.h"
 // #include "symtab.h"
 
-
-code_seq procedureList;
+procedureList pList;
 
 // Initialize the code generator
 void gen_code_initialize()
 {
-// 	symtab_initialize();
-	procedureList = code_seq_empty();
+	// 	symtab_initialize();
+	pList = code_seq_empty();
 
 	// Replace the following with your implementation
 
@@ -29,13 +28,12 @@ code_seq gen_code_block(AST *blk)
 	code_seq ret = code_seq_empty();
 	code_seq constDecls = gen_code_constDecls(blk->data.program.cds);
 	code_seq varDecls = gen_code_varDecls(blk->data.program.vds);
-	gen_code_procDecls(blk->data.program.pds); // <------------------------------------ add this back eventually
-
-
-	if(!code_seq_is_empty(procedureList)){
-		int length = code_seq_size(procedureList);
-		ret = code_seq_add_to_end(ret, code_jmp(length));
-		ret = code_seq_concat(ret, procedureList);
+	gen_code_procDecls(blk->data.program.pds);
+	
+	if(!code_seq_is_empty(pList)){
+		int length = code_seq_size(pList);
+		ret = code_seq_add_to_end(ret, code_jmp(length + 1));
+		ret = code_seq_concat(ret, pList);
 	}
 	ret = code_seq_singleton(code_inc(3));
 	code_seq stmt = gen_code_stmt(blk->data.program.stmt);
@@ -140,13 +138,14 @@ void gen_code_procDecls(AST_list pds)
 
 	// add jump instruction that jumps past all procedures
 	// then add to procedureList
+
 }
 
 // generate code for the procedure declaration pd
 void gen_code_procDecl(AST *pd)
 {
-	code_seq_concat(procedureList, gen_code_block(pd));
-	code_seq_add_to_end(procedureList, code_rtn());
+	code_seq_concat(pList, gen_code_block(pd));
+	code_seq_add_to_end(pList, code_rtn());
 }
 
 // generate code for the statement
