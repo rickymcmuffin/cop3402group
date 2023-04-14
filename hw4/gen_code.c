@@ -32,9 +32,6 @@ code_seq gen_code_program(AST *prog)
 	//}
 	
 	// adding the jump instruction to the start
-	int length = code_seq_size(proc);
-	code_seq jmp = code_seq_singleton(code_jmp(length));
-	proc = code_seq_concat(jmp, proc);
 
 	ret = code_seq_concat(proc, ret);
 

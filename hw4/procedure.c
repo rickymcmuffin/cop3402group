@@ -48,9 +48,9 @@ code_seq procedureListToCodeHelper(procedureList pl, int lineNumber)
 		pl = procedureListNext(pl);
 	}
 	// starts with jmp and ends with rtn
-	// int length = code_seq_size(ret);
-	// code_seq jmp = code_seq_singleton(code_jmp(length + 1));
-	// ret = code_seq_concat(jmp, ret);
+	int length = code_seq_size(ret);
+	code_seq jmp = code_seq_singleton(code_jmp(length + 1));
+	ret = code_seq_concat(jmp, ret);
 	
 	return ret;
 }

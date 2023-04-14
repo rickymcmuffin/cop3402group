@@ -36,21 +36,145 @@ running hw4-vmtest-proc5.myvi in the VM ...
 passed!
 compiling hw4-vmtest-proc6.pl0 ...
 running hw4-vmtest-proc6.myvi in the VM ...
-44c44
+2,4c2,4
+< 0     JMP   45   
+< 1     INC   1    
+< 2     PBP   0    
+---
+> 0     JMP   46   
+> 1     JMP   40   
+> 2     INC   1    
+6c6
+< 4     PSI   0    
+---
+> 4     PBP   0    
+8,10c8,10
+< 6     LOD   4    
+< 7     PBP   0    
+< 8     PSI   0    
+---
+> 6     PSI   0    
+> 7     LOD   4    
+> 8     PBP   0    
+12,26c12,26
+< 10    LOD   5    
+< 11    SUB   0    
+< 12    STO   3    
+< 13    PBP   0    
+< 14    LOD   3    
+< 15    LIT   2    
+< 16    EQL   0    
+< 17    JPC   2    
+< 18    JMP   11   
+< 19    PBP   0    
+< 20    PSI   0    
+< 21    LOD   3    
+< 22    CHO   0    
+< 23    PBP   0    
+< 24    PSI   0    
+---
+> 10    PSI   0    
+> 11    LOD   5    
+> 12    SUB   0    
+> 13    STO   3    
+> 14    PBP   0    
+> 15    LOD   3    
+> 16    LIT   2    
+> 17    EQL   0    
+> 18    JPC   2    
+> 19    JMP   11   
+> 20    PBP   0    
+> 21    PSI   0    
+> 22    LOD   3    
+> 23    CHO   0    
+> 24    PBP   0    
+28,36c28,36
+< 26    LOD   3    
+< 27    CHO   0    
+< 28    JMP   10   
+< 29    PBP   0    
+< 30    PSI   0    
+< 31    LOD   4    
+< 32    CHO   0    
+< 33    PBP   0    
+< 34    PSI   0    
+---
+> 26    PSI   0    
+> 27    LOD   3    
+> 28    CHO   0    
+> 29    JMP   10   
+> 30    PBP   0    
+> 31    PSI   0    
+> 32    LOD   4    
+> 33    CHO   0    
+> 34    PBP   0    
+38,52c38,53
+< 36    LOD   3    
+< 37    CHO   0    
+< 38    INC   -1   
+< 39    RTN   0    
+< 40    LIT   121  
+< 41    LIT   110  
 < 42    CAL   1    
----
-> 42    CAL   2    
-51c51
+< 43    INC   -2   
+< 44    RTN   0    
+< 45    INC   3    
+< 46    LIT   10   
+< 47    LIT   5    
+< 48    LIT   3    
 < 49    CAL   40   
+< 50    HLT   0    
 ---
-> 49    CAL   1    
-71,72c71,72
+> 36    PSI   0    
+> 37    LOD   3    
+> 38    CHO   0    
+> 39    INC   -1   
+> 40    RTN   0    
+> 41    LIT   121  
+> 42    LIT   110  
+> 43    CAL   2    
+> 44    INC   -2   
+> 45    RTN   0    
+> 46    INC   3    
+> 47    LIT   10   
+> 48    LIT   5    
+> 49    LIT   3    
+> 50    CAL   1    
+> 51    HLT   0    
+56,57c57,58
+< ==> addr: 0     JMP   45   
+< PC: 45 BP: 0 SP: 0
+---
+> ==> addr: 0     JMP   46   
+> PC: 46 BP: 0 SP: 0
+59,60c60,61
+< ==> addr: 45    INC   3    
+< PC: 46 BP: 0 SP: 3
+---
+> ==> addr: 46    INC   3    
+> PC: 47 BP: 0 SP: 3
+62,63c63,64
+< ==> addr: 46    LIT   10   
+< PC: 47 BP: 0 SP: 4
+---
+> ==> addr: 47    LIT   10   
+> PC: 48 BP: 0 SP: 4
+65,66c66,67
+< ==> addr: 47    LIT   5    
+< PC: 48 BP: 0 SP: 5
+---
+> ==> addr: 48    LIT   5    
+> PC: 49 BP: 0 SP: 5
+68,69c69,70
+< ==> addr: 48    LIT   3    
+< PC: 49 BP: 0 SP: 6
+---
+> ==> addr: 49    LIT   3    
+> PC: 50 BP: 0 SP: 6
+71,88c72,89
 < ==> addr: 49    CAL   40   
 < PC: 40 BP: 6 SP: 9
----
-> ==> addr: 49    CAL   1    
-> PC: 1 BP: 6 SP: 9
-74,82d73
+< stack: S[6]: 0 S[7]: 0 S[8]: 50 
 < ==> addr: 40    LIT   121  
 < PC: 41 BP: 6 SP: 10
 < stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 121 
@@ -60,169 +184,168 @@ running hw4-vmtest-proc6.myvi in the VM ...
 < ==> addr: 42    CAL   1    
 < PC: 1 BP: 11 SP: 14
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 
-84,85c75,76
+< ==> addr: 1     INC   1    
 < PC: 2 BP: 11 SP: 15
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 0 
----
-> PC: 2 BP: 6 SP: 10
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 0 
-87,88c78,79
+< ==> addr: 2     PBP   0    
 < PC: 3 BP: 11 SP: 16
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 0 S[15]: 11 
 ---
-> PC: 3 BP: 6 SP: 11
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 0 S[10]: 6 
-90,91c81,82
+> ==> addr: 50    CAL   1    
+> PC: 1 BP: 6 SP: 9
+> stack: S[6]: 0 S[7]: 0 S[8]: 51 
+> ==> addr: 1     JMP   40   
+> PC: 41 BP: 6 SP: 9
+> stack: S[6]: 0 S[7]: 0 S[8]: 51 
+> ==> addr: 41    LIT   121  
+> PC: 42 BP: 6 SP: 10
+> stack: S[6]: 0 S[7]: 0 S[8]: 51 S[9]: 121 
+> ==> addr: 42    LIT   110  
+> PC: 43 BP: 6 SP: 11
+> stack: S[6]: 0 S[7]: 0 S[8]: 51 S[9]: 121 S[10]: 110 
+> ==> addr: 43    CAL   2    
+> PC: 2 BP: 11 SP: 14
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 
+> ==> addr: 2     INC   1    
+> PC: 3 BP: 11 SP: 15
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 0 
+90,92c91,93
 < PC: 4 BP: 11 SP: 17
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 0 S[15]: 11 S[16]: 11 
+< ==> addr: 4     PSI   0    
 ---
-> PC: 4 BP: 6 SP: 12
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 0 S[10]: 6 S[11]: 6 
-93,94c84,85
-< PC: 5 BP: 11 SP: 17
+> PC: 4 BP: 11 SP: 16
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 0 S[15]: 11 
+> ==> addr: 4     PBP   0    
+94c95
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 0 S[15]: 11 S[16]: 0 
 ---
-> PC: 5 BP: 6 SP: 12
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 0 S[10]: 6 S[11]: 0 
-96,97c87,88
-< PC: 6 BP: 11 SP: 17
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 0 S[15]: 11 S[16]: 11 
+97,98c98,99
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 0 S[15]: 11 S[16]: 0 
+< ==> addr: 6     LOD   4    
 ---
-> PC: 6 BP: 6 SP: 12
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 0 S[10]: 6 S[11]: 0 
-99,100c90,91
-< PC: 7 BP: 11 SP: 17
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 0 S[15]: 11 S[16]: 0 
+> ==> addr: 6     PSI   0    
+100,104c101,105
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 0 S[15]: 11 S[16]: 5 
----
-> PC: 7 BP: 6 SP: 12
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 0 S[10]: 6 S[11]: 5 
-102,103c93,94
+< ==> addr: 7     PBP   0    
 < PC: 8 BP: 11 SP: 18
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 0 S[15]: 11 S[16]: 5 S[17]: 11 
+< ==> addr: 8     PSI   0    
 ---
-> PC: 8 BP: 6 SP: 13
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 0 S[10]: 6 S[11]: 5 S[12]: 6 
-105,106c96,97
-< PC: 9 BP: 11 SP: 18
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 0 S[15]: 11 S[16]: 0 
+> ==> addr: 7     LOD   4    
+> PC: 8 BP: 11 SP: 17
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 0 S[15]: 11 S[16]: 5 
+> ==> addr: 8     PBP   0    
+106c107
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 0 S[15]: 11 S[16]: 5 S[17]: 0 
 ---
-> PC: 9 BP: 6 SP: 13
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 0 S[10]: 6 S[11]: 5 S[12]: 0 
-108,109c99,100
-< PC: 10 BP: 11 SP: 18
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 0 S[15]: 11 S[16]: 5 S[17]: 11 
+109,110c110,111
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 0 S[15]: 11 S[16]: 5 S[17]: 0 
+< ==> addr: 10    LOD   5    
 ---
-> PC: 10 BP: 6 SP: 13
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 0 S[10]: 6 S[11]: 5 S[12]: 0 
-111,112c102,103
-< PC: 11 BP: 11 SP: 18
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 0 S[15]: 11 S[16]: 5 S[17]: 0 
+> ==> addr: 10    PSI   0    
+112,122c113,123
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 0 S[15]: 11 S[16]: 5 S[17]: 3 
----
-> PC: 11 BP: 6 SP: 13
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 0 S[10]: 6 S[11]: 5 S[12]: 3 
-114,115c105,106
+< ==> addr: 11    SUB   0    
 < PC: 12 BP: 11 SP: 17
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 0 S[15]: 11 S[16]: 2 
----
-> PC: 12 BP: 6 SP: 12
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 0 S[10]: 6 S[11]: 2 
-117,118c108,109
+< ==> addr: 12    STO   3    
 < PC: 13 BP: 11 SP: 15
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 
----
-> PC: 13 BP: 6 SP: 10
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 
-120,121c111,112
+< ==> addr: 13    PBP   0    
 < PC: 14 BP: 11 SP: 16
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 S[15]: 11 
+< ==> addr: 14    LOD   3    
 ---
-> PC: 14 BP: 6 SP: 11
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 S[10]: 6 
-123,124c114,115
-< PC: 15 BP: 11 SP: 16
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 0 S[15]: 11 S[16]: 5 S[17]: 0 
+> ==> addr: 11    LOD   5    
+> PC: 12 BP: 11 SP: 18
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 0 S[15]: 11 S[16]: 5 S[17]: 3 
+> ==> addr: 12    SUB   0    
+> PC: 13 BP: 11 SP: 17
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 0 S[15]: 11 S[16]: 2 
+> ==> addr: 13    STO   3    
+> PC: 14 BP: 11 SP: 15
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 
+> ==> addr: 14    PBP   0    
+124,137c125,138
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 S[15]: 2 
----
-> PC: 15 BP: 6 SP: 11
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 S[10]: 2 
-126,127c117,118
+< ==> addr: 15    LIT   2    
 < PC: 16 BP: 11 SP: 17
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 S[15]: 2 S[16]: 2 
----
-> PC: 16 BP: 6 SP: 12
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 S[10]: 2 S[11]: 2 
-129,130c120,121
+< ==> addr: 16    EQL   0    
 < PC: 17 BP: 11 SP: 16
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 S[15]: 1 
----
-> PC: 17 BP: 6 SP: 11
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 S[10]: 1 
-132,133c123,124
+< ==> addr: 17    JPC   2    
 < PC: 19 BP: 11 SP: 15
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 
----
-> PC: 19 BP: 6 SP: 10
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 
-135,136c126,127
+< ==> addr: 19    PBP   0    
 < PC: 20 BP: 11 SP: 16
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 S[15]: 11 
+< ==> addr: 20    PSI   0    
 ---
-> PC: 20 BP: 6 SP: 11
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 S[10]: 6 
-138,139c129,130
-< PC: 21 BP: 11 SP: 16
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 S[15]: 11 
+> ==> addr: 15    LOD   3    
+> PC: 16 BP: 11 SP: 16
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 S[15]: 2 
+> ==> addr: 16    LIT   2    
+> PC: 17 BP: 11 SP: 17
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 S[15]: 2 S[16]: 2 
+> ==> addr: 17    EQL   0    
+> PC: 18 BP: 11 SP: 16
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 S[15]: 1 
+> ==> addr: 18    JPC   2    
+> PC: 20 BP: 11 SP: 15
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 
+> ==> addr: 20    PBP   0    
+139,140c140,141
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 S[15]: 0 
+< ==> addr: 21    LOD   3    
 ---
-> PC: 21 BP: 6 SP: 11
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 S[10]: 0 
-141,142c132,133
-< PC: 22 BP: 11 SP: 16
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 S[15]: 11 
+> ==> addr: 21    PSI   0    
+142,149c143,150
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 S[15]: 10 
----
-> PC: 22 BP: 6 SP: 11
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 S[10]: 10 
-144,145c135,136
+< ==> addr: 22    CHO   0    
 < PC: 23 BP: 11 SP: 15
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 
----
-> PC: 23 BP: 6 SP: 10
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 
-147,148c138,139
+< ==> addr: 23    PBP   0    
 < PC: 24 BP: 11 SP: 16
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 S[15]: 11 
+< ==> addr: 24    PSI   0    
 ---
-> PC: 24 BP: 6 SP: 11
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 S[10]: 6 
-150,151c141,142
-< PC: 25 BP: 11 SP: 16
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 S[15]: 0 
+> ==> addr: 22    LOD   3    
+> PC: 23 BP: 11 SP: 16
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 S[15]: 10 
+> ==> addr: 23    CHO   0    
+> PC: 24 BP: 11 SP: 15
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 
+> ==> addr: 24    PBP   0    
+151c152
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 S[15]: 0 
 ---
-> PC: 25 BP: 6 SP: 11
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 S[10]: 0 
-153,154c144,145
-< PC: 26 BP: 11 SP: 16
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 S[15]: 11 
+154,155c155,156
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 S[15]: 0 
+< ==> addr: 26    LOD   3    
 ---
-> PC: 26 BP: 6 SP: 11
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 S[10]: 0 
-156,157c147,148
-< PC: 27 BP: 11 SP: 16
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 S[15]: 0 
+> ==> addr: 26    PSI   0    
+157,176c158,177
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 S[15]: 10 
----
-> PC: 27 BP: 6 SP: 11
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 S[10]: 10 
-159,160c150,151
+< ==> addr: 27    CHO   0    
 < PC: 28 BP: 11 SP: 15
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 
----
-> PC: 28 BP: 6 SP: 10
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 
-162,163c153,154
+< ==> addr: 28    JMP   10   
 < PC: 38 BP: 11 SP: 15
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 S[14]: 2 
----
-> PC: 38 BP: 6 SP: 10
-> stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 2 
-165,171c156
+< ==> addr: 38    INC   -1   
 < PC: 39 BP: 11 SP: 14
 < stack: S[11]: 0 S[12]: 6 S[13]: 43 
 < ==> addr: 39    RTN   0    
@@ -230,12 +353,36 @@ running hw4-vmtest-proc6.myvi in the VM ...
 < stack: S[6]: 0 S[7]: 0 S[8]: 50 S[9]: 121 S[10]: 110 
 < ==> addr: 43    INC   -2   
 < PC: 44 BP: 6 SP: 9
----
-> PC: 39 BP: 6 SP: 9
-173c158
+< stack: S[6]: 0 S[7]: 0 S[8]: 50 
 < ==> addr: 44    RTN   0    
+< PC: 50 BP: 0 SP: 6
+< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 5 S[5]: 3 
+< ==> addr: 50    HLT   0    
 ---
-> ==> addr: 39    RTN   0    
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 S[15]: 0 
+> ==> addr: 27    LOD   3    
+> PC: 28 BP: 11 SP: 16
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 S[15]: 10 
+> ==> addr: 28    CHO   0    
+> PC: 29 BP: 11 SP: 15
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 
+> ==> addr: 29    JMP   10   
+> PC: 39 BP: 11 SP: 15
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 S[14]: 2 
+> ==> addr: 39    INC   -1   
+> PC: 40 BP: 11 SP: 14
+> stack: S[11]: 0 S[12]: 6 S[13]: 44 
+> ==> addr: 40    RTN   0    
+> PC: 44 BP: 6 SP: 11
+> stack: S[6]: 0 S[7]: 0 S[8]: 51 S[9]: 121 S[10]: 110 
+> ==> addr: 44    INC   -2   
+> PC: 45 BP: 6 SP: 9
+> stack: S[6]: 0 S[7]: 0 S[8]: 51 
+> ==> addr: 45    RTN   0    
+177a179,181
+> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 5 S[5]: 3 
+> ==> addr: 51    HLT   0    
+> PC: 52 BP: 0 SP: 6
 failed!
 compiling hw4-vmtest-proc7.pl0 ...
 running hw4-vmtest-proc7.myvi in the VM ...
@@ -248,29 +395,185 @@ running hw4-vmtest-proc9.myvi in the VM ...
 passed!
 compiling hw4-vmtest-procA.pl0 ...
 running hw4-vmtest-procA.myvi in the VM ...
-64c64
+2,12c2,12
+< 0     JMP   73   
+< 1     INC   1    
+< 2     LIT   44   
+< 3     LIT   44   
+< 4     NEQ   0    
+< 5     JPC   2    
+< 6     JMP   53   
+< 7     PBP   0    
+< 8     PSI   0    
+< 9     PSI   0    
+< 10    PSI   0    
+---
+> 0     JMP   76   
+> 1     JMP   71   
+> 2     JMP   66   
+> 3     JMP   61   
+> 4     INC   1    
+> 5     LIT   44   
+> 6     LIT   44   
+> 7     NEQ   0    
+> 8     JPC   2    
+> 9     JMP   53   
+> 10    PBP   0    
+14,23c14,23
+< 12    LIT   44   
+< 13    LIT   1    
+< 14    ADD   0    
+< 15    STO   3    
+< 16    PBP   0    
+< 17    PSI   0    
+< 18    PSI   0    
+< 19    PSI   0    
+< 20    LIT   55   
+< 21    PBP   0    
+---
+> 12    PSI   0    
+> 13    PSI   0    
+> 14    PSI   0    
+> 15    LIT   44   
+> 16    LIT   1    
+> 17    ADD   0    
+> 18    STO   3    
+> 19    PBP   0    
+> 20    PSI   0    
+> 21    PSI   0    
+25,26c25,26
+< 23    PSI   0    
+< 24    PSI   0    
+---
+> 23    LIT   55   
+> 24    PBP   0    
+28,35c28,35
+< 26    LOD   3    
+< 27    SUB   0    
+< 28    STO   3    
+< 29    PBP   0    
+< 30    PSI   0    
+< 31    PSI   0    
+< 32    LIT   66   
+< 33    PBP   0    
+---
+> 26    PSI   0    
+> 27    PSI   0    
+> 28    PSI   0    
+> 29    LOD   3    
+> 30    SUB   0    
+> 31    STO   3    
+> 32    PBP   0    
+> 33    PSI   0    
+37,44c37,44
+< 35    PSI   0    
+< 36    PSI   0    
+< 37    LOD   3    
+< 38    MUL   0    
+< 39    STO   3    
+< 40    PBP   0    
+< 41    PSI   0    
+< 42    LIT   77   
+---
+> 35    LIT   66   
+> 36    PBP   0    
+> 37    PSI   0    
+> 38    PSI   0    
+> 39    PSI   0    
+> 40    LOD   3    
+> 41    MUL   0    
+> 42    STO   3    
+47,48c47,48
+< 45    PSI   0    
+< 46    PSI   0    
+---
+> 45    LIT   77   
+> 46    PBP   0    
+50,78c50,81
+< 48    LOD   3    
+< 49    DIV   0    
+< 50    STO   3    
+< 51    PBP   0    
+< 52    PBP   0    
+< 53    PSI   0    
+< 54    PSI   0    
+< 55    PSI   0    
+< 56    LOD   3    
+< 57    STO   3    
+< 58    JMP   -56  
+< 59    INC   -1   
+< 60    RTN   0    
+< 61    INC   1    
 < 62    CAL   1    
----
-> 62    CAL   4    
-68c68
+< 63    INC   -1   
+< 64    RTN   0    
+< 65    INC   1    
 < 66    CAL   61   
----
-> 66    CAL   3    
-72c72
+< 67    INC   -1   
+< 68    RTN   0    
+< 69    INC   1    
 < 70    CAL   65   
----
-> 70    CAL   2    
-77c77
+< 71    INC   -1   
+< 72    RTN   0    
+< 73    INC   3    
+< 74    INC   1    
 < 75    CAL   69   
+< 76    HLT   0    
 ---
-> 75    CAL   1    
-91,92c91,92
+> 48    PSI   0    
+> 49    PSI   0    
+> 50    PSI   0    
+> 51    LOD   3    
+> 52    DIV   0    
+> 53    STO   3    
+> 54    PBP   0    
+> 55    PBP   0    
+> 56    PSI   0    
+> 57    PSI   0    
+> 58    PSI   0    
+> 59    LOD   3    
+> 60    STO   3    
+> 61    JMP   -56  
+> 62    INC   -1   
+> 63    RTN   0    
+> 64    INC   1    
+> 65    CAL   4    
+> 66    INC   -1   
+> 67    RTN   0    
+> 68    INC   1    
+> 69    CAL   3    
+> 70    INC   -1   
+> 71    RTN   0    
+> 72    INC   1    
+> 73    CAL   2    
+> 74    INC   -1   
+> 75    RTN   0    
+> 76    INC   3    
+> 77    INC   1    
+> 78    CAL   1    
+> 79    HLT   0    
+82,83c85,86
+< ==> addr: 0     JMP   73   
+< PC: 73 BP: 0 SP: 0
+---
+> ==> addr: 0     JMP   76   
+> PC: 76 BP: 0 SP: 0
+85,86c88,89
+< ==> addr: 73    INC   3    
+< PC: 74 BP: 0 SP: 3
+---
+> ==> addr: 76    INC   3    
+> PC: 77 BP: 0 SP: 3
+88,89c91,92
+< ==> addr: 74    INC   1    
+< PC: 75 BP: 0 SP: 4
+---
+> ==> addr: 77    INC   1    
+> PC: 78 BP: 0 SP: 4
+91,148c94,97
 < ==> addr: 75    CAL   69   
 < PC: 69 BP: 4 SP: 7
----
-> ==> addr: 75    CAL   1    
-> PC: 1 BP: 4 SP: 7
-94,111d93
+< stack: S[4]: 0 S[5]: 0 S[6]: 76 
 < ==> addr: 69    INC   1    
 < PC: 70 BP: 4 SP: 8
 < stack: S[4]: 0 S[5]: 0 S[6]: 76 S[7]: 0 
@@ -289,37 +592,22 @@ running hw4-vmtest-procA.myvi in the VM ...
 < ==> addr: 62    CAL   1    
 < PC: 1 BP: 16 SP: 19
 < stack: S[16]: 0 S[17]: 12 S[18]: 63 
-113,114c95,96
+< ==> addr: 1     INC   1    
 < PC: 2 BP: 16 SP: 20
 < stack: S[16]: 0 S[17]: 12 S[18]: 63 S[19]: 0 
----
-> PC: 2 BP: 4 SP: 8
-> stack: S[4]: 0 S[5]: 0 S[6]: 76 S[7]: 0 
-116,117c98,99
+< ==> addr: 2     LIT   44   
 < PC: 3 BP: 16 SP: 21
 < stack: S[16]: 0 S[17]: 12 S[18]: 63 S[19]: 0 S[20]: 44 
----
-> PC: 3 BP: 4 SP: 9
-> stack: S[4]: 0 S[5]: 0 S[6]: 76 S[7]: 0 S[8]: 44 
-119,120c101,102
+< ==> addr: 3     LIT   44   
 < PC: 4 BP: 16 SP: 22
 < stack: S[16]: 0 S[17]: 12 S[18]: 63 S[19]: 0 S[20]: 44 S[21]: 44 
----
-> PC: 4 BP: 4 SP: 10
-> stack: S[4]: 0 S[5]: 0 S[6]: 76 S[7]: 0 S[8]: 44 S[9]: 44 
-122,123c104,105
+< ==> addr: 4     NEQ   0    
 < PC: 5 BP: 16 SP: 21
 < stack: S[16]: 0 S[17]: 12 S[18]: 63 S[19]: 0 S[20]: 0 
----
-> PC: 5 BP: 4 SP: 9
-> stack: S[4]: 0 S[5]: 0 S[6]: 76 S[7]: 0 S[8]: 0 
-125,126c107,108
+< ==> addr: 5     JPC   2    
 < PC: 6 BP: 16 SP: 20
 < stack: S[16]: 0 S[17]: 12 S[18]: 63 S[19]: 0 
----
-> PC: 6 BP: 4 SP: 8
-> stack: S[4]: 0 S[5]: 0 S[6]: 76 S[7]: 0 
-128,146c110
+< ==> addr: 6     JMP   53   
 < PC: 59 BP: 16 SP: 20
 < stack: S[16]: 0 S[17]: 12 S[18]: 63 S[19]: 0 
 < ==> addr: 59    INC   -1   
@@ -339,2816 +627,122 @@ running hw4-vmtest-procA.myvi in the VM ...
 < stack: S[8]: 0 S[9]: 4 S[10]: 71 
 < ==> addr: 68    RTN   0    
 < PC: 71 BP: 4 SP: 8
----
-> PC: 59 BP: 4 SP: 8
-148,149c112,113
+< stack: S[4]: 0 S[5]: 0 S[6]: 76 S[7]: 0 
 < ==> addr: 71    INC   -1   
-< PC: 72 BP: 4 SP: 7
 ---
-> ==> addr: 59    INC   -1   
-> PC: 60 BP: 4 SP: 7
-151c115
+> ==> addr: 78    CAL   1    
+> PC: 1 BP: 4 SP: 7
+> stack: S[4]: 0 S[5]: 0 S[6]: 79 
+> ==> addr: 1     JMP   71   
+150,152c99,164
+< stack: S[4]: 0 S[5]: 0 S[6]: 76 
 < ==> addr: 72    RTN   0    
+< PC: 76 BP: 0 SP: 4
 ---
-> ==> addr: 60    RTN   0    
+> stack: S[4]: 0 S[5]: 0 S[6]: 79 
+> ==> addr: 72    INC   1    
+> PC: 73 BP: 4 SP: 8
+> stack: S[4]: 0 S[5]: 0 S[6]: 79 S[7]: 0 
+> ==> addr: 73    CAL   2    
+> PC: 2 BP: 8 SP: 11
+> stack: S[8]: 0 S[9]: 4 S[10]: 74 
+> ==> addr: 2     JMP   66   
+> PC: 68 BP: 8 SP: 11
+> stack: S[8]: 0 S[9]: 4 S[10]: 74 
+> ==> addr: 68    INC   1    
+> PC: 69 BP: 8 SP: 12
+> stack: S[8]: 0 S[9]: 4 S[10]: 74 S[11]: 0 
+> ==> addr: 69    CAL   3    
+> PC: 3 BP: 12 SP: 15
+> stack: S[12]: 0 S[13]: 8 S[14]: 70 
+> ==> addr: 3     JMP   61   
+> PC: 64 BP: 12 SP: 15
+> stack: S[12]: 0 S[13]: 8 S[14]: 70 
+> ==> addr: 64    INC   1    
+> PC: 65 BP: 12 SP: 16
+> stack: S[12]: 0 S[13]: 8 S[14]: 70 S[15]: 0 
+> ==> addr: 65    CAL   4    
+> PC: 4 BP: 16 SP: 19
+> stack: S[16]: 0 S[17]: 12 S[18]: 66 
+> ==> addr: 4     INC   1    
+> PC: 5 BP: 16 SP: 20
+> stack: S[16]: 0 S[17]: 12 S[18]: 66 S[19]: 0 
+> ==> addr: 5     LIT   44   
+> PC: 6 BP: 16 SP: 21
+> stack: S[16]: 0 S[17]: 12 S[18]: 66 S[19]: 0 S[20]: 44 
+> ==> addr: 6     LIT   44   
+> PC: 7 BP: 16 SP: 22
+> stack: S[16]: 0 S[17]: 12 S[18]: 66 S[19]: 0 S[20]: 44 S[21]: 44 
+> ==> addr: 7     NEQ   0    
+> PC: 8 BP: 16 SP: 21
+> stack: S[16]: 0 S[17]: 12 S[18]: 66 S[19]: 0 S[20]: 0 
+> ==> addr: 8     JPC   2    
+> PC: 9 BP: 16 SP: 20
+> stack: S[16]: 0 S[17]: 12 S[18]: 66 S[19]: 0 
+> ==> addr: 9     JMP   53   
+> PC: 62 BP: 16 SP: 20
+> stack: S[16]: 0 S[17]: 12 S[18]: 66 S[19]: 0 
+> ==> addr: 62    INC   -1   
+> PC: 63 BP: 16 SP: 19
+> stack: S[16]: 0 S[17]: 12 S[18]: 66 
+> ==> addr: 63    RTN   0    
+> PC: 66 BP: 12 SP: 16
+> stack: S[12]: 0 S[13]: 8 S[14]: 70 S[15]: 0 
+> ==> addr: 66    INC   -1   
+> PC: 67 BP: 12 SP: 15
+> stack: S[12]: 0 S[13]: 8 S[14]: 70 
+> ==> addr: 67    RTN   0    
+> PC: 70 BP: 8 SP: 12
+> stack: S[8]: 0 S[9]: 4 S[10]: 74 S[11]: 0 
+> ==> addr: 70    INC   -1   
+> PC: 71 BP: 8 SP: 11
+> stack: S[8]: 0 S[9]: 4 S[10]: 74 
+> ==> addr: 71    RTN   0    
+> PC: 74 BP: 4 SP: 8
+> stack: S[4]: 0 S[5]: 0 S[6]: 79 S[7]: 0 
+> ==> addr: 74    INC   -1   
+> PC: 75 BP: 4 SP: 7
+> stack: S[4]: 0 S[5]: 0 S[6]: 79 
+> ==> addr: 75    RTN   0    
+> PC: 79 BP: 0 SP: 4
+154,155c166,167
+< ==> addr: 76    HLT   0    
+< PC: 77 BP: 0 SP: 4
+---
+> ==> addr: 79    HLT   0    
+> PC: 80 BP: 0 SP: 4
 failed!
 compiling hw4-vmtest0.pl0 ...
 running hw4-vmtest0.myvi in the VM ...
-2,4c2,5
-< 0     INC   3    
-< 1     NOP   0    
-< 2     HLT   0    
----
-> 0     JMP   1    
-> 1     INC   3    
-> 2     NOP   0    
-> 3     HLT   0    
-8,11c9,12
-< ==> addr: 0     INC   3    
-< PC: 1 BP: 0 SP: 3
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 
-< ==> addr: 1     NOP   0    
----
-> ==> addr: 0     JMP   1    
-> PC: 1 BP: 0 SP: 0
-> stack: 
-> ==> addr: 1     INC   3    
-14c15
-< ==> addr: 2     HLT   0    
----
-> ==> addr: 2     NOP   0    
-15a17,19
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 
-> ==> addr: 3     HLT   0    
-> PC: 4 BP: 0 SP: 3
-failed!
+passed!
 compiling hw4-vmtest1.pl0 ...
 running hw4-vmtest1.myvi in the VM ...
-2,5c2,6
-< 0     INC   3    
-< 1     LIT   10   
-< 2     CHO   0    
-< 3     HLT   0    
----
-> 0     JMP   1    
-> 1     INC   3    
-> 2     LIT   10   
-> 3     CHO   0    
-> 4     HLT   0    
-9,10c10,14
-< ==> addr: 0     INC   3    
-< PC: 1 BP: 0 SP: 3
----
-> ==> addr: 0     JMP   1    
-> PC: 1 BP: 0 SP: 0
-> stack: 
-> ==> addr: 1     INC   3    
-> PC: 2 BP: 0 SP: 3
-12,13c16,17
-< ==> addr: 1     LIT   10   
-< PC: 2 BP: 0 SP: 4
----
-> ==> addr: 2     LIT   10   
-> PC: 3 BP: 0 SP: 4
-15,18c19
-< ==> addr: 2     CHO   0    
-< PC: 3 BP: 0 SP: 3
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 
-< ==> addr: 3     HLT   0    
----
-> ==> addr: 3     CHO   0    
-19a21,23
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 
-> ==> addr: 4     HLT   0    
-> PC: 5 BP: 0 SP: 3
-failed!
+passed!
 compiling hw4-vmtest2.pl0 ...
 running hw4-vmtest2.myvi in the VM ...
-2,7c2,8
-< 0     INC   3    
-< 1     INC   1    
-< 2     PBP   0    
-< 3     LIT   5    
-< 4     STO   3    
-< 5     HLT   0    
----
-> 0     JMP   1    
-> 1     INC   3    
-> 2     INC   1    
-> 3     PBP   0    
-> 4     LIT   5    
-> 5     STO   3    
-> 6     HLT   0    
-11,12c12,16
-< ==> addr: 0     INC   3    
-< PC: 1 BP: 0 SP: 3
----
-> ==> addr: 0     JMP   1    
-> PC: 1 BP: 0 SP: 0
-> stack: 
-> ==> addr: 1     INC   3    
-> PC: 2 BP: 0 SP: 3
-14,15c18,19
-< ==> addr: 1     INC   1    
-< PC: 2 BP: 0 SP: 4
----
-> ==> addr: 2     INC   1    
-> PC: 3 BP: 0 SP: 4
-17,18c21,22
-< ==> addr: 2     PBP   0    
-< PC: 3 BP: 0 SP: 5
----
-> ==> addr: 3     PBP   0    
-> PC: 4 BP: 0 SP: 5
-20,21c24,25
-< ==> addr: 3     LIT   5    
-< PC: 4 BP: 0 SP: 6
----
-> ==> addr: 4     LIT   5    
-> PC: 5 BP: 0 SP: 6
-23,26c27
-< ==> addr: 4     STO   3    
-< PC: 5 BP: 0 SP: 4
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 5 
-< ==> addr: 5     HLT   0    
----
-> ==> addr: 5     STO   3    
-27a29,31
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 5 
-> ==> addr: 6     HLT   0    
-> PC: 7 BP: 0 SP: 4
-failed!
+passed!
 compiling hw4-vmtest3.pl0 ...
 running hw4-vmtest3.myvi in the VM ...
-2,5c2,5
-< 0     INC   3    
-< 1     LIT   5    
-< 2     INC   1    
-< 3     PBP   0    
----
-> 0     JMP   1    
-> 1     INC   3    
-> 2     LIT   5    
-> 3     INC   1    
-7,9c7,10
-< 5     LOD   3    
-< 6     STO   4    
-< 7     HLT   0    
----
-> 5     PBP   0    
-> 6     LOD   3    
-> 7     STO   4    
-> 8     HLT   0    
-13,14c14,18
-< ==> addr: 0     INC   3    
-< PC: 1 BP: 0 SP: 3
----
-> ==> addr: 0     JMP   1    
-> PC: 1 BP: 0 SP: 0
-> stack: 
-> ==> addr: 1     INC   3    
-> PC: 2 BP: 0 SP: 3
-16,17c20,21
-< ==> addr: 1     LIT   5    
-< PC: 2 BP: 0 SP: 4
----
-> ==> addr: 2     LIT   5    
-> PC: 3 BP: 0 SP: 4
-19,20c23,24
-< ==> addr: 2     INC   1    
-< PC: 3 BP: 0 SP: 5
----
-> ==> addr: 3     INC   1    
-> PC: 4 BP: 0 SP: 5
-22,24d25
-< ==> addr: 3     PBP   0    
-< PC: 4 BP: 0 SP: 6
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 5 S[4]: 0 S[5]: 0 
-26,28c27,29
-< PC: 5 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 5 S[4]: 0 S[5]: 0 S[6]: 0 
-< ==> addr: 5     LOD   3    
----
-> PC: 5 BP: 0 SP: 6
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 5 S[4]: 0 S[5]: 0 
-> ==> addr: 5     PBP   0    
-29a31,33
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 5 S[4]: 0 S[5]: 0 S[6]: 0 
-> ==> addr: 6     LOD   3    
-> PC: 7 BP: 0 SP: 7
-31,34c35
-< ==> addr: 6     STO   4    
-< PC: 7 BP: 0 SP: 5
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 5 S[4]: 5 
-< ==> addr: 7     HLT   0    
----
-> ==> addr: 7     STO   4    
-35a37,39
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 5 S[4]: 5 
-> ==> addr: 8     HLT   0    
-> PC: 9 BP: 0 SP: 5
-failed!
+passed!
 compiling hw4-vmtest4.pl0 ...
 running hw4-vmtest4.myvi in the VM ...
-2,3c2,3
-< 0     INC   3    
-< 1     NOP   0    
----
-> 0     JMP   1    
-> 1     INC   3    
-5c5,6
-< 3     HLT   0    
----
-> 3     NOP   0    
-> 4     HLT   0    
-9,12c10,13
-< ==> addr: 0     INC   3    
-< PC: 1 BP: 0 SP: 3
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 
-< ==> addr: 1     NOP   0    
----
-> ==> addr: 0     JMP   1    
-> PC: 1 BP: 0 SP: 0
-> stack: 
-> ==> addr: 1     INC   3    
-18c19
-< ==> addr: 3     HLT   0    
----
-> ==> addr: 3     NOP   0    
-19a21,23
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 
-> ==> addr: 4     HLT   0    
-> PC: 5 BP: 0 SP: 3
-failed!
+passed!
 compiling hw4-vmtest5.pl0 ...
 running hw4-vmtest5.myvi in the VM ...
-2,3c2,3
-< 0     INC   3    
-< 1     INC   1    
----
-> 0     JMP   1    
-> 1     INC   3    
-5,8c5,8
-< 3     PBP   0    
-< 4     LIT   33   
-< 5     STO   4    
-< 6     PBP   0    
----
-> 3     INC   1    
-> 4     PBP   0    
-> 5     LIT   33   
-> 6     STO   4    
-10,14c10,15
-< 8     LOD   4    
-< 9     LIT   22   
-< 10    ADD   0    
-< 11    STO   3    
-< 12    HLT   0    
----
-> 8     PBP   0    
-> 9     LOD   4    
-> 10    LIT   22   
-> 11    ADD   0    
-> 12    STO   3    
-> 13    HLT   0    
-18,19c19,23
-< ==> addr: 0     INC   3    
-< PC: 1 BP: 0 SP: 3
----
-> ==> addr: 0     JMP   1    
-> PC: 1 BP: 0 SP: 0
-> stack: 
-> ==> addr: 1     INC   3    
-> PC: 2 BP: 0 SP: 3
-21,23d24
-< ==> addr: 1     INC   1    
-< PC: 2 BP: 0 SP: 4
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 0 
-25c26,29
-< PC: 3 BP: 0 SP: 5
----
-> PC: 3 BP: 0 SP: 4
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 0 
-> ==> addr: 3     INC   1    
-> PC: 4 BP: 0 SP: 5
-27,28c31,32
-< ==> addr: 3     PBP   0    
-< PC: 4 BP: 0 SP: 6
----
-> ==> addr: 4     PBP   0    
-> PC: 5 BP: 0 SP: 6
-30,31c34,35
-< ==> addr: 4     LIT   33   
-< PC: 5 BP: 0 SP: 7
----
-> ==> addr: 5     LIT   33   
-> PC: 6 BP: 0 SP: 7
-33,34c37,38
-< ==> addr: 5     STO   4    
-< PC: 6 BP: 0 SP: 5
----
-> ==> addr: 6     STO   4    
-> PC: 7 BP: 0 SP: 5
-36,38d39
-< ==> addr: 6     PBP   0    
-< PC: 7 BP: 0 SP: 6
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 0 S[4]: 33 S[5]: 0 
-40,42c41,43
-< PC: 8 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 0 S[4]: 33 S[5]: 0 S[6]: 0 
-< ==> addr: 8     LOD   4    
----
-> PC: 8 BP: 0 SP: 6
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 0 S[4]: 33 S[5]: 0 
-> ==> addr: 8     PBP   0    
-43a45,47
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 0 S[4]: 33 S[5]: 0 S[6]: 0 
-> ==> addr: 9     LOD   4    
-> PC: 10 BP: 0 SP: 7
-45,46c49,50
-< ==> addr: 9     LIT   22   
-< PC: 10 BP: 0 SP: 8
----
-> ==> addr: 10    LIT   22   
-> PC: 11 BP: 0 SP: 8
-48,49c52,53
-< ==> addr: 10    ADD   0    
-< PC: 11 BP: 0 SP: 7
----
-> ==> addr: 11    ADD   0    
-> PC: 12 BP: 0 SP: 7
-51,54c55
-< ==> addr: 11    STO   3    
-< PC: 12 BP: 0 SP: 5
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 55 S[4]: 33 
-< ==> addr: 12    HLT   0    
----
-> ==> addr: 12    STO   3    
-55a57,59
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 55 S[4]: 33 
-> ==> addr: 13    HLT   0    
-> PC: 14 BP: 0 SP: 5
-failed!
+passed!
 compiling hw4-vmtest6.pl0 ...
 running hw4-vmtest6.myvi in the VM ...
-2,5c2,5
-< 0     INC   3    
-< 1     LIT   10   
-< 2     LIT   121  
-< 3     INC   1    
----
-> 0     JMP   1    
-> 1     INC   3    
-> 2     LIT   10   
-> 3     LIT   121  
-8c8
-< 6     PBP   0    
----
-> 6     INC   1    
-10,22c10,22
-< 8     LOD   3    
-< 9     LIT   1    
-< 10    ADD   0    
-< 11    LIT   0    
-< 12    ADD   0    
-< 13    LIT   0    
-< 14    LIT   10   
-< 15    MUL   0    
-< 16    LIT   10   
-< 17    DIV   0    
-< 18    SUB   0    
-< 19    STO   5    
-< 20    PBP   0    
----
-> 8     PBP   0    
-> 9     LOD   3    
-> 10    LIT   1    
-> 11    ADD   0    
-> 12    LIT   0    
-> 13    ADD   0    
-> 14    LIT   0    
-> 15    LIT   10   
-> 16    MUL   0    
-> 17    LIT   10   
-> 18    DIV   0    
-> 19    SUB   0    
-> 20    STO   5    
-24,38c24,38
-< 22    LOD   5    
-< 23    PBP   0    
-< 24    LOD   5    
-< 25    SUB   0    
-< 26    PBP   0    
-< 27    LOD   4    
-< 28    ADD   0    
-< 29    LIT   1    
-< 30    LIT   2    
-< 31    SUB   0    
-< 32    LIT   1    
-< 33    ADD   0    
-< 34    SUB   0    
-< 35    STO   6    
-< 36    PBP   0    
----
-> 22    PBP   0    
-> 23    LOD   5    
-> 24    PBP   0    
-> 25    LOD   5    
-> 26    SUB   0    
-> 27    PBP   0    
-> 28    LOD   4    
-> 29    ADD   0    
-> 30    LIT   1    
-> 31    LIT   2    
-> 32    SUB   0    
-> 33    LIT   1    
-> 34    ADD   0    
-> 35    SUB   0    
-> 36    STO   6    
-40,52c40,53
-< 38    LOD   5    
-< 39    PBP   0    
-< 40    LOD   6    
-< 41    DIV   0    
-< 42    STO   7    
-< 43    PBP   0    
-< 44    LOD   7    
-< 45    LIT   0    
-< 46    SUB   0    
-< 47    LIT   0    
-< 48    SUB   0    
-< 49    CHO   0    
-< 50    HLT   0    
----
-> 38    PBP   0    
-> 39    LOD   5    
-> 40    PBP   0    
-> 41    LOD   6    
-> 42    DIV   0    
-> 43    STO   7    
-> 44    PBP   0    
-> 45    LOD   7    
-> 46    LIT   0    
-> 47    SUB   0    
-> 48    LIT   0    
-> 49    SUB   0    
-> 50    CHO   0    
-> 51    HLT   0    
-56,57c57,61
-< ==> addr: 0     INC   3    
-< PC: 1 BP: 0 SP: 3
----
-> ==> addr: 0     JMP   1    
-> PC: 1 BP: 0 SP: 0
-> stack: 
-> ==> addr: 1     INC   3    
-> PC: 2 BP: 0 SP: 3
-59,60c63,64
-< ==> addr: 1     LIT   10   
-< PC: 2 BP: 0 SP: 4
----
-> ==> addr: 2     LIT   10   
-> PC: 3 BP: 0 SP: 4
-62,63c66,67
-< ==> addr: 2     LIT   121  
-< PC: 3 BP: 0 SP: 5
----
-> ==> addr: 3     LIT   121  
-> PC: 4 BP: 0 SP: 5
-65,67d68
-< ==> addr: 3     INC   1    
-< PC: 4 BP: 0 SP: 6
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 0 
-69,70c70,71
-< PC: 5 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 0 S[6]: 0 
----
-> PC: 5 BP: 0 SP: 6
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 0 
-72c73,76
-< PC: 6 BP: 0 SP: 8
----
-> PC: 6 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 0 S[6]: 0 
-> ==> addr: 6     INC   1    
-> PC: 7 BP: 0 SP: 8
-74,76d77
-< ==> addr: 6     PBP   0    
-< PC: 7 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 0 S[6]: 0 S[7]: 0 S[8]: 0 
-78,80c79,81
-< PC: 8 BP: 0 SP: 10
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 0 S[6]: 0 S[7]: 0 S[8]: 0 S[9]: 0 
-< ==> addr: 8     LOD   3    
----
-> PC: 8 BP: 0 SP: 9
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 0 S[6]: 0 S[7]: 0 S[8]: 0 
-> ==> addr: 8     PBP   0    
-81a83,85
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 0 S[6]: 0 S[7]: 0 S[8]: 0 S[9]: 0 
-> ==> addr: 9     LOD   3    
-> PC: 10 BP: 0 SP: 10
-83,84c87,88
-< ==> addr: 9     LIT   1    
-< PC: 10 BP: 0 SP: 11
----
-> ==> addr: 10    LIT   1    
-> PC: 11 BP: 0 SP: 11
-86,87c90,91
-< ==> addr: 10    ADD   0    
-< PC: 11 BP: 0 SP: 10
----
-> ==> addr: 11    ADD   0    
-> PC: 12 BP: 0 SP: 10
-89,90c93,94
-< ==> addr: 11    LIT   0    
-< PC: 12 BP: 0 SP: 11
----
-> ==> addr: 12    LIT   0    
-> PC: 13 BP: 0 SP: 11
-92,93c96,97
-< ==> addr: 12    ADD   0    
-< PC: 13 BP: 0 SP: 10
----
-> ==> addr: 13    ADD   0    
-> PC: 14 BP: 0 SP: 10
-95,96c99,100
-< ==> addr: 13    LIT   0    
-< PC: 14 BP: 0 SP: 11
----
-> ==> addr: 14    LIT   0    
-> PC: 15 BP: 0 SP: 11
-98,99c102,103
-< ==> addr: 14    LIT   10   
-< PC: 15 BP: 0 SP: 12
----
-> ==> addr: 15    LIT   10   
-> PC: 16 BP: 0 SP: 12
-101,102c105,106
-< ==> addr: 15    MUL   0    
-< PC: 16 BP: 0 SP: 11
----
-> ==> addr: 16    MUL   0    
-> PC: 17 BP: 0 SP: 11
-104,105c108,109
-< ==> addr: 16    LIT   10   
-< PC: 17 BP: 0 SP: 12
----
-> ==> addr: 17    LIT   10   
-> PC: 18 BP: 0 SP: 12
-107,108c111,112
-< ==> addr: 17    DIV   0    
-< PC: 18 BP: 0 SP: 11
----
-> ==> addr: 18    DIV   0    
-> PC: 19 BP: 0 SP: 11
-110,111c114,115
-< ==> addr: 18    SUB   0    
-< PC: 19 BP: 0 SP: 10
----
-> ==> addr: 19    SUB   0    
-> PC: 20 BP: 0 SP: 10
-113,114c117,118
-< ==> addr: 19    STO   5    
-< PC: 20 BP: 0 SP: 8
----
-> ==> addr: 20    STO   5    
-> PC: 21 BP: 0 SP: 8
-116,118d119
-< ==> addr: 20    PBP   0    
-< PC: 21 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 0 S[7]: 0 S[8]: 0 
-120,122c121,123
-< PC: 22 BP: 0 SP: 10
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 0 S[7]: 0 S[8]: 0 S[9]: 0 
-< ==> addr: 22    LOD   5    
----
-> PC: 22 BP: 0 SP: 9
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 0 S[7]: 0 S[8]: 0 
-> ==> addr: 22    PBP   0    
-123a125,127
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 0 S[7]: 0 S[8]: 0 S[9]: 0 
-> ==> addr: 23    LOD   5    
-> PC: 24 BP: 0 SP: 10
-125,128c129
-< ==> addr: 23    PBP   0    
-< PC: 24 BP: 0 SP: 11
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 0 S[7]: 0 S[8]: 0 S[9]: 11 S[10]: 0 
-< ==> addr: 24    LOD   5    
----
-> ==> addr: 24    PBP   0    
-129a131,133
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 0 S[7]: 0 S[8]: 0 S[9]: 11 S[10]: 0 
-> ==> addr: 25    LOD   5    
-> PC: 26 BP: 0 SP: 11
-131,132c135,136
-< ==> addr: 25    SUB   0    
-< PC: 26 BP: 0 SP: 10
----
-> ==> addr: 26    SUB   0    
-> PC: 27 BP: 0 SP: 10
-134,137c138
-< ==> addr: 26    PBP   0    
-< PC: 27 BP: 0 SP: 11
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 0 S[7]: 0 S[8]: 0 S[9]: 0 S[10]: 0 
-< ==> addr: 27    LOD   4    
----
-> ==> addr: 27    PBP   0    
-138a140,142
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 0 S[7]: 0 S[8]: 0 S[9]: 0 S[10]: 0 
-> ==> addr: 28    LOD   4    
-> PC: 29 BP: 0 SP: 11
-140,141c144,145
-< ==> addr: 28    ADD   0    
-< PC: 29 BP: 0 SP: 10
----
-> ==> addr: 29    ADD   0    
-> PC: 30 BP: 0 SP: 10
-143,144c147,148
-< ==> addr: 29    LIT   1    
-< PC: 30 BP: 0 SP: 11
----
-> ==> addr: 30    LIT   1    
-> PC: 31 BP: 0 SP: 11
-146,147c150,151
-< ==> addr: 30    LIT   2    
-< PC: 31 BP: 0 SP: 12
----
-> ==> addr: 31    LIT   2    
-> PC: 32 BP: 0 SP: 12
-149,150c153,154
-< ==> addr: 31    SUB   0    
-< PC: 32 BP: 0 SP: 11
----
-> ==> addr: 32    SUB   0    
-> PC: 33 BP: 0 SP: 11
-152,153c156,157
-< ==> addr: 32    LIT   1    
-< PC: 33 BP: 0 SP: 12
----
-> ==> addr: 33    LIT   1    
-> PC: 34 BP: 0 SP: 12
-155,156c159,160
-< ==> addr: 33    ADD   0    
-< PC: 34 BP: 0 SP: 11
----
-> ==> addr: 34    ADD   0    
-> PC: 35 BP: 0 SP: 11
-158,159c162,163
-< ==> addr: 34    SUB   0    
-< PC: 35 BP: 0 SP: 10
----
-> ==> addr: 35    SUB   0    
-> PC: 36 BP: 0 SP: 10
-161,162c165,166
-< ==> addr: 35    STO   6    
-< PC: 36 BP: 0 SP: 8
----
-> ==> addr: 36    STO   6    
-> PC: 37 BP: 0 SP: 8
-164,166d167
-< ==> addr: 36    PBP   0    
-< PC: 37 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 121 S[7]: 0 S[8]: 0 
-168,170c169,171
-< PC: 38 BP: 0 SP: 10
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 121 S[7]: 0 S[8]: 0 S[9]: 0 
-< ==> addr: 38    LOD   5    
----
-> PC: 38 BP: 0 SP: 9
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 121 S[7]: 0 S[8]: 0 
-> ==> addr: 38    PBP   0    
-171a173,175
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 121 S[7]: 0 S[8]: 0 S[9]: 0 
-> ==> addr: 39    LOD   5    
-> PC: 40 BP: 0 SP: 10
-173,176c177
-< ==> addr: 39    PBP   0    
-< PC: 40 BP: 0 SP: 11
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 121 S[7]: 0 S[8]: 0 S[9]: 11 S[10]: 0 
-< ==> addr: 40    LOD   6    
----
-> ==> addr: 40    PBP   0    
-177a179,181
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 121 S[7]: 0 S[8]: 0 S[9]: 11 S[10]: 0 
-> ==> addr: 41    LOD   6    
-> PC: 42 BP: 0 SP: 11
-179,180c183,184
-< ==> addr: 41    DIV   0    
-< PC: 42 BP: 0 SP: 10
----
-> ==> addr: 42    DIV   0    
-> PC: 43 BP: 0 SP: 10
-182,183c186,187
-< ==> addr: 42    STO   7    
-< PC: 43 BP: 0 SP: 8
----
-> ==> addr: 43    STO   7    
-> PC: 44 BP: 0 SP: 8
-185,188c189
-< ==> addr: 43    PBP   0    
-< PC: 44 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 121 S[7]: 0 S[8]: 0 
-< ==> addr: 44    LOD   7    
----
-> ==> addr: 44    PBP   0    
-191,192c192,196
-< ==> addr: 45    LIT   0    
-< PC: 46 BP: 0 SP: 10
----
-> ==> addr: 45    LOD   7    
-> PC: 46 BP: 0 SP: 9
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 121 S[7]: 0 S[8]: 0 
-> ==> addr: 46    LIT   0    
-> PC: 47 BP: 0 SP: 10
-194,195c198,199
-< ==> addr: 46    SUB   0    
-< PC: 47 BP: 0 SP: 9
----
-> ==> addr: 47    SUB   0    
-> PC: 48 BP: 0 SP: 9
-197,198c201,202
-< ==> addr: 47    LIT   0    
-< PC: 48 BP: 0 SP: 10
----
-> ==> addr: 48    LIT   0    
-> PC: 49 BP: 0 SP: 10
-200,201c204,205
-< ==> addr: 48    SUB   0    
-< PC: 49 BP: 0 SP: 9
----
-> ==> addr: 49    SUB   0    
-> PC: 50 BP: 0 SP: 9
-203,206c207
-< ==> addr: 49    CHO   0    
-< PC: 50 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 121 S[7]: 0 
-< ==> addr: 50    HLT   0    
----
-> ==> addr: 50    CHO   0    
-207a209,211
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 10 S[4]: 121 S[5]: 11 S[6]: 121 S[7]: 0 
-> ==> addr: 51    HLT   0    
-> PC: 52 BP: 0 SP: 8
-failed!
+passed!
 compiling hw4-vmtest7.pl0 ...
 running hw4-vmtest7.myvi in the VM ...
-2,21c2,22
-< 0     INC   3    
-< 1     LIT   89   
-< 2     LIT   78   
-< 3     LIT   10   
-< 4     LIT   99   
-< 5     LIT   86   
-< 6     GTR   0    
-< 7     JPC   2    
-< 8     JMP   5    
-< 9     PBP   0    
-< 10    LOD   3    
-< 11    CHO   0    
-< 12    JMP   4    
-< 13    PBP   0    
-< 14    LOD   4    
-< 15    CHO   0    
-< 16    PBP   0    
-< 17    LOD   5    
-< 18    CHO   0    
-< 19    HLT   0    
----
-> 0     JMP   1    
-> 1     INC   3    
-> 2     LIT   89   
-> 3     LIT   78   
-> 4     LIT   10   
-> 5     LIT   99   
-> 6     LIT   86   
-> 7     GTR   0    
-> 8     JPC   2    
-> 9     JMP   5    
-> 10    PBP   0    
-> 11    LOD   3    
-> 12    CHO   0    
-> 13    JMP   4    
-> 14    PBP   0    
-> 15    LOD   4    
-> 16    CHO   0    
-> 17    PBP   0    
-> 18    LOD   5    
-> 19    CHO   0    
-> 20    HLT   0    
-25,26c26,30
-< ==> addr: 0     INC   3    
-< PC: 1 BP: 0 SP: 3
----
-> ==> addr: 0     JMP   1    
-> PC: 1 BP: 0 SP: 0
-> stack: 
-> ==> addr: 1     INC   3    
-> PC: 2 BP: 0 SP: 3
-28,29c32,33
-< ==> addr: 1     LIT   89   
-< PC: 2 BP: 0 SP: 4
----
-> ==> addr: 2     LIT   89   
-> PC: 3 BP: 0 SP: 4
-31,32c35,36
-< ==> addr: 2     LIT   78   
-< PC: 3 BP: 0 SP: 5
----
-> ==> addr: 3     LIT   78   
-> PC: 4 BP: 0 SP: 5
-34,35c38,39
-< ==> addr: 3     LIT   10   
-< PC: 4 BP: 0 SP: 6
----
-> ==> addr: 4     LIT   10   
-> PC: 5 BP: 0 SP: 6
-37,38c41,42
-< ==> addr: 4     LIT   99   
-< PC: 5 BP: 0 SP: 7
----
-> ==> addr: 5     LIT   99   
-> PC: 6 BP: 0 SP: 7
-40,41c44,45
-< ==> addr: 5     LIT   86   
-< PC: 6 BP: 0 SP: 8
----
-> ==> addr: 6     LIT   86   
-> PC: 7 BP: 0 SP: 8
-43,44c47,48
-< ==> addr: 6     GTR   0    
-< PC: 7 BP: 0 SP: 7
----
-> ==> addr: 7     GTR   0    
-> PC: 8 BP: 0 SP: 7
-46,47c50,51
-< ==> addr: 7     JPC   2    
-< PC: 9 BP: 0 SP: 6
----
-> ==> addr: 8     JPC   2    
-> PC: 10 BP: 0 SP: 6
-49,52c53
-< ==> addr: 9     PBP   0    
-< PC: 10 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 89 S[4]: 78 S[5]: 10 S[6]: 0 
-< ==> addr: 10    LOD   3    
----
-> ==> addr: 10    PBP   0    
-53a55,57
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 89 S[4]: 78 S[5]: 10 S[6]: 0 
-> ==> addr: 11    LOD   3    
-> PC: 12 BP: 0 SP: 7
-55,56c59,60
-< ==> addr: 11    CHO   0    
-< PC: 12 BP: 0 SP: 6
----
-> ==> addr: 12    CHO   0    
-> PC: 13 BP: 0 SP: 6
-58,59c62,63
-< ==> addr: 12    JMP   4    
-< PC: 16 BP: 0 SP: 6
----
-> ==> addr: 13    JMP   4    
-> PC: 17 BP: 0 SP: 6
-61,64c65
-< ==> addr: 16    PBP   0    
-< PC: 17 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 89 S[4]: 78 S[5]: 10 S[6]: 0 
-< ==> addr: 17    LOD   5    
----
-> ==> addr: 17    PBP   0    
-65a67,69
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 89 S[4]: 78 S[5]: 10 S[6]: 0 
-> ==> addr: 18    LOD   5    
-> PC: 19 BP: 0 SP: 7
-67,70c71
-< ==> addr: 18    CHO   0    
-< PC: 19 BP: 0 SP: 6
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 89 S[4]: 78 S[5]: 10 
-< ==> addr: 19    HLT   0    
----
-> ==> addr: 19    CHO   0    
-71a73,75
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 89 S[4]: 78 S[5]: 10 
-> ==> addr: 20    HLT   0    
-> PC: 21 BP: 0 SP: 6
-failed!
+passed!
 compiling hw4-vmtest8.pl0 ...
 running hw4-vmtest8.myvi in the VM ...
-2,3c2,3
-< 0     INC   3    
-< 1     INC   1    
----
-> 0     JMP   1    
-> 1     INC   3    
-5,17c5,18
-< 3     LIT   99   
-< 4     LIT   86   
-< 5     LSS   0    
-< 6     JPC   2    
-< 7     JMP   5    
-< 8     PBP   0    
-< 9     LIT   0    
-< 10    STO   3    
-< 11    JMP   4    
-< 12    PBP   0    
-< 13    LIT   1    
-< 14    STO   4    
-< 15    HLT   0    
----
-> 3     INC   1    
-> 4     LIT   99   
-> 5     LIT   86   
-> 6     LSS   0    
-> 7     JPC   2    
-> 8     JMP   5    
-> 9     PBP   0    
-> 10    LIT   0    
-> 11    STO   3    
-> 12    JMP   4    
-> 13    PBP   0    
-> 14    LIT   1    
-> 15    STO   4    
-> 16    HLT   0    
-21,22c22,26
-< ==> addr: 0     INC   3    
-< PC: 1 BP: 0 SP: 3
----
-> ==> addr: 0     JMP   1    
-> PC: 1 BP: 0 SP: 0
-> stack: 
-> ==> addr: 1     INC   3    
-> PC: 2 BP: 0 SP: 3
-24,26d27
-< ==> addr: 1     INC   1    
-< PC: 2 BP: 0 SP: 4
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 0 
-28c29,32
-< PC: 3 BP: 0 SP: 5
----
-> PC: 3 BP: 0 SP: 4
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 0 
-> ==> addr: 3     INC   1    
-> PC: 4 BP: 0 SP: 5
-30,31c34,35
-< ==> addr: 3     LIT   99   
-< PC: 4 BP: 0 SP: 6
----
-> ==> addr: 4     LIT   99   
-> PC: 5 BP: 0 SP: 6
-33,34c37,38
-< ==> addr: 4     LIT   86   
-< PC: 5 BP: 0 SP: 7
----
-> ==> addr: 5     LIT   86   
-> PC: 6 BP: 0 SP: 7
-36,37c40,41
-< ==> addr: 5     LSS   0    
-< PC: 6 BP: 0 SP: 6
----
-> ==> addr: 6     LSS   0    
-> PC: 7 BP: 0 SP: 6
-39,40c43,44
-< ==> addr: 6     JPC   2    
-< PC: 7 BP: 0 SP: 5
----
-> ==> addr: 7     JPC   2    
-> PC: 8 BP: 0 SP: 5
-42,43c46,47
-< ==> addr: 7     JMP   5    
-< PC: 12 BP: 0 SP: 5
----
-> ==> addr: 8     JMP   5    
-> PC: 13 BP: 0 SP: 5
-45,46c49,50
-< ==> addr: 12    PBP   0    
-< PC: 13 BP: 0 SP: 6
----
-> ==> addr: 13    PBP   0    
-> PC: 14 BP: 0 SP: 6
-48,49c52,53
-< ==> addr: 13    LIT   1    
-< PC: 14 BP: 0 SP: 7
----
-> ==> addr: 14    LIT   1    
-> PC: 15 BP: 0 SP: 7
-51,54c55
-< ==> addr: 14    STO   4    
-< PC: 15 BP: 0 SP: 5
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 0 S[4]: 1 
-< ==> addr: 15    HLT   0    
----
-> ==> addr: 15    STO   4    
-55a57,59
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 0 S[4]: 1 
-> ==> addr: 16    HLT   0    
-> PC: 17 BP: 0 SP: 5
-failed!
+passed!
 compiling hw4-vmtest9.pl0 ...
 running hw4-vmtest9.myvi in the VM ...
-2,4c2,4
-< 0     INC   3    
-< 1     LIT   7    
-< 2     INC   1    
----
-> 0     JMP   1    
-> 1     INC   3    
-> 2     LIT   7    
-7,25c7,25
-< 5     PBP   0    
-< 6     LIT   86   
-< 7     STO   4    
-< 8     PBP   0    
-< 9     LIT   99   
-< 10    STO   5    
-< 11    PBP   0    
-< 12    LIT   1001 
-< 13    STO   6    
-< 14    PBP   0    
-< 15    LOD   4    
-< 16    PBP   0    
-< 17    LOD   5    
-< 18    SUB   0    
-< 19    LIT   2    
-< 20    MOD   0    
-< 21    JPC   2    
-< 22    JMP   11   
-< 23    PBP   0    
----
-> 5     INC   1    
-> 6     PBP   0    
-> 7     LIT   86   
-> 8     STO   4    
-> 9     PBP   0    
-> 10    LIT   99   
-> 11    STO   5    
-> 12    PBP   0    
-> 13    LIT   1001 
-> 14    STO   6    
-> 15    PBP   0    
-> 16    LOD   4    
-> 17    PBP   0    
-> 18    LOD   5    
-> 19    SUB   0    
-> 20    LIT   2    
-> 21    MOD   0    
-> 22    JPC   2    
-> 23    JMP   11   
-27,35c27,35
-< 25    LOD   6    
-< 26    LIT   1    
-< 27    ADD   0    
-< 28    PBP   0    
-< 29    LOD   3    
-< 30    ADD   0    
-< 31    STO   4    
-< 32    JMP   10   
-< 33    PBP   0    
----
-> 25    PBP   0    
-> 26    LOD   6    
-> 27    LIT   1    
-> 28    ADD   0    
-> 29    PBP   0    
-> 30    LOD   3    
-> 31    ADD   0    
-> 32    STO   4    
-> 33    JMP   10   
-37,44c37,45
-< 35    LOD   5    
-< 36    LIT   1    
-< 37    PBP   0    
-< 38    LOD   6    
-< 39    MUL   0    
-< 40    SUB   0    
-< 41    STO   5    
-< 42    HLT   0    
----
-> 35    PBP   0    
-> 36    LOD   5    
-> 37    LIT   1    
-> 38    PBP   0    
-> 39    LOD   6    
-> 40    MUL   0    
-> 41    SUB   0    
-> 42    STO   5    
-> 43    HLT   0    
-48,49c49,53
-< ==> addr: 0     INC   3    
-< PC: 1 BP: 0 SP: 3
----
-> ==> addr: 0     JMP   1    
-> PC: 1 BP: 0 SP: 0
-> stack: 
-> ==> addr: 1     INC   3    
-> PC: 2 BP: 0 SP: 3
-51,52c55,56
-< ==> addr: 1     LIT   7    
-< PC: 2 BP: 0 SP: 4
----
-> ==> addr: 2     LIT   7    
-> PC: 3 BP: 0 SP: 4
-54,56d57
-< ==> addr: 2     INC   1    
-< PC: 3 BP: 0 SP: 5
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 0 
-58,59c59,60
-< PC: 4 BP: 0 SP: 6
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 0 S[5]: 0 
----
-> PC: 4 BP: 0 SP: 5
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 0 
-61c62,65
-< PC: 5 BP: 0 SP: 7
----
-> PC: 5 BP: 0 SP: 6
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 0 S[5]: 0 
-> ==> addr: 5     INC   1    
-> PC: 6 BP: 0 SP: 7
-63,64c67,68
-< ==> addr: 5     PBP   0    
-< PC: 6 BP: 0 SP: 8
----
-> ==> addr: 6     PBP   0    
-> PC: 7 BP: 0 SP: 8
-66,67c70,71
-< ==> addr: 6     LIT   86   
-< PC: 7 BP: 0 SP: 9
----
-> ==> addr: 7     LIT   86   
-> PC: 8 BP: 0 SP: 9
-69,70c73,74
-< ==> addr: 7     STO   4    
-< PC: 8 BP: 0 SP: 7
----
-> ==> addr: 8     STO   4    
-> PC: 9 BP: 0 SP: 7
-72,73c76,77
-< ==> addr: 8     PBP   0    
-< PC: 9 BP: 0 SP: 8
----
-> ==> addr: 9     PBP   0    
-> PC: 10 BP: 0 SP: 8
-75,76c79,80
-< ==> addr: 9     LIT   99   
-< PC: 10 BP: 0 SP: 9
----
-> ==> addr: 10    LIT   99   
-> PC: 11 BP: 0 SP: 9
-78,79c82,83
-< ==> addr: 10    STO   5    
-< PC: 11 BP: 0 SP: 7
----
-> ==> addr: 11    STO   5    
-> PC: 12 BP: 0 SP: 7
-81,82c85,86
-< ==> addr: 11    PBP   0    
-< PC: 12 BP: 0 SP: 8
----
-> ==> addr: 12    PBP   0    
-> PC: 13 BP: 0 SP: 8
-84,85c88,89
-< ==> addr: 12    LIT   1001 
-< PC: 13 BP: 0 SP: 9
----
-> ==> addr: 13    LIT   1001 
-> PC: 14 BP: 0 SP: 9
-87,88c91,92
-< ==> addr: 13    STO   6    
-< PC: 14 BP: 0 SP: 7
----
-> ==> addr: 14    STO   6    
-> PC: 15 BP: 0 SP: 7
-90,93c94
-< ==> addr: 14    PBP   0    
-< PC: 15 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 86 S[5]: 99 S[6]: 1001 S[7]: 0 
-< ==> addr: 15    LOD   4    
----
-> ==> addr: 15    PBP   0    
-94a96,98
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 86 S[5]: 99 S[6]: 1001 S[7]: 0 
-> ==> addr: 16    LOD   4    
-> PC: 17 BP: 0 SP: 8
-96,99c100
-< ==> addr: 16    PBP   0    
-< PC: 17 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 86 S[5]: 99 S[6]: 1001 S[7]: 86 S[8]: 0 
-< ==> addr: 17    LOD   5    
----
-> ==> addr: 17    PBP   0    
-100a102,104
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 86 S[5]: 99 S[6]: 1001 S[7]: 86 S[8]: 0 
-> ==> addr: 18    LOD   5    
-> PC: 19 BP: 0 SP: 9
-102,103c106,107
-< ==> addr: 18    SUB   0    
-< PC: 19 BP: 0 SP: 8
----
-> ==> addr: 19    SUB   0    
-> PC: 20 BP: 0 SP: 8
-105,106c109,110
-< ==> addr: 19    LIT   2    
-< PC: 20 BP: 0 SP: 9
----
-> ==> addr: 20    LIT   2    
-> PC: 21 BP: 0 SP: 9
-108,109c112,113
-< ==> addr: 20    MOD   0    
-< PC: 21 BP: 0 SP: 8
----
-> ==> addr: 21    MOD   0    
-> PC: 22 BP: 0 SP: 8
-111,112c115,116
-< ==> addr: 21    JPC   2    
-< PC: 23 BP: 0 SP: 7
----
-> ==> addr: 22    JPC   2    
-> PC: 24 BP: 0 SP: 7
-114,116d117
-< ==> addr: 23    PBP   0    
-< PC: 24 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 86 S[5]: 99 S[6]: 1001 S[7]: 0 
-118,120c119,121
-< PC: 25 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 86 S[5]: 99 S[6]: 1001 S[7]: 0 S[8]: 0 
-< ==> addr: 25    LOD   6    
----
-> PC: 25 BP: 0 SP: 8
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 86 S[5]: 99 S[6]: 1001 S[7]: 0 
-> ==> addr: 25    PBP   0    
-121a123,125
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 86 S[5]: 99 S[6]: 1001 S[7]: 0 S[8]: 0 
-> ==> addr: 26    LOD   6    
-> PC: 27 BP: 0 SP: 9
-123,124c127,128
-< ==> addr: 26    LIT   1    
-< PC: 27 BP: 0 SP: 10
----
-> ==> addr: 27    LIT   1    
-> PC: 28 BP: 0 SP: 10
-126,127c130,131
-< ==> addr: 27    ADD   0    
-< PC: 28 BP: 0 SP: 9
----
-> ==> addr: 28    ADD   0    
-> PC: 29 BP: 0 SP: 9
-129,132c133
-< ==> addr: 28    PBP   0    
-< PC: 29 BP: 0 SP: 10
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 86 S[5]: 99 S[6]: 1001 S[7]: 0 S[8]: 1002 S[9]: 0 
-< ==> addr: 29    LOD   3    
----
-> ==> addr: 29    PBP   0    
-133a135,137
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 86 S[5]: 99 S[6]: 1001 S[7]: 0 S[8]: 1002 S[9]: 0 
-> ==> addr: 30    LOD   3    
-> PC: 31 BP: 0 SP: 10
-135,136c139,140
-< ==> addr: 30    ADD   0    
-< PC: 31 BP: 0 SP: 9
----
-> ==> addr: 31    ADD   0    
-> PC: 32 BP: 0 SP: 9
-138,139c142,143
-< ==> addr: 31    STO   4    
-< PC: 32 BP: 0 SP: 7
----
-> ==> addr: 32    STO   4    
-> PC: 33 BP: 0 SP: 7
-141,144c145
-< ==> addr: 32    JMP   10   
-< PC: 42 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 1009 S[5]: 99 S[6]: 1001 
-< ==> addr: 42    HLT   0    
----
-> ==> addr: 33    JMP   10   
-145a147,149
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 7 S[4]: 1009 S[5]: 99 S[6]: 1001 
-> ==> addr: 43    HLT   0    
-> PC: 44 BP: 0 SP: 7
-failed!
+passed!
 compiling hw4-vmtestA.pl0 ...
 running hw4-vmtestA.myvi in the VM ...
-2,4c2,4
-< 0     INC   3    
-< 1     LIT   97   
-< 2     INC   1    
----
-> 0     JMP   1    
-> 1     INC   3    
-> 2     LIT   97   
-6,15c6,15
-< 4     PBP   0    
-< 5     LIT   0    
-< 6     STO   5    
-< 7     PBP   0    
-< 8     LOD   5    
-< 9     LIT   10   
-< 10    LSS   0    
-< 11    JPC   2    
-< 12    JMP   20   
-< 13    PBP   0    
----
-> 4     INC   1    
-> 5     PBP   0    
-> 6     LIT   0    
-> 7     STO   5    
-> 8     PBP   0    
-> 9     LOD   5    
-> 10    LIT   10   
-> 11    LSS   0    
-> 12    JPC   2    
-> 13    JMP   20   
-17,27c17,27
-< 15    LOD   3    
-< 16    PBP   0    
-< 17    LOD   5    
-< 18    ADD   0    
-< 19    STO   4    
-< 20    PBP   0    
-< 21    LOD   4    
-< 22    LIT   1    
-< 23    ADD   0    
-< 24    CHO   0    
-< 25    PBP   0    
----
-> 15    PBP   0    
-> 16    LOD   3    
-> 17    PBP   0    
-> 18    LOD   5    
-> 19    ADD   0    
-> 20    STO   4    
-> 21    PBP   0    
-> 22    LOD   4    
-> 23    LIT   1    
-> 24    ADD   0    
-> 25    CHO   0    
-29,34c29,35
-< 27    LOD   5    
-< 28    LIT   1    
-< 29    ADD   0    
-< 30    STO   5    
-< 31    JMP   -24  
-< 32    HLT   0    
----
-> 27    PBP   0    
-> 28    LOD   5    
-> 29    LIT   1    
-> 30    ADD   0    
-> 31    STO   5    
-> 32    JMP   -24  
-> 33    HLT   0    
-38,39c39,43
-< ==> addr: 0     INC   3    
-< PC: 1 BP: 0 SP: 3
----
-> ==> addr: 0     JMP   1    
-> PC: 1 BP: 0 SP: 0
-> stack: 
-> ==> addr: 1     INC   3    
-> PC: 2 BP: 0 SP: 3
-41,42c45,46
-< ==> addr: 1     LIT   97   
-< PC: 2 BP: 0 SP: 4
----
-> ==> addr: 2     LIT   97   
-> PC: 3 BP: 0 SP: 4
-44,46d47
-< ==> addr: 2     INC   1    
-< PC: 3 BP: 0 SP: 5
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 0 
-48c49,52
-< PC: 4 BP: 0 SP: 6
----
-> PC: 4 BP: 0 SP: 5
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 0 
-> ==> addr: 4     INC   1    
-> PC: 5 BP: 0 SP: 6
-50,51c54,55
-< ==> addr: 4     PBP   0    
-< PC: 5 BP: 0 SP: 7
----
-> ==> addr: 5     PBP   0    
-> PC: 6 BP: 0 SP: 7
-53,54c57,58
-< ==> addr: 5     LIT   0    
-< PC: 6 BP: 0 SP: 8
----
-> ==> addr: 6     LIT   0    
-> PC: 7 BP: 0 SP: 8
-56,57c60,61
-< ==> addr: 6     STO   5    
-< PC: 7 BP: 0 SP: 6
----
-> ==> addr: 7     STO   5    
-> PC: 8 BP: 0 SP: 6
-59,62c63
-< ==> addr: 7     PBP   0    
-< PC: 8 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 0 S[5]: 0 S[6]: 0 
-< ==> addr: 8     LOD   5    
----
-> ==> addr: 8     PBP   0    
-65,66c66,70
-< ==> addr: 9     LIT   10   
-< PC: 10 BP: 0 SP: 8
----
-> ==> addr: 9     LOD   5    
-> PC: 10 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 0 S[5]: 0 S[6]: 0 
-> ==> addr: 10    LIT   10   
-> PC: 11 BP: 0 SP: 8
-68,69c72,73
-< ==> addr: 10    LSS   0    
-< PC: 11 BP: 0 SP: 7
----
-> ==> addr: 11    LSS   0    
-> PC: 12 BP: 0 SP: 7
-71,72c75,76
-< ==> addr: 11    JPC   2    
-< PC: 13 BP: 0 SP: 6
----
-> ==> addr: 12    JPC   2    
-> PC: 14 BP: 0 SP: 6
-74,76d77
-< ==> addr: 13    PBP   0    
-< PC: 14 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 0 S[5]: 0 S[6]: 0 
-78,80c79,81
-< PC: 15 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 0 S[5]: 0 S[6]: 0 S[7]: 0 
-< ==> addr: 15    LOD   3    
----
-> PC: 15 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 0 S[5]: 0 S[6]: 0 
-> ==> addr: 15    PBP   0    
-81a83,85
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 0 S[5]: 0 S[6]: 0 S[7]: 0 
-> ==> addr: 16    LOD   3    
-> PC: 17 BP: 0 SP: 8
-83,86c87
-< ==> addr: 16    PBP   0    
-< PC: 17 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 0 S[5]: 0 S[6]: 0 S[7]: 97 S[8]: 0 
-< ==> addr: 17    LOD   5    
----
-> ==> addr: 17    PBP   0    
-89,90c90,94
-< ==> addr: 18    ADD   0    
-< PC: 19 BP: 0 SP: 8
----
-> ==> addr: 18    LOD   5    
-> PC: 19 BP: 0 SP: 9
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 0 S[5]: 0 S[6]: 0 S[7]: 97 S[8]: 0 
-> ==> addr: 19    ADD   0    
-> PC: 20 BP: 0 SP: 8
-92,93c96,97
-< ==> addr: 19    STO   4    
-< PC: 20 BP: 0 SP: 6
----
-> ==> addr: 20    STO   4    
-> PC: 21 BP: 0 SP: 6
-95,98c99
-< ==> addr: 20    PBP   0    
-< PC: 21 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 97 S[5]: 0 S[6]: 0 
-< ==> addr: 21    LOD   4    
----
-> ==> addr: 21    PBP   0    
-99a101,103
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 97 S[5]: 0 S[6]: 0 
-> ==> addr: 22    LOD   4    
-> PC: 23 BP: 0 SP: 7
-101,102c105,106
-< ==> addr: 22    LIT   1    
-< PC: 23 BP: 0 SP: 8
----
-> ==> addr: 23    LIT   1    
-> PC: 24 BP: 0 SP: 8
-104,105c108,109
-< ==> addr: 23    ADD   0    
-< PC: 24 BP: 0 SP: 7
----
-> ==> addr: 24    ADD   0    
-> PC: 25 BP: 0 SP: 7
-107,108c111,112
-< ==> addr: 24    CHO   0    
-< PC: 25 BP: 0 SP: 6
----
-> ==> addr: 25    CHO   0    
-> PC: 26 BP: 0 SP: 6
-110,112d113
-< ==> addr: 25    PBP   0    
-< PC: 26 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 97 S[5]: 0 S[6]: 0 
-114,116c115,117
-< PC: 27 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 97 S[5]: 0 S[6]: 0 S[7]: 0 
-< ==> addr: 27    LOD   5    
----
-> PC: 27 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 97 S[5]: 0 S[6]: 0 
-> ==> addr: 27    PBP   0    
-119,120c120,124
-< ==> addr: 28    LIT   1    
-< PC: 29 BP: 0 SP: 9
----
-> ==> addr: 28    LOD   5    
-> PC: 29 BP: 0 SP: 8
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 97 S[5]: 0 S[6]: 0 S[7]: 0 
-> ==> addr: 29    LIT   1    
-> PC: 30 BP: 0 SP: 9
-122,123c126,127
-< ==> addr: 29    ADD   0    
-< PC: 30 BP: 0 SP: 8
----
-> ==> addr: 30    ADD   0    
-> PC: 31 BP: 0 SP: 8
-125,126c129,130
-< ==> addr: 30    STO   5    
-< PC: 31 BP: 0 SP: 6
----
-> ==> addr: 31    STO   5    
-> PC: 32 BP: 0 SP: 6
-128,129c132,133
-< ==> addr: 31    JMP   -24  
-< PC: 7 BP: 0 SP: 6
----
-> ==> addr: 32    JMP   -24  
-> PC: 8 BP: 0 SP: 6
-131,134c135
-< ==> addr: 7     PBP   0    
-< PC: 8 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 97 S[5]: 1 S[6]: 0 
-< ==> addr: 8     LOD   5    
----
-> ==> addr: 8     PBP   0    
-135a137,139
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 97 S[5]: 1 S[6]: 0 
-> ==> addr: 9     LOD   5    
-> PC: 10 BP: 0 SP: 7
-137,138c141,142
-< ==> addr: 9     LIT   10   
-< PC: 10 BP: 0 SP: 8
----
-> ==> addr: 10    LIT   10   
-> PC: 11 BP: 0 SP: 8
-140,141c144,145
-< ==> addr: 10    LSS   0    
-< PC: 11 BP: 0 SP: 7
----
-> ==> addr: 11    LSS   0    
-> PC: 12 BP: 0 SP: 7
-143,144c147,148
-< ==> addr: 11    JPC   2    
-< PC: 13 BP: 0 SP: 6
----
-> ==> addr: 12    JPC   2    
-> PC: 14 BP: 0 SP: 6
-146,148d149
-< ==> addr: 13    PBP   0    
-< PC: 14 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 97 S[5]: 1 S[6]: 0 
-150,152c151,153
-< PC: 15 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 97 S[5]: 1 S[6]: 0 S[7]: 0 
-< ==> addr: 15    LOD   3    
----
-> PC: 15 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 97 S[5]: 1 S[6]: 0 
-> ==> addr: 15    PBP   0    
-153a155,157
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 97 S[5]: 1 S[6]: 0 S[7]: 0 
-> ==> addr: 16    LOD   3    
-> PC: 17 BP: 0 SP: 8
-155,158c159
-< ==> addr: 16    PBP   0    
-< PC: 17 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 97 S[5]: 1 S[6]: 0 S[7]: 97 S[8]: 0 
-< ==> addr: 17    LOD   5    
----
-> ==> addr: 17    PBP   0    
-159a161,163
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 97 S[5]: 1 S[6]: 0 S[7]: 97 S[8]: 0 
-> ==> addr: 18    LOD   5    
-> PC: 19 BP: 0 SP: 9
-161,162c165,166
-< ==> addr: 18    ADD   0    
-< PC: 19 BP: 0 SP: 8
----
-> ==> addr: 19    ADD   0    
-> PC: 20 BP: 0 SP: 8
-164,165c168,169
-< ==> addr: 19    STO   4    
-< PC: 20 BP: 0 SP: 6
----
-> ==> addr: 20    STO   4    
-> PC: 21 BP: 0 SP: 6
-167,170c171
-< ==> addr: 20    PBP   0    
-< PC: 21 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 98 S[5]: 1 S[6]: 0 
-< ==> addr: 21    LOD   4    
----
-> ==> addr: 21    PBP   0    
-171a173,175
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 98 S[5]: 1 S[6]: 0 
-> ==> addr: 22    LOD   4    
-> PC: 23 BP: 0 SP: 7
-173,174c177,178
-< ==> addr: 22    LIT   1    
-< PC: 23 BP: 0 SP: 8
----
-> ==> addr: 23    LIT   1    
-> PC: 24 BP: 0 SP: 8
-176,177c180,181
-< ==> addr: 23    ADD   0    
-< PC: 24 BP: 0 SP: 7
----
-> ==> addr: 24    ADD   0    
-> PC: 25 BP: 0 SP: 7
-179,180c183,184
-< ==> addr: 24    CHO   0    
-< PC: 25 BP: 0 SP: 6
----
-> ==> addr: 25    CHO   0    
-> PC: 26 BP: 0 SP: 6
-182,184d185
-< ==> addr: 25    PBP   0    
-< PC: 26 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 98 S[5]: 1 S[6]: 0 
-186,188c187,189
-< PC: 27 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 98 S[5]: 1 S[6]: 0 S[7]: 0 
-< ==> addr: 27    LOD   5    
----
-> PC: 27 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 98 S[5]: 1 S[6]: 0 
-> ==> addr: 27    PBP   0    
-189a191,193
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 98 S[5]: 1 S[6]: 0 S[7]: 0 
-> ==> addr: 28    LOD   5    
-> PC: 29 BP: 0 SP: 8
-191,192c195,196
-< ==> addr: 28    LIT   1    
-< PC: 29 BP: 0 SP: 9
----
-> ==> addr: 29    LIT   1    
-> PC: 30 BP: 0 SP: 9
-194,195c198,199
-< ==> addr: 29    ADD   0    
-< PC: 30 BP: 0 SP: 8
----
-> ==> addr: 30    ADD   0    
-> PC: 31 BP: 0 SP: 8
-197,198c201,202
-< ==> addr: 30    STO   5    
-< PC: 31 BP: 0 SP: 6
----
-> ==> addr: 31    STO   5    
-> PC: 32 BP: 0 SP: 6
-200,201c204,205
-< ==> addr: 31    JMP   -24  
-< PC: 7 BP: 0 SP: 6
----
-> ==> addr: 32    JMP   -24  
-> PC: 8 BP: 0 SP: 6
-203,206c207
-< ==> addr: 7     PBP   0    
-< PC: 8 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 98 S[5]: 2 S[6]: 0 
-< ==> addr: 8     LOD   5    
----
-> ==> addr: 8     PBP   0    
-207a209,211
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 98 S[5]: 2 S[6]: 0 
-> ==> addr: 9     LOD   5    
-> PC: 10 BP: 0 SP: 7
-209,210c213,214
-< ==> addr: 9     LIT   10   
-< PC: 10 BP: 0 SP: 8
----
-> ==> addr: 10    LIT   10   
-> PC: 11 BP: 0 SP: 8
-212,213c216,217
-< ==> addr: 10    LSS   0    
-< PC: 11 BP: 0 SP: 7
----
-> ==> addr: 11    LSS   0    
-> PC: 12 BP: 0 SP: 7
-215,216c219,220
-< ==> addr: 11    JPC   2    
-< PC: 13 BP: 0 SP: 6
----
-> ==> addr: 12    JPC   2    
-> PC: 14 BP: 0 SP: 6
-218,220d221
-< ==> addr: 13    PBP   0    
-< PC: 14 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 98 S[5]: 2 S[6]: 0 
-222,224c223,225
-< PC: 15 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 98 S[5]: 2 S[6]: 0 S[7]: 0 
-< ==> addr: 15    LOD   3    
----
-> PC: 15 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 98 S[5]: 2 S[6]: 0 
-> ==> addr: 15    PBP   0    
-225a227,229
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 98 S[5]: 2 S[6]: 0 S[7]: 0 
-> ==> addr: 16    LOD   3    
-> PC: 17 BP: 0 SP: 8
-227,230c231
-< ==> addr: 16    PBP   0    
-< PC: 17 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 98 S[5]: 2 S[6]: 0 S[7]: 97 S[8]: 0 
-< ==> addr: 17    LOD   5    
----
-> ==> addr: 17    PBP   0    
-231a233,235
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 98 S[5]: 2 S[6]: 0 S[7]: 97 S[8]: 0 
-> ==> addr: 18    LOD   5    
-> PC: 19 BP: 0 SP: 9
-233,234c237,238
-< ==> addr: 18    ADD   0    
-< PC: 19 BP: 0 SP: 8
----
-> ==> addr: 19    ADD   0    
-> PC: 20 BP: 0 SP: 8
-236,237c240,241
-< ==> addr: 19    STO   4    
-< PC: 20 BP: 0 SP: 6
----
-> ==> addr: 20    STO   4    
-> PC: 21 BP: 0 SP: 6
-239,242c243
-< ==> addr: 20    PBP   0    
-< PC: 21 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 99 S[5]: 2 S[6]: 0 
-< ==> addr: 21    LOD   4    
----
-> ==> addr: 21    PBP   0    
-243a245,247
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 99 S[5]: 2 S[6]: 0 
-> ==> addr: 22    LOD   4    
-> PC: 23 BP: 0 SP: 7
-245,246c249,250
-< ==> addr: 22    LIT   1    
-< PC: 23 BP: 0 SP: 8
----
-> ==> addr: 23    LIT   1    
-> PC: 24 BP: 0 SP: 8
-248,249c252,253
-< ==> addr: 23    ADD   0    
-< PC: 24 BP: 0 SP: 7
----
-> ==> addr: 24    ADD   0    
-> PC: 25 BP: 0 SP: 7
-251,252c255,256
-< ==> addr: 24    CHO   0    
-< PC: 25 BP: 0 SP: 6
----
-> ==> addr: 25    CHO   0    
-> PC: 26 BP: 0 SP: 6
-254,256d257
-< ==> addr: 25    PBP   0    
-< PC: 26 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 99 S[5]: 2 S[6]: 0 
-258,260c259,261
-< PC: 27 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 99 S[5]: 2 S[6]: 0 S[7]: 0 
-< ==> addr: 27    LOD   5    
----
-> PC: 27 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 99 S[5]: 2 S[6]: 0 
-> ==> addr: 27    PBP   0    
-261a263,265
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 99 S[5]: 2 S[6]: 0 S[7]: 0 
-> ==> addr: 28    LOD   5    
-> PC: 29 BP: 0 SP: 8
-263,264c267,268
-< ==> addr: 28    LIT   1    
-< PC: 29 BP: 0 SP: 9
----
-> ==> addr: 29    LIT   1    
-> PC: 30 BP: 0 SP: 9
-266,267c270,271
-< ==> addr: 29    ADD   0    
-< PC: 30 BP: 0 SP: 8
----
-> ==> addr: 30    ADD   0    
-> PC: 31 BP: 0 SP: 8
-269,270c273,274
-< ==> addr: 30    STO   5    
-< PC: 31 BP: 0 SP: 6
----
-> ==> addr: 31    STO   5    
-> PC: 32 BP: 0 SP: 6
-272,273c276,277
-< ==> addr: 31    JMP   -24  
-< PC: 7 BP: 0 SP: 6
----
-> ==> addr: 32    JMP   -24  
-> PC: 8 BP: 0 SP: 6
-275,278c279
-< ==> addr: 7     PBP   0    
-< PC: 8 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 99 S[5]: 3 S[6]: 0 
-< ==> addr: 8     LOD   5    
----
-> ==> addr: 8     PBP   0    
-279a281,283
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 99 S[5]: 3 S[6]: 0 
-> ==> addr: 9     LOD   5    
-> PC: 10 BP: 0 SP: 7
-281,282c285,286
-< ==> addr: 9     LIT   10   
-< PC: 10 BP: 0 SP: 8
----
-> ==> addr: 10    LIT   10   
-> PC: 11 BP: 0 SP: 8
-284,285c288,289
-< ==> addr: 10    LSS   0    
-< PC: 11 BP: 0 SP: 7
----
-> ==> addr: 11    LSS   0    
-> PC: 12 BP: 0 SP: 7
-287,288c291,292
-< ==> addr: 11    JPC   2    
-< PC: 13 BP: 0 SP: 6
----
-> ==> addr: 12    JPC   2    
-> PC: 14 BP: 0 SP: 6
-290,292d293
-< ==> addr: 13    PBP   0    
-< PC: 14 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 99 S[5]: 3 S[6]: 0 
-294,296c295,297
-< PC: 15 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 99 S[5]: 3 S[6]: 0 S[7]: 0 
-< ==> addr: 15    LOD   3    
----
-> PC: 15 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 99 S[5]: 3 S[6]: 0 
-> ==> addr: 15    PBP   0    
-297a299,301
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 99 S[5]: 3 S[6]: 0 S[7]: 0 
-> ==> addr: 16    LOD   3    
-> PC: 17 BP: 0 SP: 8
-299,302c303
-< ==> addr: 16    PBP   0    
-< PC: 17 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 99 S[5]: 3 S[6]: 0 S[7]: 97 S[8]: 0 
-< ==> addr: 17    LOD   5    
----
-> ==> addr: 17    PBP   0    
-303a305,307
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 99 S[5]: 3 S[6]: 0 S[7]: 97 S[8]: 0 
-> ==> addr: 18    LOD   5    
-> PC: 19 BP: 0 SP: 9
-305,306c309,310
-< ==> addr: 18    ADD   0    
-< PC: 19 BP: 0 SP: 8
----
-> ==> addr: 19    ADD   0    
-> PC: 20 BP: 0 SP: 8
-308,309c312,313
-< ==> addr: 19    STO   4    
-< PC: 20 BP: 0 SP: 6
----
-> ==> addr: 20    STO   4    
-> PC: 21 BP: 0 SP: 6
-311,314c315
-< ==> addr: 20    PBP   0    
-< PC: 21 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 100 S[5]: 3 S[6]: 0 
-< ==> addr: 21    LOD   4    
----
-> ==> addr: 21    PBP   0    
-315a317,319
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 100 S[5]: 3 S[6]: 0 
-> ==> addr: 22    LOD   4    
-> PC: 23 BP: 0 SP: 7
-317,318c321,322
-< ==> addr: 22    LIT   1    
-< PC: 23 BP: 0 SP: 8
----
-> ==> addr: 23    LIT   1    
-> PC: 24 BP: 0 SP: 8
-320,321c324,325
-< ==> addr: 23    ADD   0    
-< PC: 24 BP: 0 SP: 7
----
-> ==> addr: 24    ADD   0    
-> PC: 25 BP: 0 SP: 7
-323,324c327,328
-< ==> addr: 24    CHO   0    
-< PC: 25 BP: 0 SP: 6
----
-> ==> addr: 25    CHO   0    
-> PC: 26 BP: 0 SP: 6
-326,328d329
-< ==> addr: 25    PBP   0    
-< PC: 26 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 100 S[5]: 3 S[6]: 0 
-330,332c331,333
-< PC: 27 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 100 S[5]: 3 S[6]: 0 S[7]: 0 
-< ==> addr: 27    LOD   5    
----
-> PC: 27 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 100 S[5]: 3 S[6]: 0 
-> ==> addr: 27    PBP   0    
-333a335,337
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 100 S[5]: 3 S[6]: 0 S[7]: 0 
-> ==> addr: 28    LOD   5    
-> PC: 29 BP: 0 SP: 8
-335,336c339,340
-< ==> addr: 28    LIT   1    
-< PC: 29 BP: 0 SP: 9
----
-> ==> addr: 29    LIT   1    
-> PC: 30 BP: 0 SP: 9
-338,339c342,343
-< ==> addr: 29    ADD   0    
-< PC: 30 BP: 0 SP: 8
----
-> ==> addr: 30    ADD   0    
-> PC: 31 BP: 0 SP: 8
-341,342c345,346
-< ==> addr: 30    STO   5    
-< PC: 31 BP: 0 SP: 6
----
-> ==> addr: 31    STO   5    
-> PC: 32 BP: 0 SP: 6
-344,345c348,349
-< ==> addr: 31    JMP   -24  
-< PC: 7 BP: 0 SP: 6
----
-> ==> addr: 32    JMP   -24  
-> PC: 8 BP: 0 SP: 6
-347,350c351
-< ==> addr: 7     PBP   0    
-< PC: 8 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 100 S[5]: 4 S[6]: 0 
-< ==> addr: 8     LOD   5    
----
-> ==> addr: 8     PBP   0    
-351a353,355
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 100 S[5]: 4 S[6]: 0 
-> ==> addr: 9     LOD   5    
-> PC: 10 BP: 0 SP: 7
-353,354c357,358
-< ==> addr: 9     LIT   10   
-< PC: 10 BP: 0 SP: 8
----
-> ==> addr: 10    LIT   10   
-> PC: 11 BP: 0 SP: 8
-356,357c360,361
-< ==> addr: 10    LSS   0    
-< PC: 11 BP: 0 SP: 7
----
-> ==> addr: 11    LSS   0    
-> PC: 12 BP: 0 SP: 7
-359,360c363,364
-< ==> addr: 11    JPC   2    
-< PC: 13 BP: 0 SP: 6
----
-> ==> addr: 12    JPC   2    
-> PC: 14 BP: 0 SP: 6
-362,364d365
-< ==> addr: 13    PBP   0    
-< PC: 14 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 100 S[5]: 4 S[6]: 0 
-366,368c367,369
-< PC: 15 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 100 S[5]: 4 S[6]: 0 S[7]: 0 
-< ==> addr: 15    LOD   3    
----
-> PC: 15 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 100 S[5]: 4 S[6]: 0 
-> ==> addr: 15    PBP   0    
-369a371,373
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 100 S[5]: 4 S[6]: 0 S[7]: 0 
-> ==> addr: 16    LOD   3    
-> PC: 17 BP: 0 SP: 8
-371,374c375
-< ==> addr: 16    PBP   0    
-< PC: 17 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 100 S[5]: 4 S[6]: 0 S[7]: 97 S[8]: 0 
-< ==> addr: 17    LOD   5    
----
-> ==> addr: 17    PBP   0    
-375a377,379
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 100 S[5]: 4 S[6]: 0 S[7]: 97 S[8]: 0 
-> ==> addr: 18    LOD   5    
-> PC: 19 BP: 0 SP: 9
-377,378c381,382
-< ==> addr: 18    ADD   0    
-< PC: 19 BP: 0 SP: 8
----
-> ==> addr: 19    ADD   0    
-> PC: 20 BP: 0 SP: 8
-380,381c384,385
-< ==> addr: 19    STO   4    
-< PC: 20 BP: 0 SP: 6
----
-> ==> addr: 20    STO   4    
-> PC: 21 BP: 0 SP: 6
-383,386c387
-< ==> addr: 20    PBP   0    
-< PC: 21 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 101 S[5]: 4 S[6]: 0 
-< ==> addr: 21    LOD   4    
----
-> ==> addr: 21    PBP   0    
-387a389,391
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 101 S[5]: 4 S[6]: 0 
-> ==> addr: 22    LOD   4    
-> PC: 23 BP: 0 SP: 7
-389,390c393,394
-< ==> addr: 22    LIT   1    
-< PC: 23 BP: 0 SP: 8
----
-> ==> addr: 23    LIT   1    
-> PC: 24 BP: 0 SP: 8
-392,393c396,397
-< ==> addr: 23    ADD   0    
-< PC: 24 BP: 0 SP: 7
----
-> ==> addr: 24    ADD   0    
-> PC: 25 BP: 0 SP: 7
-395,396c399,400
-< ==> addr: 24    CHO   0    
-< PC: 25 BP: 0 SP: 6
----
-> ==> addr: 25    CHO   0    
-> PC: 26 BP: 0 SP: 6
-398,400d401
-< ==> addr: 25    PBP   0    
-< PC: 26 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 101 S[5]: 4 S[6]: 0 
-402,404c403,405
-< PC: 27 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 101 S[5]: 4 S[6]: 0 S[7]: 0 
-< ==> addr: 27    LOD   5    
----
-> PC: 27 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 101 S[5]: 4 S[6]: 0 
-> ==> addr: 27    PBP   0    
-405a407,409
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 101 S[5]: 4 S[6]: 0 S[7]: 0 
-> ==> addr: 28    LOD   5    
-> PC: 29 BP: 0 SP: 8
-407,408c411,412
-< ==> addr: 28    LIT   1    
-< PC: 29 BP: 0 SP: 9
----
-> ==> addr: 29    LIT   1    
-> PC: 30 BP: 0 SP: 9
-410,411c414,415
-< ==> addr: 29    ADD   0    
-< PC: 30 BP: 0 SP: 8
----
-> ==> addr: 30    ADD   0    
-> PC: 31 BP: 0 SP: 8
-413,414c417,418
-< ==> addr: 30    STO   5    
-< PC: 31 BP: 0 SP: 6
----
-> ==> addr: 31    STO   5    
-> PC: 32 BP: 0 SP: 6
-416,417c420,421
-< ==> addr: 31    JMP   -24  
-< PC: 7 BP: 0 SP: 6
----
-> ==> addr: 32    JMP   -24  
-> PC: 8 BP: 0 SP: 6
-419,422c423
-< ==> addr: 7     PBP   0    
-< PC: 8 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 101 S[5]: 5 S[6]: 0 
-< ==> addr: 8     LOD   5    
----
-> ==> addr: 8     PBP   0    
-423a425,427
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 101 S[5]: 5 S[6]: 0 
-> ==> addr: 9     LOD   5    
-> PC: 10 BP: 0 SP: 7
-425,426c429,430
-< ==> addr: 9     LIT   10   
-< PC: 10 BP: 0 SP: 8
----
-> ==> addr: 10    LIT   10   
-> PC: 11 BP: 0 SP: 8
-428,429c432,433
-< ==> addr: 10    LSS   0    
-< PC: 11 BP: 0 SP: 7
----
-> ==> addr: 11    LSS   0    
-> PC: 12 BP: 0 SP: 7
-431,432c435,436
-< ==> addr: 11    JPC   2    
-< PC: 13 BP: 0 SP: 6
----
-> ==> addr: 12    JPC   2    
-> PC: 14 BP: 0 SP: 6
-434,436d437
-< ==> addr: 13    PBP   0    
-< PC: 14 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 101 S[5]: 5 S[6]: 0 
-438,440c439,441
-< PC: 15 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 101 S[5]: 5 S[6]: 0 S[7]: 0 
-< ==> addr: 15    LOD   3    
----
-> PC: 15 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 101 S[5]: 5 S[6]: 0 
-> ==> addr: 15    PBP   0    
-441a443,445
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 101 S[5]: 5 S[6]: 0 S[7]: 0 
-> ==> addr: 16    LOD   3    
-> PC: 17 BP: 0 SP: 8
-443,446c447
-< ==> addr: 16    PBP   0    
-< PC: 17 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 101 S[5]: 5 S[6]: 0 S[7]: 97 S[8]: 0 
-< ==> addr: 17    LOD   5    
----
-> ==> addr: 17    PBP   0    
-447a449,451
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 101 S[5]: 5 S[6]: 0 S[7]: 97 S[8]: 0 
-> ==> addr: 18    LOD   5    
-> PC: 19 BP: 0 SP: 9
-449,450c453,454
-< ==> addr: 18    ADD   0    
-< PC: 19 BP: 0 SP: 8
----
-> ==> addr: 19    ADD   0    
-> PC: 20 BP: 0 SP: 8
-452,453c456,457
-< ==> addr: 19    STO   4    
-< PC: 20 BP: 0 SP: 6
----
-> ==> addr: 20    STO   4    
-> PC: 21 BP: 0 SP: 6
-455,458c459
-< ==> addr: 20    PBP   0    
-< PC: 21 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 102 S[5]: 5 S[6]: 0 
-< ==> addr: 21    LOD   4    
----
-> ==> addr: 21    PBP   0    
-459a461,463
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 102 S[5]: 5 S[6]: 0 
-> ==> addr: 22    LOD   4    
-> PC: 23 BP: 0 SP: 7
-461,462c465,466
-< ==> addr: 22    LIT   1    
-< PC: 23 BP: 0 SP: 8
----
-> ==> addr: 23    LIT   1    
-> PC: 24 BP: 0 SP: 8
-464,465c468,469
-< ==> addr: 23    ADD   0    
-< PC: 24 BP: 0 SP: 7
----
-> ==> addr: 24    ADD   0    
-> PC: 25 BP: 0 SP: 7
-467,468c471,472
-< ==> addr: 24    CHO   0    
-< PC: 25 BP: 0 SP: 6
----
-> ==> addr: 25    CHO   0    
-> PC: 26 BP: 0 SP: 6
-470,472d473
-< ==> addr: 25    PBP   0    
-< PC: 26 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 102 S[5]: 5 S[6]: 0 
-474,476c475,477
-< PC: 27 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 102 S[5]: 5 S[6]: 0 S[7]: 0 
-< ==> addr: 27    LOD   5    
----
-> PC: 27 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 102 S[5]: 5 S[6]: 0 
-> ==> addr: 27    PBP   0    
-477a479,481
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 102 S[5]: 5 S[6]: 0 S[7]: 0 
-> ==> addr: 28    LOD   5    
-> PC: 29 BP: 0 SP: 8
-479,480c483,484
-< ==> addr: 28    LIT   1    
-< PC: 29 BP: 0 SP: 9
----
-> ==> addr: 29    LIT   1    
-> PC: 30 BP: 0 SP: 9
-482,483c486,487
-< ==> addr: 29    ADD   0    
-< PC: 30 BP: 0 SP: 8
----
-> ==> addr: 30    ADD   0    
-> PC: 31 BP: 0 SP: 8
-485,486c489,490
-< ==> addr: 30    STO   5    
-< PC: 31 BP: 0 SP: 6
----
-> ==> addr: 31    STO   5    
-> PC: 32 BP: 0 SP: 6
-488,489c492,493
-< ==> addr: 31    JMP   -24  
-< PC: 7 BP: 0 SP: 6
----
-> ==> addr: 32    JMP   -24  
-> PC: 8 BP: 0 SP: 6
-491,494c495
-< ==> addr: 7     PBP   0    
-< PC: 8 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 102 S[5]: 6 S[6]: 0 
-< ==> addr: 8     LOD   5    
----
-> ==> addr: 8     PBP   0    
-495a497,499
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 102 S[5]: 6 S[6]: 0 
-> ==> addr: 9     LOD   5    
-> PC: 10 BP: 0 SP: 7
-497,498c501,502
-< ==> addr: 9     LIT   10   
-< PC: 10 BP: 0 SP: 8
----
-> ==> addr: 10    LIT   10   
-> PC: 11 BP: 0 SP: 8
-500,501c504,505
-< ==> addr: 10    LSS   0    
-< PC: 11 BP: 0 SP: 7
----
-> ==> addr: 11    LSS   0    
-> PC: 12 BP: 0 SP: 7
-503,504c507,508
-< ==> addr: 11    JPC   2    
-< PC: 13 BP: 0 SP: 6
----
-> ==> addr: 12    JPC   2    
-> PC: 14 BP: 0 SP: 6
-506,508d509
-< ==> addr: 13    PBP   0    
-< PC: 14 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 102 S[5]: 6 S[6]: 0 
-510,512c511,513
-< PC: 15 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 102 S[5]: 6 S[6]: 0 S[7]: 0 
-< ==> addr: 15    LOD   3    
----
-> PC: 15 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 102 S[5]: 6 S[6]: 0 
-> ==> addr: 15    PBP   0    
-513a515,517
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 102 S[5]: 6 S[6]: 0 S[7]: 0 
-> ==> addr: 16    LOD   3    
-> PC: 17 BP: 0 SP: 8
-515,518c519
-< ==> addr: 16    PBP   0    
-< PC: 17 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 102 S[5]: 6 S[6]: 0 S[7]: 97 S[8]: 0 
-< ==> addr: 17    LOD   5    
----
-> ==> addr: 17    PBP   0    
-519a521,523
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 102 S[5]: 6 S[6]: 0 S[7]: 97 S[8]: 0 
-> ==> addr: 18    LOD   5    
-> PC: 19 BP: 0 SP: 9
-521,522c525,526
-< ==> addr: 18    ADD   0    
-< PC: 19 BP: 0 SP: 8
----
-> ==> addr: 19    ADD   0    
-> PC: 20 BP: 0 SP: 8
-524,525c528,529
-< ==> addr: 19    STO   4    
-< PC: 20 BP: 0 SP: 6
----
-> ==> addr: 20    STO   4    
-> PC: 21 BP: 0 SP: 6
-527,530c531
-< ==> addr: 20    PBP   0    
-< PC: 21 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 103 S[5]: 6 S[6]: 0 
-< ==> addr: 21    LOD   4    
----
-> ==> addr: 21    PBP   0    
-531a533,535
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 103 S[5]: 6 S[6]: 0 
-> ==> addr: 22    LOD   4    
-> PC: 23 BP: 0 SP: 7
-533,534c537,538
-< ==> addr: 22    LIT   1    
-< PC: 23 BP: 0 SP: 8
----
-> ==> addr: 23    LIT   1    
-> PC: 24 BP: 0 SP: 8
-536,537c540,541
-< ==> addr: 23    ADD   0    
-< PC: 24 BP: 0 SP: 7
----
-> ==> addr: 24    ADD   0    
-> PC: 25 BP: 0 SP: 7
-539,540c543,544
-< ==> addr: 24    CHO   0    
-< PC: 25 BP: 0 SP: 6
----
-> ==> addr: 25    CHO   0    
-> PC: 26 BP: 0 SP: 6
-542,544d545
-< ==> addr: 25    PBP   0    
-< PC: 26 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 103 S[5]: 6 S[6]: 0 
-546,548c547,549
-< PC: 27 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 103 S[5]: 6 S[6]: 0 S[7]: 0 
-< ==> addr: 27    LOD   5    
----
-> PC: 27 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 103 S[5]: 6 S[6]: 0 
-> ==> addr: 27    PBP   0    
-549a551,553
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 103 S[5]: 6 S[6]: 0 S[7]: 0 
-> ==> addr: 28    LOD   5    
-> PC: 29 BP: 0 SP: 8
-551,552c555,556
-< ==> addr: 28    LIT   1    
-< PC: 29 BP: 0 SP: 9
----
-> ==> addr: 29    LIT   1    
-> PC: 30 BP: 0 SP: 9
-554,555c558,559
-< ==> addr: 29    ADD   0    
-< PC: 30 BP: 0 SP: 8
----
-> ==> addr: 30    ADD   0    
-> PC: 31 BP: 0 SP: 8
-557,558c561,562
-< ==> addr: 30    STO   5    
-< PC: 31 BP: 0 SP: 6
----
-> ==> addr: 31    STO   5    
-> PC: 32 BP: 0 SP: 6
-560,561c564,565
-< ==> addr: 31    JMP   -24  
-< PC: 7 BP: 0 SP: 6
----
-> ==> addr: 32    JMP   -24  
-> PC: 8 BP: 0 SP: 6
-563,566c567
-< ==> addr: 7     PBP   0    
-< PC: 8 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 103 S[5]: 7 S[6]: 0 
-< ==> addr: 8     LOD   5    
----
-> ==> addr: 8     PBP   0    
-567a569,571
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 103 S[5]: 7 S[6]: 0 
-> ==> addr: 9     LOD   5    
-> PC: 10 BP: 0 SP: 7
-569,570c573,574
-< ==> addr: 9     LIT   10   
-< PC: 10 BP: 0 SP: 8
----
-> ==> addr: 10    LIT   10   
-> PC: 11 BP: 0 SP: 8
-572,573c576,577
-< ==> addr: 10    LSS   0    
-< PC: 11 BP: 0 SP: 7
----
-> ==> addr: 11    LSS   0    
-> PC: 12 BP: 0 SP: 7
-575,576c579,580
-< ==> addr: 11    JPC   2    
-< PC: 13 BP: 0 SP: 6
----
-> ==> addr: 12    JPC   2    
-> PC: 14 BP: 0 SP: 6
-578,580d581
-< ==> addr: 13    PBP   0    
-< PC: 14 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 103 S[5]: 7 S[6]: 0 
-582,584c583,585
-< PC: 15 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 103 S[5]: 7 S[6]: 0 S[7]: 0 
-< ==> addr: 15    LOD   3    
----
-> PC: 15 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 103 S[5]: 7 S[6]: 0 
-> ==> addr: 15    PBP   0    
-585a587,589
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 103 S[5]: 7 S[6]: 0 S[7]: 0 
-> ==> addr: 16    LOD   3    
-> PC: 17 BP: 0 SP: 8
-587,590c591
-< ==> addr: 16    PBP   0    
-< PC: 17 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 103 S[5]: 7 S[6]: 0 S[7]: 97 S[8]: 0 
-< ==> addr: 17    LOD   5    
----
-> ==> addr: 17    PBP   0    
-591a593,595
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 103 S[5]: 7 S[6]: 0 S[7]: 97 S[8]: 0 
-> ==> addr: 18    LOD   5    
-> PC: 19 BP: 0 SP: 9
-593,594c597,598
-< ==> addr: 18    ADD   0    
-< PC: 19 BP: 0 SP: 8
----
-> ==> addr: 19    ADD   0    
-> PC: 20 BP: 0 SP: 8
-596,597c600,601
-< ==> addr: 19    STO   4    
-< PC: 20 BP: 0 SP: 6
----
-> ==> addr: 20    STO   4    
-> PC: 21 BP: 0 SP: 6
-599,602c603
-< ==> addr: 20    PBP   0    
-< PC: 21 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 104 S[5]: 7 S[6]: 0 
-< ==> addr: 21    LOD   4    
----
-> ==> addr: 21    PBP   0    
-603a605,607
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 104 S[5]: 7 S[6]: 0 
-> ==> addr: 22    LOD   4    
-> PC: 23 BP: 0 SP: 7
-605,606c609,610
-< ==> addr: 22    LIT   1    
-< PC: 23 BP: 0 SP: 8
----
-> ==> addr: 23    LIT   1    
-> PC: 24 BP: 0 SP: 8
-608,609c612,613
-< ==> addr: 23    ADD   0    
-< PC: 24 BP: 0 SP: 7
----
-> ==> addr: 24    ADD   0    
-> PC: 25 BP: 0 SP: 7
-611,612c615,616
-< ==> addr: 24    CHO   0    
-< PC: 25 BP: 0 SP: 6
----
-> ==> addr: 25    CHO   0    
-> PC: 26 BP: 0 SP: 6
-614,616d617
-< ==> addr: 25    PBP   0    
-< PC: 26 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 104 S[5]: 7 S[6]: 0 
-618,620c619,621
-< PC: 27 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 104 S[5]: 7 S[6]: 0 S[7]: 0 
-< ==> addr: 27    LOD   5    
----
-> PC: 27 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 104 S[5]: 7 S[6]: 0 
-> ==> addr: 27    PBP   0    
-621a623,625
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 104 S[5]: 7 S[6]: 0 S[7]: 0 
-> ==> addr: 28    LOD   5    
-> PC: 29 BP: 0 SP: 8
-623,624c627,628
-< ==> addr: 28    LIT   1    
-< PC: 29 BP: 0 SP: 9
----
-> ==> addr: 29    LIT   1    
-> PC: 30 BP: 0 SP: 9
-626,627c630,631
-< ==> addr: 29    ADD   0    
-< PC: 30 BP: 0 SP: 8
----
-> ==> addr: 30    ADD   0    
-> PC: 31 BP: 0 SP: 8
-629,630c633,634
-< ==> addr: 30    STO   5    
-< PC: 31 BP: 0 SP: 6
----
-> ==> addr: 31    STO   5    
-> PC: 32 BP: 0 SP: 6
-632,633c636,637
-< ==> addr: 31    JMP   -24  
-< PC: 7 BP: 0 SP: 6
----
-> ==> addr: 32    JMP   -24  
-> PC: 8 BP: 0 SP: 6
-635,638c639
-< ==> addr: 7     PBP   0    
-< PC: 8 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 104 S[5]: 8 S[6]: 0 
-< ==> addr: 8     LOD   5    
----
-> ==> addr: 8     PBP   0    
-639a641,643
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 104 S[5]: 8 S[6]: 0 
-> ==> addr: 9     LOD   5    
-> PC: 10 BP: 0 SP: 7
-641,642c645,646
-< ==> addr: 9     LIT   10   
-< PC: 10 BP: 0 SP: 8
----
-> ==> addr: 10    LIT   10   
-> PC: 11 BP: 0 SP: 8
-644,645c648,649
-< ==> addr: 10    LSS   0    
-< PC: 11 BP: 0 SP: 7
----
-> ==> addr: 11    LSS   0    
-> PC: 12 BP: 0 SP: 7
-647,648c651,652
-< ==> addr: 11    JPC   2    
-< PC: 13 BP: 0 SP: 6
----
-> ==> addr: 12    JPC   2    
-> PC: 14 BP: 0 SP: 6
-650,652d653
-< ==> addr: 13    PBP   0    
-< PC: 14 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 104 S[5]: 8 S[6]: 0 
-654,656c655,657
-< PC: 15 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 104 S[5]: 8 S[6]: 0 S[7]: 0 
-< ==> addr: 15    LOD   3    
----
-> PC: 15 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 104 S[5]: 8 S[6]: 0 
-> ==> addr: 15    PBP   0    
-657a659,661
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 104 S[5]: 8 S[6]: 0 S[7]: 0 
-> ==> addr: 16    LOD   3    
-> PC: 17 BP: 0 SP: 8
-659,662c663
-< ==> addr: 16    PBP   0    
-< PC: 17 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 104 S[5]: 8 S[6]: 0 S[7]: 97 S[8]: 0 
-< ==> addr: 17    LOD   5    
----
-> ==> addr: 17    PBP   0    
-663a665,667
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 104 S[5]: 8 S[6]: 0 S[7]: 97 S[8]: 0 
-> ==> addr: 18    LOD   5    
-> PC: 19 BP: 0 SP: 9
-665,666c669,670
-< ==> addr: 18    ADD   0    
-< PC: 19 BP: 0 SP: 8
----
-> ==> addr: 19    ADD   0    
-> PC: 20 BP: 0 SP: 8
-668,669c672,673
-< ==> addr: 19    STO   4    
-< PC: 20 BP: 0 SP: 6
----
-> ==> addr: 20    STO   4    
-> PC: 21 BP: 0 SP: 6
-671,674c675
-< ==> addr: 20    PBP   0    
-< PC: 21 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 105 S[5]: 8 S[6]: 0 
-< ==> addr: 21    LOD   4    
----
-> ==> addr: 21    PBP   0    
-675a677,679
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 105 S[5]: 8 S[6]: 0 
-> ==> addr: 22    LOD   4    
-> PC: 23 BP: 0 SP: 7
-677,678c681,682
-< ==> addr: 22    LIT   1    
-< PC: 23 BP: 0 SP: 8
----
-> ==> addr: 23    LIT   1    
-> PC: 24 BP: 0 SP: 8
-680,681c684,685
-< ==> addr: 23    ADD   0    
-< PC: 24 BP: 0 SP: 7
----
-> ==> addr: 24    ADD   0    
-> PC: 25 BP: 0 SP: 7
-683,684c687,688
-< ==> addr: 24    CHO   0    
-< PC: 25 BP: 0 SP: 6
----
-> ==> addr: 25    CHO   0    
-> PC: 26 BP: 0 SP: 6
-686,688d689
-< ==> addr: 25    PBP   0    
-< PC: 26 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 105 S[5]: 8 S[6]: 0 
-690,692c691,693
-< PC: 27 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 105 S[5]: 8 S[6]: 0 S[7]: 0 
-< ==> addr: 27    LOD   5    
----
-> PC: 27 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 105 S[5]: 8 S[6]: 0 
-> ==> addr: 27    PBP   0    
-693a695,697
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 105 S[5]: 8 S[6]: 0 S[7]: 0 
-> ==> addr: 28    LOD   5    
-> PC: 29 BP: 0 SP: 8
-695,696c699,700
-< ==> addr: 28    LIT   1    
-< PC: 29 BP: 0 SP: 9
----
-> ==> addr: 29    LIT   1    
-> PC: 30 BP: 0 SP: 9
-698,699c702,703
-< ==> addr: 29    ADD   0    
-< PC: 30 BP: 0 SP: 8
----
-> ==> addr: 30    ADD   0    
-> PC: 31 BP: 0 SP: 8
-701,702c705,706
-< ==> addr: 30    STO   5    
-< PC: 31 BP: 0 SP: 6
----
-> ==> addr: 31    STO   5    
-> PC: 32 BP: 0 SP: 6
-704,705c708,709
-< ==> addr: 31    JMP   -24  
-< PC: 7 BP: 0 SP: 6
----
-> ==> addr: 32    JMP   -24  
-> PC: 8 BP: 0 SP: 6
-707,710c711
-< ==> addr: 7     PBP   0    
-< PC: 8 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 105 S[5]: 9 S[6]: 0 
-< ==> addr: 8     LOD   5    
----
-> ==> addr: 8     PBP   0    
-711a713,715
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 105 S[5]: 9 S[6]: 0 
-> ==> addr: 9     LOD   5    
-> PC: 10 BP: 0 SP: 7
-713,714c717,718
-< ==> addr: 9     LIT   10   
-< PC: 10 BP: 0 SP: 8
----
-> ==> addr: 10    LIT   10   
-> PC: 11 BP: 0 SP: 8
-716,717c720,721
-< ==> addr: 10    LSS   0    
-< PC: 11 BP: 0 SP: 7
----
-> ==> addr: 11    LSS   0    
-> PC: 12 BP: 0 SP: 7
-719,720c723,724
-< ==> addr: 11    JPC   2    
-< PC: 13 BP: 0 SP: 6
----
-> ==> addr: 12    JPC   2    
-> PC: 14 BP: 0 SP: 6
-722,724d725
-< ==> addr: 13    PBP   0    
-< PC: 14 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 105 S[5]: 9 S[6]: 0 
-726,728c727,729
-< PC: 15 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 105 S[5]: 9 S[6]: 0 S[7]: 0 
-< ==> addr: 15    LOD   3    
----
-> PC: 15 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 105 S[5]: 9 S[6]: 0 
-> ==> addr: 15    PBP   0    
-729a731,733
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 105 S[5]: 9 S[6]: 0 S[7]: 0 
-> ==> addr: 16    LOD   3    
-> PC: 17 BP: 0 SP: 8
-731,734c735
-< ==> addr: 16    PBP   0    
-< PC: 17 BP: 0 SP: 9
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 105 S[5]: 9 S[6]: 0 S[7]: 97 S[8]: 0 
-< ==> addr: 17    LOD   5    
----
-> ==> addr: 17    PBP   0    
-735a737,739
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 105 S[5]: 9 S[6]: 0 S[7]: 97 S[8]: 0 
-> ==> addr: 18    LOD   5    
-> PC: 19 BP: 0 SP: 9
-737,738c741,742
-< ==> addr: 18    ADD   0    
-< PC: 19 BP: 0 SP: 8
----
-> ==> addr: 19    ADD   0    
-> PC: 20 BP: 0 SP: 8
-740,741c744,745
-< ==> addr: 19    STO   4    
-< PC: 20 BP: 0 SP: 6
----
-> ==> addr: 20    STO   4    
-> PC: 21 BP: 0 SP: 6
-743,746c747
-< ==> addr: 20    PBP   0    
-< PC: 21 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 106 S[5]: 9 S[6]: 0 
-< ==> addr: 21    LOD   4    
----
-> ==> addr: 21    PBP   0    
-747a749,751
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 106 S[5]: 9 S[6]: 0 
-> ==> addr: 22    LOD   4    
-> PC: 23 BP: 0 SP: 7
-749,750c753,754
-< ==> addr: 22    LIT   1    
-< PC: 23 BP: 0 SP: 8
----
-> ==> addr: 23    LIT   1    
-> PC: 24 BP: 0 SP: 8
-752,753c756,757
-< ==> addr: 23    ADD   0    
-< PC: 24 BP: 0 SP: 7
----
-> ==> addr: 24    ADD   0    
-> PC: 25 BP: 0 SP: 7
-755,756c759,760
-< ==> addr: 24    CHO   0    
-< PC: 25 BP: 0 SP: 6
----
-> ==> addr: 25    CHO   0    
-> PC: 26 BP: 0 SP: 6
-758,760d761
-< ==> addr: 25    PBP   0    
-< PC: 26 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 106 S[5]: 9 S[6]: 0 
-762,764c763,765
-< PC: 27 BP: 0 SP: 8
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 106 S[5]: 9 S[6]: 0 S[7]: 0 
-< ==> addr: 27    LOD   5    
----
-> PC: 27 BP: 0 SP: 7
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 106 S[5]: 9 S[6]: 0 
-> ==> addr: 27    PBP   0    
-765a767,769
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 106 S[5]: 9 S[6]: 0 S[7]: 0 
-> ==> addr: 28    LOD   5    
-> PC: 29 BP: 0 SP: 8
-767,768c771,772
-< ==> addr: 28    LIT   1    
-< PC: 29 BP: 0 SP: 9
----
-> ==> addr: 29    LIT   1    
-> PC: 30 BP: 0 SP: 9
-770,771c774,775
-< ==> addr: 29    ADD   0    
-< PC: 30 BP: 0 SP: 8
----
-> ==> addr: 30    ADD   0    
-> PC: 31 BP: 0 SP: 8
-773,774c777,778
-< ==> addr: 30    STO   5    
-< PC: 31 BP: 0 SP: 6
----
-> ==> addr: 31    STO   5    
-> PC: 32 BP: 0 SP: 6
-776,777c780,781
-< ==> addr: 31    JMP   -24  
-< PC: 7 BP: 0 SP: 6
----
-> ==> addr: 32    JMP   -24  
-> PC: 8 BP: 0 SP: 6
-779,782c783
-< ==> addr: 7     PBP   0    
-< PC: 8 BP: 0 SP: 7
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 106 S[5]: 10 S[6]: 0 
-< ==> addr: 8     LOD   5    
----
-> ==> addr: 8     PBP   0    
-783a785,787
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 106 S[5]: 10 S[6]: 0 
-> ==> addr: 9     LOD   5    
-> PC: 10 BP: 0 SP: 7
-785,786c789,790
-< ==> addr: 9     LIT   10   
-< PC: 10 BP: 0 SP: 8
----
-> ==> addr: 10    LIT   10   
-> PC: 11 BP: 0 SP: 8
-788,789c792,793
-< ==> addr: 10    LSS   0    
-< PC: 11 BP: 0 SP: 7
----
-> ==> addr: 11    LSS   0    
-> PC: 12 BP: 0 SP: 7
-791,795c795,796
-< ==> addr: 11    JPC   2    
-< PC: 12 BP: 0 SP: 6
-< stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 106 S[5]: 10 
-< ==> addr: 12    JMP   20   
-< PC: 32 BP: 0 SP: 6
----
-> ==> addr: 12    JPC   2    
-> PC: 13 BP: 0 SP: 6
-797c798
-< ==> addr: 32    HLT   0    
----
-> ==> addr: 13    JMP   20   
-798a800,802
-> stack: S[0]: 0 S[1]: 0 S[2]: 0 S[3]: 97 S[4]: 106 S[5]: 10 
-> ==> addr: 33    HLT   0    
-> PC: 34 BP: 0 SP: 6
-failed!
+passed!
 Test(s) failed!
