@@ -17,25 +17,23 @@ void gen_code_initialize()
 // Generate code for the given AST
 code_seq gen_code_program(AST *prog)
 {
-	//if(pList == NULL){ bail_with_error("pList is Null");}
+	// if(pList == NULL){ bail_with_error("pList is Null");}
 	code_seq ret = code_seq_concat(gen_code_block(prog), code_hlt());
 
 	procedureList pList = gen_code_procDecls(prog->data.program.pds);
 
-	//if (pList == NULL)
-		//bail_with_error("peeList is null");
 	code_seq proc = procedureListToCode(pList);
-	proc = code_seq_concat(proc, code_seq_singleton(code_inc(3)));
 
-	//if(proc == NULL){
-		//bail_with_error("proc is null");
-	//}
-	
+
 	// adding the jump instruction to the start
 	int length = code_seq_size(proc);
-	code_seq jmp = code_seq_singleton(code_jmp(length));
-	proc = code_seq_concat(jmp, proc);
+	if (length > 0)
+	{
+		code_seq jmp = code_seq_singleton(code_jmp(length) + 1);
+		proc = code_seq_concat(jmp, proc);
+	}
 
+	proc = code_seq_concat(proc, code_seq_singleton(code_inc(3)));
 	ret = code_seq_concat(proc, ret);
 
 	code_seq_fix_labels(ret);
@@ -48,11 +46,11 @@ code_seq gen_code_block(AST *blk)
 	code_seq ret = code_seq_empty();
 	code_seq constDecls = gen_code_constDecls(blk->data.program.cds);
 	code_seq varDecls = gen_code_varDecls(blk->data.program.vds);
-	
+
 	/*if(pList != NULL){
 		// int length = code_seq_size(pList);
 		int length = sizeof(pList)/sizeof();
-		ret = code_seq_add_to_end(ret, code_jmp(length + 1)); 
+		ret = code_seq_add_to_end(ret, code_jmp(length + 1));
 		ret = code_seq_concat(ret, pList);
 	}*/
 	code_seq stmt = gen_code_stmt(blk->data.program.stmt);
@@ -119,7 +117,7 @@ code_seq gen_code_varDecl(AST *vd)
 	To find distance to JMP:
 	code_seq_size() will give the N for JMP instruction
 
-	Nested procedure	
+	Nested procedure
 	procedure a;
 		procedure b:
 		begin;
@@ -128,8 +126,8 @@ code_seq gen_code_varDecl(AST *vd)
 	begin
 	call b;
 	end.
-	
-	For nested procedures, use labels. 
+
+	For nested procedures, use labels.
 	;;;;;
 	JMP L;
 	;;;;;
@@ -142,7 +140,7 @@ code_seq gen_code_varDecl(AST *vd)
 
 
 	there is a discussion post about procedures
-*/ 
+*/
 
 // generate code for the declarations in pds
 procedureList gen_code_procDecls(AST_list pds)
@@ -159,7 +157,7 @@ procedureList gen_code_procDecls(AST_list pds)
 	while (!ast_list_is_empty(pds))
 	{
 		procedureS *p = gen_code_procDecl(pds);
-		
+
 		ret = procedureListAddToEnd(ret, p);
 		pds = ast_list_rest(pds);
 	}
@@ -171,13 +169,14 @@ procedureList gen_code_procDecls(AST_list pds)
 procedureS *gen_code_procDecl(AST *pd)
 {
 	// if (pd == NULL) bail_with_error("pd is null");
-	//if (p == NULL) bail_with_error("filename: %s p is null", pd->file_loc);
+	// if (p == NULL) bail_with_error("filename: %s p is null", pd->file_loc);
 
 	code_seq block = gen_code_block(pd->data.proc_decl.block);
 	label *lab = pd->data.proc_decl.lab;
-	procedureS* ret = procedureNew(block, lab, pd);
+	procedureS *ret = procedureNew(block, lab, pd);
 
-	if (ret == NULL) bail_with_error("p is null 222222");
+	if (ret == NULL)
+		bail_with_error("p is null 222222");
 
 	ret->pList = gen_code_procDecls(pd->data.proc_decl.block->data.program.pds);
 
@@ -219,7 +218,6 @@ code_seq gen_code_assignStmt(AST *stmt)
 
 	AST *astIdent = stmt->data.assign_stmt.ident;
 
-\
 	code_seq fp = code_compute_fp(astIdent->data.ident.idu->levelsOutward);
 	code_seq exp = gen_code_expr(stmt->data.assign_stmt.exp);
 
@@ -229,7 +227,6 @@ code_seq gen_code_assignStmt(AST *stmt)
 	ret = fp;
 	ret = code_seq_concat(ret, exp);
 	ret = code_seq_add_to_end(ret, sto);
-
 
 	return ret;
 }
@@ -425,7 +422,7 @@ code_seq gen_code_ident_expr(AST *ident)
 
 	code_seq ret = code_compute_fp(ident->data.ident.idu->levelsOutward);
 	int offset = ident->data.ident.idu->attrs->loc_offset;
-	ret = code_seq_add_to_end(ret, code_lod(offset));	
+	ret = code_seq_add_to_end(ret, code_lod(offset));
 
 	return ret;
 }

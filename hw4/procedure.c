@@ -24,9 +24,9 @@ code_seq procedureListToCodeHelper(procedureList pl, int lineNumber)
 		label_set(procedureListFirst(pl)->label, lineNumber);
 
 		// adds the procedures first
-		code_seq temp = procedureListToCodeHelper(pl->pList, lineNumber + 1);
+		
 		// adds the block after
-		temp = code_seq_concat(temp, pl->block);
+		code_seq temp = pl->block;
 
 
 		// gets the length of the constants and variables
@@ -42,6 +42,9 @@ code_seq procedureListToCodeHelper(procedureList pl, int lineNumber)
 		temp = code_seq_add_to_end(temp, code_rtn());
 
 		lineNumber += code_seq_size(temp);
+
+		temp = code_seq_concat(temp, procedureListToCodeHelper(pl->pList, lineNumber + 1));
+
 
 		ret = code_seq_concat(ret, temp);
 
