@@ -1,10 +1,11 @@
-#ifndef _GEN_CODE_H
-#define _GEN_CODE_H
+#ifndef _PROCEDURE_H
+#define _PROCEDURE_H
 #include <stdlib.h>
 #include "ast.h"
 #include "code.h"
 
 typedef struct procedures procedure;
+
 // list of procedures
 typedef procedure *procedureList;
 
@@ -15,13 +16,20 @@ typedef struct procedures {
 	
 	procedure *next;
 	code_seq block;
-	label l;
+	label *label;
 } procedure;
 
-
+// allocates a new procedure
+procedureS *procedureNew(code_seq block, label *label);
 
 // boolean (0 or 1), true if list is empty
-int procedureListEmpty(procedureList list);
+int procedureListIsEmpty(procedureList list);
+
+// returns first element of procedureList
+procedure *procedureListFirst(procedureList list);
+
+// returns next element of procedureList
+procedure *procedureListNext(procedureList list);
 
 // adds a procedure to the end of procedureList
 procedureList procedureListAddToEnd(procedureList list, procedure *p);

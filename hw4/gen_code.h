@@ -5,6 +5,8 @@
 #include "code.h"
 #include "procedure.h"
 
+
+
 // Initialize the code generator
 void gen_code_initialize();
 
@@ -28,11 +30,11 @@ extern code_seq gen_code_varDecl(AST *vd);
 
 // generate code for the declarations in pds
 // and store them for later use
-extern void gen_code_procDecls(AST_list pds);
+extern void gen_code_procDecls(AST_list pds, procedureList pl);
 
 // generate code for the procedure declaration pd
 // and store it for later use
-extern void gen_code_procDecl(AST *pd);
+extern void gen_code_procDecl(AST *pd, procedure *p);
 
 // generate code for the statement
 extern code_seq gen_code_stmt(AST *stmt);

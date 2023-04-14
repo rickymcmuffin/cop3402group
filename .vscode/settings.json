@@ -1,6 +1,8 @@
 {
     "files.associations": {
-        "scope.h": "c"
-    },
+	"scope.h": "c",
+	"procedure.h": "c",
+	"ast.h": "c"
+},
     "cmake.configureOnOpen": false
 }

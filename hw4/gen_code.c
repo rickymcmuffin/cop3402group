@@ -9,7 +9,7 @@ procedureList pList;
 void gen_code_initialize()
 {
 	// 	symtab_initialize();
-	pList = code_seq_empty();
+	pList = NULL;
 
 	// Replace the following with your implementation
 
@@ -19,7 +19,13 @@ void gen_code_initialize()
 // Generate code for the given AST
 code_seq gen_code_program(AST *prog)
 {
-	return code_seq_concat(gen_code_block(prog), code_hlt());
+	code_seq ret = code_seq_concat(gen_code_block(prog), code_hlt());
+
+	gen_code_procDecls(prog->data.program.pds, pList);
+
+	code_seq proc = procedureListToCode(pList);
+
+	return code_seq_concat(proc, ret);
 }
 
 // generate code for blk
@@ -28,9 +34,8 @@ code_seq gen_code_block(AST *blk)
 	code_seq ret = code_seq_empty();
 	code_seq constDecls = gen_code_constDecls(blk->data.program.cds);
 	code_seq varDecls = gen_code_varDecls(blk->data.program.vds);
-	gen_code_procDecls(blk->data.program.pds);
 	
-	if(!code_seq_is_empty(pList)){
+	if(pList != NULL){
 		int length = code_seq_size(pList);
 		ret = code_seq_add_to_end(ret, code_jmp(length + 1));
 		ret = code_seq_concat(ret, pList);
@@ -109,7 +114,7 @@ code_seq gen_code_varDecl(AST *vd)
 	begin
 	call b;
 	end.
-	// EXTENSION PARTY kl;dadfskl;dsafjkldsa;fkdsafl;dsaflpenis;alsjfdl;afks;fadklfsalkfd;
+	
 	For nested procedures, use labels. 
 	;;;;;
 	JMP L;
@@ -126,13 +131,20 @@ code_seq gen_code_varDecl(AST *vd)
 */
 
 // generate code for the declarations in pds
-void gen_code_procDecls(AST_list pds)
+void gen_code_procDecls(AST_list pds, procedureList pl)
 {
 	// iterates through linked list of pds calling gen_code_procDecl on each proc AST
-	code_seq procCodeSeq = code_seq_empty();
+	// code_seq procCodeSeq = code_seq_empty(); OLD CODE OLD CODE OLD CODE OLD CODE OLD CODE OLD CODE OLD CODE OLD CODE OLD CODE
+	// while (!ast_list_is_empty(pds))
+	// {
+	// 	procCodeSeq = code_seq_concat(procCodeSeq, gen_code_varDecl(ast_list_first(pds)));
+	// 	pds = ast_list_rest(pds);
+	// }
+
 	while (!ast_list_is_empty(pds))
 	{
-		procCodeSeq = code_seq_concat(procCodeSeq, gen_code_varDecl(ast_list_first(pds)));
+		gen_code_procDecl(pds, pl);
+		pl = procedureListNext(pl);
 		pds = ast_list_rest(pds);
 	}
 
@@ -142,10 +154,12 @@ void gen_code_procDecls(AST_list pds)
 }
 
 // generate code for the procedure declaration pd
-void gen_code_procDecl(AST *pd)
+void gen_code_procDecl(AST *pd, procedure *p)
 {
-	code_seq_concat(pList, gen_code_block(pd));
-	code_seq_add_to_end(pList, code_rtn());
+	code_seq block = gen_code_block(pd->data.proc_decl.block);
+	label *lab = pd->data.proc_decl.lab;
+	p = procedureNew(block, lab);
+	gen_code_procDecls(pd->data.proc_decl.block->data.program.pds, p->pList);
 }
 
 // generate code for the statement
